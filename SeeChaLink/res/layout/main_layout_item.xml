@@ -1,0 +1,64 @@
+<!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" -->
+<!-- android:layout_width="match_parent" -->
+<!-- android:layout_height="match_parent" -->
+<!-- android:orientation="vertical" > -->
+
+
+<!-- <LinearLayout -->
+<!-- android:layout_width="wrap_content" -->
+<!-- android:layout_height="170dp" -->
+<!-- android:layout_margin="10dp" -->
+<!-- android:orientation="horizontal" > -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/framelayout_one"
+    android:layout_width="wrap_content"
+    android:layout_height="170dp"
+    android:layout_weight="1" >
+
+    <ImageView
+        android:id="@+id/image_one"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/icon_add" />
+
+    <TextView
+        android:id="@+id/text_name_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:gravity="bottom|center_horizontal"
+        android:text="客厅场景"
+        android:textColor="#fff"
+        android:textSize="@dimen/text_size_20" />
+
+</FrameLayout> <!-- <FrameLayout -->
+<!-- android:id="@+id/framelayout_two" -->
+<!-- android:layout_width="wrap_content" -->
+<!-- android:layout_height="170dp" -->
+<!-- android:layout_weight="1" > -->
+
+
+<!-- <ImageView -->
+<!-- android:id="@+id/image_two" -->
+<!-- android:layout_width="160dp" -->
+<!-- android:layout_height="160dp" -->
+<!-- android:src="@drawable/home_addimg_bg" /> -->
+
+
+<!-- <TextView -->
+<!-- android:id="@+id/text_name_two" -->
+<!-- android:layout_width="wrap_content" -->
+<!-- android:layout_height="wrap_content" -->
+<!-- android:layout_gravity="bottom|center_horizontal" -->
+<!-- android:layout_marginBottom="10dp" -->
+<!-- android:gravity="bottom|center_horizontal" -->
+<!-- android:text="卧室场景" -->
+<!-- android:textColor="#fff" -->
+<!-- android:textSize="@dimen/text_size_20" /> -->
+<!-- </FrameLayout> -->
+<!-- </LinearLayout> -->
+
+
+<!-- </LinearLayout> -->

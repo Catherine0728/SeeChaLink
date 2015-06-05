@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_relativelayout_header"
+    android:layout_width="fill_parent"
+    android:layout_height="50dip"
+    android:background="@drawable/image_title"
+    android:padding="5dp" >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="智能家居"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/text_size_22" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/main_head_back"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5.0dip"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:drawableLeft="@drawable/main_title_left_normal"
+            android:gravity="left|center_vertical" />
+
+        <FrameLayout
+            android:id="@+id/layout_right"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:visibility="gone" >
+
+            <!-- android:visibility="gone" -->
+
+            <Button
+                android:id="@+id/main_head_pre_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:background="#00000000"
+                android:drawableRight="@drawable/home_right_add"
+                android:gravity="right|center_vertical"
+                android:onClick="OpenRightMenu" />
+
+            <TextView
+                android:id="@+id/main_right_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:gravity="center"
+                android:onClick="finish"
+                android:text="完成"
+                android:textColor="#fff"
+                android:textSize="@dimen/text_size_18"
+                android:visibility="gone" />
+        </FrameLayout>
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_one"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1"
+        android:gravity="left|center_vertical"
+        android:text=""
+        android:textColor="#4d4d4d"
+        android:textSize="@dimen/text_size_20" />
+
+    <!-- <com.home.view.SlideToggle -->
+    <!-- android:id="@+id/toggle_one" -->
+    <!-- android:layout_width="124dp" -->
+    <!-- android:layout_height="45dp" -->
+    <!-- android:layout_gravity="right|center_vertical" -->
+    <!-- android:layout_marginLeft="145dp" -->
+    <!-- android:layout_weight="1" > -->
+    <!-- </com.home.view.SlideToggle> -->
+
+    <TextView
+        android:id="@+id/text_dot"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:drawableRight="@drawable/icon_dot_go"
+        android:gravity="right|center_vertical" />
+
+</LinearLayout>

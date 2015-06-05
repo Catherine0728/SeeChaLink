@@ -1,0 +1,389 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/image_background"
+    android:orientation="vertical" >
+
+    <com.home.view.CommonTitleView
+        android:id="@+id/toplayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="170dp"
+        android:layout_margin="10dp"
+        android:orientation="horizontal" >
+
+        <FrameLayout
+            android:id="@+id/framelayout_one"
+            android:layout_width="wrap_content"
+            android:layout_height="170dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/image_one"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:src="@drawable/home_addimg_bg" />
+
+            <TextView
+                android:id="@+id/text_name_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:alpha="0.5"
+                android:background="#555"
+                android:gravity="bottom|center_horizontal"
+                android:text="客厅场景"
+                android:textColor="#fff"
+                android:textSize="@dimen/text_size_20" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/framelayout_two"
+            android:layout_width="wrap_content"
+            android:layout_height="170dp"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/image_two"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:src="@drawable/home_addimg_bg" />
+
+            <TextView
+                android:id="@+id/text_name_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:alpha="0.5"
+                android:background="#555"
+                android:gravity="bottom|center_horizontal"
+                android:text="卧室场景"
+                android:textColor="#fff"
+                android:textSize="@dimen/text_size_20" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/radioGroup_one"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="50dip"
+        android:layout_marginRight="50dip"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/botton_one_on"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/title_btn_left"
+            android:button="@null"
+            android:gravity="center"
+            android:text="开"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+
+        <RadioButton
+            android:id="@+id/button_one_off"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/title_btn_right"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="关"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/radioGroup_two"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="50dip"
+        android:layout_marginRight="50dip"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/botton_two_on"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/title_btn_left"
+            android:button="@null"
+            android:gravity="center"
+            android:text="开"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+
+        <RadioButton
+            android:id="@+id/button_two_off"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/title_btn_right"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="关"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/radioGroup_three"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="50dip"
+        android:layout_marginRight="50dip"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/botton_three_on"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/title_btn_left"
+            android:button="@null"
+            android:gravity="center"
+            android:text="开"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+
+        <RadioButton
+            android:id="@+id/button_three_off"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/title_btn_right"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="关"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/radioGroup_four"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="50dip"
+        android:layout_marginRight="50dip"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/botton_four_on"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/title_btn_left"
+            android:button="@null"
+            android:gravity="center"
+            android:text="开"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+
+        <RadioButton
+            android:id="@+id/button_four_off"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/title_btn_right"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="关"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/radioGroup_five"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="50dip"
+        android:layout_marginRight="50dip"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/botton_five_on"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/title_btn_left"
+            android:button="@null"
+            android:gravity="center"
+            android:text="开"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+
+        <RadioButton
+            android:id="@+id/button_five_off"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/title_btn_right"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="关"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/radioGroup_six"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="50dip"
+        android:layout_marginRight="50dip"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/botton_six_on"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/title_btn_left"
+            android:button="@null"
+            android:gravity="center"
+            android:text="开"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+
+        <RadioButton
+            android:id="@+id/button_six_off"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/title_btn_right"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="关"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+    </RadioGroup>
+    <!-- <Button -->
+
+    <RadioGroup
+        android:id="@+id/radioGroup_seven"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="50dip"
+        android:layout_marginRight="50dip"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/botton_seven_on"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/title_btn_left"
+            android:button="@null"
+            android:gravity="center"
+            android:text="开"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+
+        <RadioButton
+            android:id="@+id/button_seven_off"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/title_btn_right"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="关"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_get_up"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:background="@color/background_color"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="起床场景"
+        android:textColor="#fff"
+        android:textSize="20dp"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_lay_up"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:background="@color/background_color"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="赖床场景"
+        android:textColor="#fff"
+        android:textSize="20dp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <EditText
+            android:id="@+id/text_ip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dip"
+            android:layout_weight="1"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:textColor="#000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/text_ddms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dip"
+            android:layout_weight="4"
+            android:text=":1883"
+            android:textColor="#000"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_connect"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dip"
+        android:background="@color/background_color"
+        android:gravity="center"
+        android:text="连接设备"
+        android:textColor="#fff"
+        android:textSize="20dp"
+        android:visibility="gone" />
+    <!-- </LinearLayout> -->
+    <!-- </ScrollView> -->
+
+</LinearLayout>

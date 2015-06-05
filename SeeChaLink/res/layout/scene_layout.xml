@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical" >
+
+    <com.home.view.CommonTitleView
+        android:id="@+id/toplayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/image_one"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/home_addimg_bg" />
+
+        <EditText
+            android:id="@+id/edit_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_selector"
+            android:enabled="false"
+            android:paddingLeft="5dp"
+            android:text="起床场景" >
+        </EditText>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/switch_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_block"
+        android:dividerHeight="1dp"
+        android:listSelector="#00000000"
+        android:scrollbars="none" />
+
+    <!-- <LinearLayout -->
+    <!-- android:id="@+id/layout_one" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="60dp" -->
+    <!-- android:layout_marginLeft="10dp" -->
+    <!-- android:layout_marginTop="10dp" -->
+    <!-- android:orientation="horizontal" > -->
+
+
+    <!-- <TextView -->
+    <!-- android:id="@+id/toggle_text_one" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:text="灯泡:" -->
+    <!-- android:textSize="@dimen/text_size_20" /> -->
+
+
+    <!-- <com.home.view.SlideToggle -->
+    <!-- android:id="@+id/toggle_one" -->
+    <!-- android:layout_width="146dp" -->
+    <!-- android:layout_height="match_parent" -->
+    <!-- android:layout_gravity="right|center_vertical" -->
+    <!-- android:layout_marginLeft="160dp" > -->
+    <!-- </com.home.view.SlideToggle> -->
+    <!-- </LinearLayout> -->
+
+
+    <!-- <LinearLayout -->
+    <!-- android:id="@+id/layout_two" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="60dp" -->
+    <!-- android:layout_marginLeft="10dp" -->
+    <!-- android:layout_marginTop="10dp" -->
+    <!-- android:orientation="horizontal" > -->
+
+
+    <!-- <TextView -->
+    <!-- android:id="@+id/toggle_text_two" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:text="电视:" -->
+    <!-- android:textSize="@dimen/text_size_20" /> -->
+
+
+    <!-- <com.home.view.SlideToggle -->
+    <!-- android:id="@+id/toggle_two" -->
+    <!-- android:layout_width="146dp" -->
+    <!-- android:layout_height="match_parent" -->
+    <!-- android:layout_gravity="right|center_vertical" -->
+    <!-- android:layout_marginLeft="160dp" > -->
+    <!-- </com.home.view.SlideToggle> -->
+    <!-- </LinearLayout> -->
+
+
+    <!-- <LinearLayout -->
+    <!-- android:id="@+id/layout_three" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="60dp" -->
+    <!-- android:layout_marginLeft="10dp" -->
+    <!-- android:layout_marginTop="10dp" -->
+    <!-- android:orientation="horizontal" > -->
+
+
+    <!-- <TextView -->
+    <!-- android:id="@+id/toggle_text_three" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:text="空调:" -->
+    <!-- android:textSize="@dimen/text_size_20" /> -->
+
+
+    <!-- <com.home.view.SlideToggle -->
+    <!-- android:id="@+id/toggle_three" -->
+    <!-- android:layout_width="146dp" -->
+    <!-- android:layout_height="match_parent" -->
+    <!-- android:layout_gravity="right|center_vertical" -->
+    <!-- android:layout_marginLeft="160dp" > -->
+    <!-- </com.home.view.SlideToggle> -->
+    <!-- </LinearLayout> -->
+
+</LinearLayout>
