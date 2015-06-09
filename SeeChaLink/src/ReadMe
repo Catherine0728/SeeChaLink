@@ -43,6 +43,7 @@ java.lang.IllegalArgumentExceptionat android.app.ActivityThread.handleCreateServ
 BroadLink  :
 
 添加遥控
+点击场景进行执行，若果没有命令的话就可以进入场景进行编辑。且长按事件也可以进行编辑
 
 
 

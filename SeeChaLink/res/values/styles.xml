@@ -7,6 +7,11 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="AnimBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+
     <!-- <style name="MenuDrawerStyle" parent="Widget.MenuDrawer"> -->
     <!-- <item name="mdMenuSize">100dp</item> -->
     <!-- </style> -->

@@ -409,11 +409,9 @@ public class MenuLeftFragment extends Fragment {
 	 * @return
 	 */
 	public Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
 		if (bitmap == null) {
 			bitmap = BitmapFactory.decodeResource(getResources(),
-					R.drawable.image_head, options);
+					R.drawable.image_head);
 		}
 		Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(),
 				bitmap.getHeight(), Config.ARGB_8888);

@@ -20,11 +20,13 @@
             android:id="@+id/grid_scene"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_margin="10dp"
             android:divider="@null"
+            android:horizontalSpacing="10dp"
             android:listSelector="#00000000"
-            android:numColumns="2" />
+            android:numColumns="2"
+            android:scrollbars="none"
+            android:verticalSpacing="10dp" />
 
         <!-- <LinearLayout -->
         <!-- android:layout_width="wrap_content" -->

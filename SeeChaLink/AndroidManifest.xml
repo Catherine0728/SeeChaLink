@@ -59,7 +59,16 @@
             android:name="com.home.mainactivity.MainActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
+            android:name="com.home.mainactivity.User_Define_Activity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+        <activity
+            android:name="com.home.mainactivity.To_Define_Activity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+        <activity
             android:name="com.home.mainactivity.HelpActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+        <activity
+            android:name="com.home.mainactivity.AddRemoteControll"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name="com.home.mainactivity.FeedBackActivity"
@@ -74,8 +83,15 @@
             android:name="com.home.mainactivity.MyControl_Equipment"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
-            android:name="com.home.mainactivity.AddSceneActivity"
+            android:name="com.home.mainactivity.Controll_AirConditioner"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
+        <activity
+            android:name="com.home.mainactivity.Number_Controll_Activity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+        <activity
+            android:name="com.home.mainactivity.AddSceneActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name="com.home.mainactivity.SettingActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />

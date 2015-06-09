@@ -12,6 +12,6 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:textColor="#fff"
-        android:textSize="@dimen/text_size_18" />
+        android:textSize="@dimen/text_size_20" />
 
 </LinearLayout>
