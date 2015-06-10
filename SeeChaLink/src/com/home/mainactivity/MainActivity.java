@@ -68,6 +68,7 @@ public class MainActivity extends FragmentActivity {
 
 	GridView grid_Scene = null;
 	SceneListAdapter adapter = null;
+	BaseApp baseApp = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,9 @@ public class MainActivity extends FragmentActivity {
 
 		preferens = new SharePreferenceUtil(this);
 		preferens.setDeviceId();
+		if (null == baseApp) {
+			baseApp = new BaseApp();
+		}
 
 	}
 
@@ -85,6 +89,7 @@ public class MainActivity extends FragmentActivity {
 		// 获取数据
 		super.onResume();
 		Log.i(TAG, "onResume");
+		baseApp.addActivity(this);
 		initDB();
 
 	}
@@ -128,7 +133,6 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void initView() {
-		BaseApp.getInstance().addActivity(this);
 		Configer.PAGER = 1;
 		commantitleView = (CommonTitleView) findViewById(R.id.toplayout);
 		commantitleView.initData(MainActivity.this, RightListener, "智能家控");
@@ -394,15 +398,9 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onDestroy() {
 		Log.i(TAG, "onDestroy");
-		// if (Configer.ISUNREGISTER) {
-		// Log.i(TAG, "ISUNREGISTER=true");
-		// } else {
-		// Log.i(TAG, "ISUNREGISTER=false");
 		if (isConnect(getBaseContext())) {
-			// Configer.ISUNREGISTER = true;
 			Intent intent = new Intent(this, BackgroundService.class);
 			stopService(intent);
-			// }
 		}
 		super.onDestroy();
 	}
@@ -411,12 +409,11 @@ public class MainActivity extends FragmentActivity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK
 				|| keyCode == KeyEvent.KEYCODE_HOME) {
-			if (isConnect(getBaseContext())) {
-				Intent intent = new Intent(this, BackgroundService.class);
-				stopService(intent);
-			}
-			// finish();
-			BaseApp.getInstance().exit();
+			// if (isConnect(getBaseContext())) {
+			// Intent intent = new Intent(this, BackgroundService.class);
+			// stopService(intent);
+			// }
+			baseApp.exit();
 			return false;
 		} else {
 

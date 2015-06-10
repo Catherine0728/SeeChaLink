@@ -1,6 +1,8 @@
 package com.home.constants;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,4 +141,34 @@ public class Configer {
 	 * */
 	public static boolean ISUNREGISTER = false;
 
+	/**
+	 * 定义一个常量
+	 * */
+	public static String FUNDGESTURE = "GESTURE";
+	/**
+	 * 
+	 * 定义一个常量来存储当前设备，做临时用，如果今后设备增加，应该用数据库进行存储
+	 * */
+	public static String ISBOKER = "HOSTNAME";
+
+	/**
+	 * 网络是否可用
+	 * 
+	 * @author Catherine
+	 * @param context
+	 * @return
+	 */
+	public static boolean isNetworkAvailable(Context context) {
+		ConnectivityManager mgr = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo[] info = mgr.getAllNetworkInfo();
+		if (info != null) {
+			for (int i = 0; i < info.length; i++) {
+				if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }

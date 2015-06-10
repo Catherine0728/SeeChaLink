@@ -22,10 +22,14 @@ public class DeviceInfo {
 	 * @param context
 	 * @return
 	 */
-	public static String getOnlyId() {
+	static BaseApp baseApp = null;
 
-		return Settings.Secure.getString(BaseApp.getInstance()
-				.getContentResolver(), Settings.Secure.ANDROID_ID);
+	public static String getOnlyId() {
+		if (null == baseApp) {
+			baseApp = new BaseApp();
+		}
+		return Settings.Secure.getString(baseApp.getContentResolver(),
+				Settings.Secure.ANDROID_ID);
 
 	}
 

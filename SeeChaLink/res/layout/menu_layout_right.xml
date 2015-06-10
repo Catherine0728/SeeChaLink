@@ -17,7 +17,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:src="@drawable/home_rm_delkey" />
+            android:src="@drawable/number_press" />
 
         <TextView
             android:layout_width="fill_parent"
@@ -40,7 +40,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:src="@drawable/home_single_study" />
+            android:src="@drawable/icon_tv_on" />
 
         <TextView
             android:layout_width="fill_parent"
@@ -63,7 +63,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:src="@drawable/home_rm_task" />
+            android:src="@drawable/icon_gestrue" />
 
         <TextView
             android:layout_width="fill_parent"

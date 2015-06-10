@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.home.constants.LayoutValue;
 import com.home.utils.Logger;
+import com.lhl.crash.CrashHandler;
 
 import android.app.Activity;
 import android.app.Application;
@@ -13,25 +14,61 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
+/**
+ * 继承application
+ * 
+ * 把所有的Activity集中起来，然后，在特定的时候，一起销毁
+ * 
+ * @author Catherine
+ * 
+ * */
 public class BaseApp extends Application {
+	public static String TAG = "BaseApp";
 
-	private static BaseApp instance;
+	// private static BaseApp instance;
 
 	// 运用list来保存们每一个activity是关键
 	private List<Activity> mList = new LinkedList<Activity>();
 
 	// 构造方法
-	private BaseApp() {
+	public BaseApp() {
 	}
 
-	// 实例化一次
-	public synchronized static BaseApp getInstance() {
-		if (null == instance) {
-			instance = new BaseApp();
-		}
-		return instance;
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		Log.d(TAG, "onCreate");
+		// instance = this;
+		//
+		CrashHandler crashHandler = CrashHandler.getInstance();
+		crashHandler.init(this);
+		// ImageLoader.getInstance(instance, 0).init();
+
+		// initSound();
+
+		// 屏幕宽高
+		DisplayMetrics dm = getResources().getDisplayMetrics();
+		LayoutValue.SCREEN_WIDTH = dm.widthPixels;
+		LayoutValue.SCREEN_HEIGHT = dm.heightPixels;
+		// 密度
+		LayoutValue.SCREEN_DENSITY = dm.density;
+		// SQLiteDatabase.loadLibs(this);
+		//
+		// if (dbOperator == null) {
+		// dbOperator = new DbOperator(instance);
+		// }
+
 	}
+
+	// // 实例化一次
+	// public synchronized static BaseApp getInstance() {
+	// if (null == instance) {
+	// instance = new BaseApp();
+	// }
+	// return instance;
+	// }
 
 	// add Activity
 	public void addActivity(Activity activity) {
@@ -56,29 +93,6 @@ public class BaseApp extends Application {
 	public void onLowMemory() {
 		super.onLowMemory();
 		System.gc();
-	}
-
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		instance = this;
-
-		// ImageLoader.getInstance(instance, 0).init();
-
-		// initSound();
-
-		// 屏幕宽高
-		DisplayMetrics dm = getResources().getDisplayMetrics();
-		LayoutValue.SCREEN_WIDTH = dm.widthPixels;
-		LayoutValue.SCREEN_HEIGHT = dm.heightPixels;
-		// 密度
-		LayoutValue.SCREEN_DENSITY = dm.density;
-		// SQLiteDatabase.loadLibs(this);
-		//
-		// if (dbOperator == null) {
-		// dbOperator = new DbOperator(instance);
-		// }
-
 	}
 
 	private static HashMap<String, Integer> soundMap;
@@ -124,19 +138,18 @@ public class BaseApp extends Application {
 		// soundMap.put(Constants.EFFECT_TICK,
 		// soundPool.load(this, R.raw.effect_tick, 1));
 	}
-
-	public static void playSound(String action) {
-		AudioManager amgr = (AudioManager) instance
-				.getSystemService(AUDIO_SERVICE);
-		float volumeCurrent = amgr.getStreamVolume(AudioManager.STREAM_MUSIC);
-		float volumeMax = amgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-		float volumn = volumeCurrent / volumeMax;
-		volumn = volumn / 2;
-		Logger.log("volumn:" + volumn);
-		if (loaded) {
-			soundPool.play(soundMap.get(action), volumn, volumn, 0, 0, 1f);
-		}
-
-	}
+	//
+	// public static void playSound(String action) {
+	// AudioManager amgr = (AudioManager) getSystemService(AUDIO_SERVICE);
+	// float volumeCurrent = amgr.getStreamVolume(AudioManager.STREAM_MUSIC);
+	// float volumeMax = amgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+	// float volumn = volumeCurrent / volumeMax;
+	// volumn = volumn / 2;
+	// Logger.log("volumn:" + volumn);
+	// if (loaded) {
+	// soundPool.play(soundMap.get(action), volumn, volumn, 0, 0, 1f);
+	// }
+	//
+	// }
 
 }

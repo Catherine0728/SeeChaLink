@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:layout_gravity="bottom|center_vertical"
+    android:background="@drawable/more_item_press"
+    android:gravity="bottom|center_horizontal"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/set_whit_bg"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_photo"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:drawableTop="@drawable/btn_copy_icon"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:text="本地图片"
+            android:textSize="@dimen/text_size_16" />
+
+        <Button
+            android:id="@+id/btn_camera"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:drawableTop="@drawable/btn_copy_icon2"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:text="照相"
+            android:textSize="@dimen/text_size_16" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="10dp"
+        android:background="@drawable/set_whit_bg"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="#14a1e3"
+        android:textSize="@dimen/text_size_20" />
+
+</LinearLayout>

@@ -7,7 +7,7 @@ import android.provider.Settings.Secure;
 /**
  * 轻量存储 类
  * 
- * @author hh
+ * @author Catherine
  * 
  */
 public class SharePreferenceUtil {

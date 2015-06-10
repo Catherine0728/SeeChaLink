@@ -27,7 +27,7 @@ import android.widget.Toast;
  * and updating the {@link Connection} associated with the action
  */
 class ActionListener implements IMqttActionListener {
-	public static String TAG = "ActionListener";
+	public static String TAG = "com.home.util.ActionListener";
 
 	/**
 	 * Actions that can be performed Asynchronously <strong>and</strong>
@@ -130,7 +130,7 @@ class ActionListener implements IMqttActionListener {
 		String actionTaken = context.getString(R.string.toast_sub_success,
 				(Object[]) additionalArgs);
 		c.addAction(actionTaken);
-//		Notify.toast(context, actionTaken, Toast.LENGTH_SHORT);
+		// Notify.toast(context, actionTaken, Toast.LENGTH_SHORT);
 	}
 
 	/**
@@ -200,7 +200,8 @@ class ActionListener implements IMqttActionListener {
 		String action = context.getString(R.string.toast_pub_failed,
 				(Object[]) additionalArgs);
 		c.addAction(action);
-		Notify.toast(context, action, Toast.LENGTH_SHORT);
+		Notify.toast(context, "failed publish", Toast.LENGTH_SHORT);
+		Log.d(TAG, action);
 
 	}
 
@@ -217,7 +218,8 @@ class ActionListener implements IMqttActionListener {
 		String action = context.getString(R.string.toast_sub_failed,
 				(Object[]) additionalArgs);
 		c.addAction(action);
-		Notify.toast(context, action, Toast.LENGTH_SHORT);
+		Notify.toast(context, "failed subscribe", Toast.LENGTH_SHORT);
+		Log.d(TAG, action);
 
 	}
 

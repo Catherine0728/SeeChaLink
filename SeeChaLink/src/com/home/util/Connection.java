@@ -22,7 +22,6 @@ import org.eclipse.paho.android.service.Constants;
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 
-import com.home.constants.Configer;
 import com.home.mainactivity.R;
 
 import android.content.Context;
@@ -36,7 +35,7 @@ import android.util.Log;
  * 
  */
 public class Connection {
-	public static String TAG = "Connection";
+	public static String TAG = "com.home.util.Connection";
 	/*
 	 * Basic Information about the client
 	 */
@@ -111,6 +110,7 @@ public class Connection {
 			uri = "tcp://" + host + ":" + port;
 			handle = uri + clientId;
 		}
+		Log.d(TAG, "createConnection==clientId==>" + clientId);
 		MqttAndroidClient client = new MqttAndroidClient(context, uri, clientId);
 		return new Connection(handle, clientId, host, port, context, client,
 				sslConnection);
@@ -214,12 +214,7 @@ public class Connection {
 	 * @return is the client connected
 	 */
 	public boolean isConnected() {
-		Log.d(TAG, "isConnected==" + status);
-		if (status == ConnectionStatus.NONE) {
-			Configer.ISCONNECT = true;
-		}
 		return status == ConnectionStatus.CONNECTED;
-		// return status == ConnectionStatus.NONE;
 	}
 
 	/**
@@ -229,7 +224,6 @@ public class Connection {
 	 *            The connection status of this connection
 	 */
 	public void changeConnectionStatus(ConnectionStatus connectionStatus) {
-		Log.d(TAG, "changeConnectionStatus===>" + connectionStatus);
 		status = connectionStatus;
 		notifyListeners((new PropertyChangeEvent(this,
 				Constants.ConnectionStatusProperty, null, null)));
@@ -332,6 +326,7 @@ public class Connection {
 	 * @return if the client is connecting or connected
 	 */
 	public boolean isConnectedOrConnecting() {
+		Log.d(TAG, "status ===>" + status);
 		return (status == ConnectionStatus.CONNECTED)
 				|| (status == ConnectionStatus.CONNECTING);
 	}

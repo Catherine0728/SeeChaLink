@@ -4,15 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.smssdk.EventHandler;
-import cn.smssdk.SMSSDK;
-import cn.smssdk.gui.ContactsPage;
-
 import com.home.constants.Configer;
 import com.home.util.DataClearTools;
 import com.home.util.Utility;
 import com.home.view.CommonTitleView;
-import com.home.view.SlideToggle;
+import com.wujay.fund.GestureEditActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,11 +19,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.Settings;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,7 +30,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * 
@@ -75,7 +66,7 @@ public class SettingActivity extends Activity {
 	 * 初始化
 	 * */
 	public void initView() {
-		Configer.PAGER =4;
+		Configer.PAGER = 4;
 		commantitleview = (CommonTitleView) findViewById(R.id.toplayout);
 		commantitleview.initData(SettingActivity.this, null, "我的设置");
 		setting_list_one = (ListView) findViewById(R.id.setting_list_one);
@@ -118,7 +109,9 @@ public class SettingActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				if (position == 0) {
-
+					Intent intent = new Intent(SettingActivity.this,
+							GestureEditActivity.class);
+					startActivity(intent);
 					// 打开通信录好友列表页面
 					// ContactsPage contactsPage = new ContactsPage();
 					// contactsPage.show(SettingActivity.this);

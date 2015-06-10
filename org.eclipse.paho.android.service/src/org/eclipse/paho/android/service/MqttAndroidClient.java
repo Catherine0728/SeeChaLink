@@ -75,6 +75,7 @@ import android.widget.Toast;
  */
 public class MqttAndroidClient extends BroadcastReceiver implements
 		IMqttAsyncClient {
+	public static String TAG = "org.eclipse.paho.android.service.MqttAndroidClient";
 
 	/**
 	 * 
@@ -157,7 +158,7 @@ public class MqttAndroidClient extends BroadcastReceiver implements
 	private boolean traceEnabled = false;
 
 	private volatile boolean registerReceiver = false;
-//	private volatile boolean unregisterReceiver = true;
+	// private volatile boolean unregisterReceiver = true;
 	private volatile boolean bindedService = false;
 
 	/**
@@ -466,11 +467,12 @@ public class MqttAndroidClient extends BroadcastReceiver implements
 		myContext.registerReceiver(receiver, filter);
 		registerReceiver = true;
 	}
-//
-//	private void unregisterReceiver(BroadcastReceiver receiver) {
-//		myContext.unregisterReceiver(receiver);
-//		unregisterReceiver = false;
-//	}
+
+	//
+	// private void unregisterReceiver(BroadcastReceiver receiver) {
+	// myContext.unregisterReceiver(receiver);
+	// unregisterReceiver = false;
+	// }
 
 	/**
 	 * Actually do the mqtt connect operation
@@ -516,8 +518,8 @@ public class MqttAndroidClient extends BroadcastReceiver implements
 				(IMqttActionListener) null);
 		String activityToken = storeToken(token);
 		mqttService.disconnect(clientHandle, null, activityToken);
-//		mqttService.stopService(serviceStartIntent);
-//		unregisterReceiver(this);
+		// mqttService.stopService(serviceStartIntent);
+		// unregisterReceiver(this);
 		return token;
 	}
 
@@ -1404,7 +1406,12 @@ public class MqttAndroidClient extends BroadcastReceiver implements
 					.getSerializable(MqttServiceConstants.CALLBACK_STATUS);
 			if (status == Status.OK) {
 				((MqttTokenAndroid) token).notifyComplete();
-				Toast.makeText(myContext, "成功连接", Toast.LENGTH_LONG).show();
+				Constants.ISCONNECT = true;
+				if (Constants.ISCONNECT) {
+					Toast.makeText(myContext, "成功连接", Toast.LENGTH_LONG).show();
+				}
+
+				Log.d(TAG, "成功连接");
 			} else {
 				Exception exceptionThrown = (Exception) data
 						.getSerializable(MqttServiceConstants.CALLBACK_EXCEPTION);

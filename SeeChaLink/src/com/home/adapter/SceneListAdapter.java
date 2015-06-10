@@ -35,28 +35,28 @@ public class SceneListAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		Log.d(TAG, "getCount");
+		// Log.d(TAG, "getCount");
 		// TODO Auto-generated method stub
 		return Scene_String.size() + 1;
 	}
 
 	@Override
 	public Object getItem(int position) {
-		Log.d(TAG, "getItem");
+		// Log.d(TAG, "getItem");
 		// TODO Auto-generated method stub
 		return Scene_String.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		Log.d(TAG, "getItemId");
+		// Log.d(TAG, "getItemId");
 		// TODO Auto-generated method stub
 		return position;
 	}
 
 	// 重新得到mlist
 	public void ReGetList(ArrayList<Map<String, Object>> mList) {
-		Log.d(TAG, "ReGetList");
+		// Log.d(TAG, "ReGetList");
 		this.Scene_String = mList;
 	}
 
@@ -64,7 +64,7 @@ public class SceneListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Log.d(TAG, "getView");
+		// Log.d(TAG, "getView");
 		// TODO Auto-generated method stub
 		if (null == convertView) {
 			convertView = LayoutInflater.from(mContext).inflate(

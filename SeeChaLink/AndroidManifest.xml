@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.home.mainactivity"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0.2" >
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -38,8 +38,12 @@
         android:smallScreens="true" />
 
     <application
-        android:icon="@drawable/mqttservice"
+        android:name="com.home.application.BaseApp"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
+
+        <!-- android:name="com.home.application.BaseApp" -->
+
         <activity
             android:name="com.home.mainactivity.PreStartActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -114,6 +118,12 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.wujay.fund.GestureEditActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name="com.wujay.fund.GestureVerifyActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
     </application>
 
 </manifest>

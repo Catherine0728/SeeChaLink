@@ -21,7 +21,6 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.home.mainactivity.R;
 import com.meter.response.GetDisplayInfo;

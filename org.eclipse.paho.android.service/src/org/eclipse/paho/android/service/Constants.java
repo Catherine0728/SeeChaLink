@@ -68,4 +68,5 @@ public class Constants {
 	 * */
 	public static String Display_dl_one, Display_dl_two, Display_dy_one,
 			Display_dy_two, Display_zgl;
+	public static boolean ISCONNECT = false;
 }

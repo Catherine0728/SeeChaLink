@@ -12,18 +12,22 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 
+import android.R.id;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.database.Cursor;
 import android.nfc.Tag;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.home.constants.Configer;
+import com.home.db.AllEquipmentDB;
 import com.home.util.ActionListener.Action;
 
 public class MQTTClientUtil {
 
-	public static String TAG = "MQTTClientUtil";
+	public static String TAG = "com.home.util.MQTTClientUtil";
 	private boolean isSubscribe = false;
 
 	private SharePreferenceUtil preferences;
@@ -31,6 +35,12 @@ public class MQTTClientUtil {
 	private static MQTTClientUtil mqttClient;
 
 	private static Context context;
+	/**
+	 * define a sharedprefrence to memory the host name if that the hostname
+	 * isn't equals null
+	 **/
+	private SharedPreferences sharedPre = null;
+	private Editor editor = null;
 
 	/**
 	 * 连接的服务器的地址
@@ -45,6 +55,7 @@ public class MQTTClientUtil {
 		if (mqttClient == null) {
 			mqttClient = new MQTTClientUtil();
 		}
+
 		return mqttClient;
 	}
 
@@ -59,6 +70,7 @@ public class MQTTClientUtil {
 		// // TODO Auto-generated catch block
 		// e.printStackTrace();
 		// }
+		Log.i(TAG, "MQTTClientUtil.clientId===>" + preferences.getDeviceId());
 	}
 
 	/**
@@ -220,9 +232,9 @@ public class MQTTClientUtil {
 	 */
 	public boolean subscribe() {
 		try {
-//			Notify.toast(context, "订阅成功===" + Configer.topicName,
-//					Toast.LENGTH_SHORT);
-			Log.d(TAG, "订阅成功===" + Configer.topicName);
+			// Notify.toast(context, "订阅成功===" + Configer.topicName,
+			// Toast.LENGTH_SHORT);
+
 			Connections
 					.getInstance(context)
 					.getConnection(clientHandle)
@@ -233,6 +245,19 @@ public class MQTTClientUtil {
 							null,
 							new ActionListener(context, Action.SUBSCRIBE,
 									clientHandle, Configer.topicName));
+			Log.d(TAG, "订阅成功===" + Configer.topicName);
+			// to memory the host name
+			if (null == sharedPre) {
+				sharedPre = context.getSharedPreferences(Configer.ISBOKER,
+						Context.MODE_PRIVATE);
+				editor = sharedPre.edit();
+
+			}
+			editor.putString("host_name", Configer.MQTT_SEVER);
+			editor.commit();
+			// 存到数据库里面
+			OperaDB(Configer.MQTT_SEVER);
+
 		} catch (MqttSecurityException e) {
 			Log.e(this.getClass().getCanonicalName(), "Failed to subscribe to"
 					+ Configer.topicName + " the client with the handle "
@@ -245,6 +270,19 @@ public class MQTTClientUtil {
 			return false;
 		}
 		return true;
+	}
+
+	AllEquipmentDB equipmentDB = null;
+
+	public void OperaDB(String HostName) {
+		Log.d(TAG, "OperaDB");
+		if (null == equipmentDB) {
+			equipmentDB = new AllEquipmentDB(context);
+		}
+		if (equipmentDB.select(HostName) == 0) {
+			equipmentDB.insert(HostName, "CONNECTING");
+		}
+
 	}
 
 	/**

@@ -34,13 +34,17 @@ import android.provider.ContactsContract.CommonDataKinds.Im;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -60,7 +64,6 @@ public class MenuLeftFragment extends Fragment {
 	ListAdapter adapter = null;
 	TextView text_moto;
 	private boolean ready;
-	private String[] items = new String[] { "选择本地图片", "拍照" };
 
 	/* 头像名称 */
 	static final String IMAGE_FILE_NAME = "faceImage.jpg";
@@ -100,7 +103,7 @@ public class MenuLeftFragment extends Fragment {
 				if (Configer.ISLOGIN == 0) {
 					GetLogin();
 				} else {
-					GetImage();
+					ToShowDialog();
 				}
 
 			}
@@ -136,58 +139,83 @@ public class MenuLeftFragment extends Fragment {
 		text_moto = (TextView) v.findViewById(R.id.text_moto);
 	}
 
-	public void GetImage() {
-		showDialog();
+	// 显示对话框
+	private void ToShowDialog() {
+		final AlertDialog dialog = new AlertDialog.Builder(getActivity())
+				.create();
+		dialog.show();
+		Window window = dialog.getWindow();
+		// 设置布局
+		window.setContentView(R.layout.content_picture_choose);
+		// 设置宽高
+		window.setLayout(LayoutParams.FILL_PARENT, 350);
+		window.setGravity(Gravity.BOTTOM);
+		// 设置弹出的动画效果
+		window.setWindowAnimations(R.style.AnimBottom);
+		// 设置监听
+		final Button btn_picture = (Button) window.findViewById(R.id.btn_photo);
+		final Button btn_camera = (Button) window.findViewById(R.id.btn_camera);
+
+		Button btn_cancel = (Button) window.findViewById(R.id.btn_cancel);
+		btn_picture.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				btn_picture.setTextColor(0xFF14a1e3);
+				btn_picture.setCompoundDrawablesWithIntrinsicBounds(0,
+						R.drawable.btn_copy_icon2, 0, 0);
+				TOPhoto();
+				dialog.cancel();
+
+			}
+		});
+		btn_camera.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				btn_camera.setTextColor(0xFF14a1e3);
+				btn_camera.setCompoundDrawablesWithIntrinsicBounds(0,
+						R.drawable.btn_copy_icon2, 0, 0);
+				;
+				ToCamera();
+				dialog.cancel();
+			}
+		});
+		btn_cancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				dialog.cancel();
+			}
+		});
+		// 因为我们用的是windows的方法，所以不管ok活cancel都要加上“dialog.cancel()”这句话，
+		// 不然有程序崩溃的可能，仅仅是一种可能，但我们还是要排除这一点，对吧？
+		// 用AlertDialog的两个Button，即使监听里什么也不写，点击后也是会吧dialog关掉的，不信的同学可以去试下
+
 	}
 
-	/**
-	 * 显示选择对话框
-	 */
-	private void showDialog() {
+	// 选择本地图片
+	public void TOPhoto() {
+		Intent intentFromGallery = new Intent();
+		intentFromGallery.setType("image/*"); // 设置文件类型
+		intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(intentFromGallery, IMAGE_REQUEST_CODE);
+	}
 
-		new AlertDialog.Builder(getActivity())
-				.setTitle("设置头像")
-				.setItems(items, new DialogInterface.OnClickListener() {
+	// 跳转到照相机
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						switch (which) {
-						case 0:
-							Intent intentFromGallery = new Intent();
-							intentFromGallery.setType("image/*"); // 设置文件类型
-							intentFromGallery
-									.setAction(Intent.ACTION_GET_CONTENT);
-							startActivityForResult(intentFromGallery,
-									IMAGE_REQUEST_CODE);
-							break;
-						case 1:
+	public void ToCamera() {
 
-							Intent intentFromCapture = new Intent(
-									MediaStore.ACTION_IMAGE_CAPTURE);
-							// 判断存储卡是否可以用，可用进行存储
-							if (Get_Img_Tools.hasSdcard()) {
+		Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		// 判断存储卡是否可以用，可用进行存储
+		if (Get_Img_Tools.hasSdcard()) {
 
-								intentFromCapture.putExtra(
-										MediaStore.EXTRA_OUTPUT,
-										Uri.fromFile(new File(Environment
-												.getExternalStorageDirectory(),
-												IMAGE_FILE_NAME)));
-							}
+			intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri
+					.fromFile(new File(Environment
+							.getExternalStorageDirectory(), IMAGE_FILE_NAME)));
+		}
 
-							startActivityForResult(intentFromCapture,
-									CAMERA_REQUEST_CODE);
-							break;
-						}
-					}
-				})
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				}).show();
-
+		startActivityForResult(intentFromCapture, CAMERA_REQUEST_CODE);
 	}
 
 	@Override

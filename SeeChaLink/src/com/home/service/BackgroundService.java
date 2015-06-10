@@ -46,8 +46,10 @@ public class BackgroundService extends Service {
 		mcu = MQTTClientUtil.getInstance(getBaseContext());
 		clientHandle = "tcp://" + Configer.MQTT_SEVER + ":"
 				+ Configer.MQTT_PORT + "" + preferens.getDeviceId();
+		Log.d(TAG, "clientHandle===>" + clientHandle);
 		if (null != Connections.getInstance(getBaseContext()).getConnection(
 				clientHandle)) {
+			// stand for that there is a device is exsit
 			Log.d(TAG,
 					"connection is===>"
 							+ Connections.getInstance(getBaseContext())
@@ -60,6 +62,7 @@ public class BackgroundService extends Service {
 				mcu.setSubscribe(false);
 			}
 		} else {
+			// or to connect the broker server
 			mcu.connectAction();
 		}
 	}
