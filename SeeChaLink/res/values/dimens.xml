@@ -113,4 +113,7 @@
     <dimen name="btn_dialog_width">120dp</dimen>
     <dimen name="btn_dialog_height">40dp</dimen>
 
+    <!-- 设置导航栏的高度,不同的手机适配必须适应不同的比例：3:4:6:8:12==ldpi：mdpi：hdpi：xdpi：xxdpi==42:56:84:112:168 -->
+    <dimen name="nav_height">56dp</dimen>
+
 </resources>

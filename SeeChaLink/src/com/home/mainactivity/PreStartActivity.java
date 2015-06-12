@@ -90,15 +90,16 @@ public class PreStartActivity extends Activity {
 			switch (msg.what) {
 			case 0:
 				if (inputCode.equals("11111") || inputCode.equals("111111")) {
-					 if (hostName.equals("hostname") || "".equals(hostName)
-					 || null == hostName) {
-					Intent it = new Intent(PreStartActivity.this,
-							ConfigActivity.class);
-					startActivity(it);
-					finish();
+					if (hostName.equals("hostname") || "".equals(hostName)
+							|| null == hostName) {
+						Intent it = new Intent(PreStartActivity.this,
+								ConfigActivity.class);
+						startActivity(it);
+						finish();
 					} else {
 						Intent it = new Intent(PreStartActivity.this,
 								MainActivity.class);
+						it.putExtra("isshow", true);
 						startActivity(it);
 						finish();
 					}

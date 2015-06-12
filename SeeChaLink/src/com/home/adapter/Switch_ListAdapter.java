@@ -34,6 +34,7 @@ import android.widget.EditText;
  * @author Catherine
  * */
 public class Switch_ListAdapter extends BaseAdapter {
+	public static String TAG = "Switch_ListAdapter";
 	Context mContext = null;
 	ArrayList<Map<String, Object>> mList = null;
 	int id = 1;
@@ -48,6 +49,7 @@ public class Switch_ListAdapter extends BaseAdapter {
 		isEnable = new boolean[mList.size()];
 		for (int i = 0; i < mList.size(); i++) {
 			isEnable[i] = false;
+
 		}
 		this.id = id;
 		init();
@@ -61,11 +63,7 @@ public class Switch_ListAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		if (id == 2) {
-			return 1;
-		} else {
-			return mList.size();
-		}
+		return mList.size();
 	}
 
 	@Override
@@ -106,6 +104,7 @@ public class Switch_ListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		Log.d(TAG, "getView");
 		// TODO Auto-generated method stub
 		if (null == convertView) {
 			convertView = LayoutInflater.from(mContext).inflate(
@@ -117,6 +116,8 @@ public class Switch_ListAdapter extends BaseAdapter {
 
 		viewHolder.edit_Title.setText(mList.get(position).get("title")
 				.toString());
+		Log.d(TAG, position + "===="
+				+ mList.get(position).get("title").toString());
 		viewHolder.edit_Title.setCompoundDrawablesWithIntrinsicBounds(
 				(Integer) mList.get(position).get("icon"), 0, 0, 0);
 		if (id == 0) {
@@ -124,7 +125,7 @@ public class Switch_ListAdapter extends BaseAdapter {
 		} else if (id == 1) {
 			viewHolder.switchButton.setOnSwitchListner(new Changelisten_two());
 		} else {
-			;
+
 			viewHolder.switchButton
 					.setOnSwitchListner(new Changelisten_three());
 

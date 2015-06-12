@@ -35,6 +35,12 @@ import android.widget.TextView;
  * 
  * 这是设置的界面
  * 
+ * 
+ * 
+ * 这里有点击【检查更新】利用mqtt来完成。
+ * 所以，这里直接对于subscribe一个topic。
+ * 
+ * 
  * @author Catherine
  * */
 public class SettingActivity extends Activity {
@@ -130,6 +136,7 @@ public class SettingActivity extends Activity {
 							FeedBackActivity.class));
 
 				} else if (position == 1) {
+					
 					UpdateVersion();
 				} else if (position == 2) {
 					startActivity(new Intent().setClass(SettingActivity.this,

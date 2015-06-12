@@ -2,10 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_margin="10dp"
     android:clickable="true"
-    android:gravity="center"
     android:orientation="vertical" >
 
     <com.home.view.CommonTitleView
@@ -16,15 +13,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_margin="10.0dip"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:gravity="center"
         android:orientation="vertical" >
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10.0dip"
-            android:layout_marginRight="10.0dip"
             android:layout_marginTop="0.0dip" >
 
             <ImageButton
@@ -69,6 +65,7 @@
                 android:layout_height="60.0dip"
                 android:layout_toRightOf="@id/btn_num_3"
                 android:background="@drawable/home_rm_4_selector"
+                android:scaleType="fitXY"
                 android:tag="104"
                 android:text="4"
                 android:textColor="@color/eair_text_black"
@@ -78,8 +75,6 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10.0dip"
-            android:layout_marginRight="10.0dip"
             android:layout_marginTop="10.0dip" >
 
             <ImageButton
@@ -133,8 +128,6 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10.0dip"
-            android:layout_marginRight="10.0dip"
             android:layout_marginTop="10.0dip" >
 
             <ImageButton

@@ -19,7 +19,7 @@
 
     <ImageView
         android:id="@+id/image_one"
-        android:layout_width="160dp"
+        android:layout_width="match_parent"
         android:layout_height="160dp"
         android:layout_gravity="center"
         android:background="@drawable/icon_add"
@@ -30,6 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
+        android:alpha="0.5"
+        android:background="#444"
         android:gravity="bottom|center_horizontal"
         android:text="客厅场景"
         android:textColor="#fff"

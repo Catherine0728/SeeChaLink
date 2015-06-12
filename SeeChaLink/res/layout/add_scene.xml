@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:orientation="vertical" >
+    android:layout_gravity="center" >
 
     <com.home.view.CommonTitleView
         android:id="@+id/toplayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
 
     <LinearLayout
+        android:id="@+id/layout_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/toplayout"
         android:orientation="horizontal" >
 
         <ImageView
@@ -20,57 +22,106 @@
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:layout_margin="10dp"
-            android:src="@drawable/home_addimg_bg" />
+            android:src="@drawable/icon_add" />
 
-        <EditText
-            android:id="@+id/edit_scene_name"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_margin="10dp"
-            android:background="@drawable/edit_selector"
-            android:hint="设置场景"
-            android:paddingLeft="5dp"
-            android:text="" >
-        </EditText>
-    </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical" >
-
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="90dp"
-            android:scrollbars="none"
-            android:background="#fff" >
+            android:layout_gravity="bottom"
+            android:layout_margin="10dp"
+            android:gravity="bottom"
+            android:orientation="vertical" >
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/edit_scene_name"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:background="@drawable/edit_selector"
+                android:gravity="center_vertical"
+                android:hint="设置场景"
+                android:paddingLeft="5dp"
+                android:text="" >
+            </EditText>
+
+            <TextView
+                android:id="@+id/text_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                android:orientation="vertical" >
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="请填写场景名！"
+                android:textColor="@color/bg_nav_color"
+                android:textSize="@dimen/text_size_16"
+                android:visibility="invisible" />
+        </LinearLayout>
+    </LinearLayout>
 
-                <ListView
-                    android:id="@+id/list_command"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="@null"
-                    android:listSelector="#00000000" />
-            </LinearLayout>
-        </ScrollView>
+    <LinearLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bg_nav_color"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_select_all"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:gravity="center"
+            android:text="全选"
+            android:textColor="#fff"
+            android:textSize="@dimen/text_size_20" />
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#ddd" />
 
         <Button
             android:id="@+id/btn_add"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/voice_add_press"
-            android:gravity="bottom|center_horizontal" />
-    </FrameLayout>
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:gravity="center"
+            android:text="添加"
+            android:textColor="#fff"
+            android:textSize="@dimen/text_size_20" />
+    </LinearLayout>
 
-</LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/layout_bottom"
+        android:layout_below="@id/layout_top"
+        android:background="#fff"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            android:orientation="vertical" >
+
+            <ListView
+                android:id="@+id/list_command"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:divider="@null"
+                android:listSelector="#00000000"
+                android:scrollbars="none" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

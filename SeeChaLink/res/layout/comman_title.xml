@@ -2,9 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_relativelayout_header"
     android:layout_width="fill_parent"
-    android:layout_height="50dip"
-    android:background="@drawable/image_title"
-    android:padding="5dp" >
+    android:layout_height="@dimen/nav_height"
+    android:background="@color/bg_nav_color"
+    >
 
     <TextView
         android:id="@+id/title"
@@ -26,46 +26,53 @@
         <Button
             android:id="@+id/main_head_back"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5.0dip"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:background="#00000000"
-            android:drawableLeft="@drawable/main_title_left_normal"
+            android:paddingLeft="10dp"
+            android:drawablePadding="10dp"
+            android:layout_gravity="center_vertical"
+            android:drawableLeft="@drawable/image_head"
             android:gravity="left|center_vertical" />
 
-        <FrameLayout
-            android:id="@+id/layout_right"
+        <!-- <FrameLayout -->
+        <!-- android:id="@+id/layout_right" -->
+        <!-- android:layout_width="0dp" -->
+        <!-- android:layout_height="match_parent" -->
+        <!-- android:layout_gravity="right|center_vertical" -->
+        <!-- android:layout_marginRight="5dp" -->
+        <!-- android:layout_weight="1" -->
+        <!-- android:visibility="gone" > -->
+
+
+        <!-- android:visibility="gone" -->
+
+
+        <!-- <Button -->
+        <!-- android:id="@+id/main_head_pre_right" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_gravity="right|center_vertical" -->
+        <!-- android:background="#00000000" -->
+        <!-- android:drawableRight="@drawable/home_right_add" -->
+        <!-- android:gravity="right|center_vertical" -->
+        <!-- android:onClick="OpenRightMenu" /> -->
+
+        <TextView
+            android:id="@+id/main_right_text"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="5dp"
+            android:gravity="right|center_vertical"
+            android:onClick="finish"
             android:layout_weight="1"
-            android:visibility="gone" >
+            android:text="取消"
+            android:textColor="#fff"
+            android:paddingRight="10dp"
+            android:textSize="@dimen/text_size_18"
+            />
+        <!-- </FrameLayout> -->
 
-            <!-- android:visibility="gone" -->
-
-            <Button
-                android:id="@+id/main_head_pre_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:background="#00000000"
-                android:drawableRight="@drawable/home_right_add"
-                android:gravity="right|center_vertical"
-                android:onClick="OpenRightMenu" />
-
-            <TextView
-                android:id="@+id/main_right_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:gravity="center"
-                android:onClick="finish"
-                android:text="完成"
-                android:textColor="#fff"
-                android:textSize="@dimen/text_size_18"
-                android:visibility="gone" />
-        </FrameLayout>
     </LinearLayout>
 
 </FrameLayout>

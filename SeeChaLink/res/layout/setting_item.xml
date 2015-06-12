@@ -13,8 +13,11 @@
         android:layout_height="60dp"
         android:layout_gravity="center"
         android:layout_marginLeft="10dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
+        android:ellipsize="marquee"
         android:gravity="left|center_vertical"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
         android:text=""
         android:textColor="#4d4d4d"
         android:textSize="@dimen/text_size_20" />

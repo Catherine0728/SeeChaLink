@@ -21,7 +21,7 @@
         android:singleLine="true"
         android:text=""
         android:textColor="#4d4d4d"
-        android:textSize="@dimen/text_size_22" />
+        android:textSize="@dimen/text_size_18" />
 
     <com.home.view.SwitchButton
         android:id="@+id/toggle_one"

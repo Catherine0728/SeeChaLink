@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.home.adapter.ControlListAdapter;
 import com.home.constants.Configer;
 import com.home.view.CommonTitleView;
 
@@ -44,26 +45,24 @@ public class AddRemoteControll extends Activity {
 		initView();
 	}
 
-	ArrayList<Map<String, Object>> mList = null;
-	String[] strList = { "空调", "音响", "机顶盒", "电视", "TC", "插座", "手势", "自定义" };
+	ArrayList<String> mList = null;
 
 	public void initView() {
 
-		Configer.PAGER = 9;
+		// Configer.PAGER = 9;
+		Configer.PAGER = -1;
 		commTitleView = (CommonTitleView) findViewById(R.id.toplayout);
 		commTitleView.initData(this, null, "选择遥控");
 		FromWhere = getIntent().getStringExtra("fromwhere");
 
 		list_control = (ListView) findViewById(R.id.list_control);
-		mList = new ArrayList<Map<String, Object>>();
-		for (int i = 0; i < strList.length; i++) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("name", strList[i]);
-			mList.add(map);
+		mList = new ArrayList<String>();
+		for (int i = 0; i < Configer.strList.length; i++) {
+			mList.add(Configer.strList[i]);
 
 		}
 
-		controlAdapter = new ControlListAdapter(this, mList);
+		controlAdapter = new ControlListAdapter(this, mList, false, null);
 		list_control.setAdapter(controlAdapter);
 		Log.d(TAG, "FromWhere is==>" + FromWhere);
 		list_control.setOnItemClickListener(new OnItemClickListener() {
@@ -104,62 +103,5 @@ public class AddRemoteControll extends Activity {
 			}
 		});
 
-	}
-}
-
-class ControlListAdapter extends BaseAdapter {
-
-	Context mContext = null;
-	ArrayList<Map<String, Object>> mList = null;
-
-	public ControlListAdapter(Context mContext,
-			ArrayList<Map<String, Object>> mLsit) {
-
-		this.mContext = mContext;
-		this.mList = mLsit;
-	}
-
-	@Override
-	public int getCount() {
-		// TODO Auto-generated method stub
-		return mList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		// TODO Auto-generated method stub
-		return mList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		// TODO Auto-generated method stub
-		return position;
-	}
-
-	ViewHolder viewHolder = null;
-
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		if (null == convertView) {
-			convertView = LayoutInflater.from(mContext).inflate(
-					R.layout.remote_controll_item, null);
-			new ViewHolder(convertView, position);
-		}
-		viewHolder = (ViewHolder) convertView.getTag();
-		viewHolder.text_Name
-				.setText(mList.get(position).get("name").toString());
-		return convertView;
-	}
-
-	class ViewHolder {
-		TextView text_Name;
-
-		public ViewHolder(View view, int pos) {
-			text_Name = (TextView) view.findViewById(R.id.text_name);
-
-			view.setTag(this);
-		}
 	}
 }

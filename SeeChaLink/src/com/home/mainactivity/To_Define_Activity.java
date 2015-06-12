@@ -190,9 +190,9 @@ public class To_Define_Activity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				btn_picture.setTextColor(0xFF14a1e3);
-				btn_picture.setCompoundDrawablesWithIntrinsicBounds(0,
-						R.drawable.btn_copy_icon2, 0, 0);
+				// btn_picture.setTextColor(0xFF14a1e3);
+				// btn_picture.setCompoundDrawablesWithIntrinsicBounds(0,
+				// R.drawable.btn_copy_icon2, 0, 0);
 				TOPhoto();
 				dialog.cancel();
 
@@ -202,10 +202,9 @@ public class To_Define_Activity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				btn_camera.setTextColor(0xFF14a1e3);
-				btn_camera.setCompoundDrawablesWithIntrinsicBounds(0,
-						R.drawable.btn_copy_icon2, 0, 0);
-				;
+				// btn_camera.setTextColor(0xFF14a1e3);
+				// btn_camera.setCompoundDrawablesWithIntrinsicBounds(0,
+				// R.drawable.btn_copy_icon2, 0, 0);
 				ToCamera();
 				dialog.cancel();
 			}

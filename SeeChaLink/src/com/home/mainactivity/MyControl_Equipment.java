@@ -46,7 +46,8 @@ public class MyControl_Equipment extends Activity {
 	ArrayList<String> mList = null;
 
 	public void initView() {
-		Configer.PAGER = 5;
+//		Configer.PAGER = 5;
+		Configer.PAGER = -1;
 		commontitleview = (CommonTitleView) findViewById(R.id.toplayout);
 		commontitleview.initData(MyControl_Equipment.this, null, "我的设备");
 		list_equipment = (ListView) findViewById(R.id.list_equipment);

@@ -31,6 +31,8 @@ import com.home.constants.Configer;
  *         作为在配置页面：显示左边按钮，如果连接成功，那么我们就可以显示左右两个键了。且左边的的图标换成个人详细信息的按钮。右边的换成添加设备，
  *         添加监控
  * 
+ * 
+ * @see {这里需要除掉右按钮，将添加场景以及添加遥控添加到主页的顶部。将添加设备添加到左边的滑动里面}
  */
 public class CommonTitleView extends LinearLayout implements
 		View.OnClickListener {
@@ -48,9 +50,11 @@ public class CommonTitleView extends LinearLayout implements
 		// initData(mContext);
 	}
 
-	Button main_head_left, main_head_right;
+	Button main_head_left;
+	// Button main_head_right;
 	TextView text_Title, right_Text;
-	FrameLayout layout_right;
+
+	// FrameLayout layout_right;
 
 	/**
 	 * 设置左侧图片隐藏
@@ -59,12 +63,12 @@ public class CommonTitleView extends LinearLayout implements
 		main_head_left.setVisibility(View.GONE);
 	}
 
-	/**
-	 * 设置右侧图片隐藏
-	 */
-	public void setRightImgHide() {
-		main_head_right.setVisibility(View.GONE);
-	}
+	// /**
+	// * 设置右侧图片隐藏
+	// */
+	// public void setRightImgHide() {
+	// main_head_right.setVisibility(View.GONE);
+	// }
 
 	Activity ac = null;
 
@@ -73,46 +77,47 @@ public class CommonTitleView extends LinearLayout implements
 		right_Listener = listener;
 		ac = mContext;
 		main_head_left = (Button) view.findViewById(R.id.main_head_back);
-		main_head_right = (Button) view.findViewById(R.id.main_head_pre_right);
+		// main_head_right = (Button)
+		// view.findViewById(R.id.main_head_pre_right);
 		text_Title = (TextView) view.findViewById(R.id.title);
 		text_Title.setText(title);
 		right_Text = (TextView) view.findViewById(R.id.main_right_text);
 		right_Text.setOnClickListener(this);
-		layout_right = (FrameLayout) view.findViewById(R.id.layout_right);
+		// layout_right = (FrameLayout) view.findViewById(R.id.layout_right);
 		main_head_left.setOnClickListener(this);
-		main_head_right.setOnClickListener(this);
+		// main_head_right.setOnClickListener(this);
 		if (Configer.PAGER == 0) {
 			main_head_left.setVisibility(View.INVISIBLE);
-			main_head_right.setVisibility(View.INVISIBLE);
-			layout_right.setVisibility(View.INVISIBLE);
+			// main_head_right.setVisibility(View.INVISIBLE);
+			// layout_right.setVisibility(View.INVISIBLE);
 		} else if (Configer.PAGER == 1) {
 			main_head_left.setCompoundDrawablesWithIntrinsicBounds(
-					R.drawable.main_title_left_normal, 0, 0, 0);
+					R.drawable.image_head, 0, 0, 0);
 
-			main_head_right.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-					R.drawable.home_right_add, 0);
-			layout_right.setVisibility(View.VISIBLE);
+			// main_head_right.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+			// R.drawable.home_right_add, 0);
+			// layout_right.setVisibility(View.VISIBLE);
 			right_Text.setVisibility(View.GONE);
-			main_head_right.setVisibility(View.VISIBLE);
+			// main_head_right.setVisibility(View.VISIBLE);
 			main_head_left.setVisibility(View.VISIBLE);
 		} else {
 			main_head_left.setCompoundDrawablesWithIntrinsicBounds(
 					R.drawable.main_header_back, 0, 0, 0);
 			main_head_left.setVisibility(View.VISIBLE);
 			if (Configer.PAGER == 3) {
-				layout_right.setVisibility(View.VISIBLE);
+				// layout_right.setVisibility(View.VISIBLE);
 				right_Text.setVisibility(view.VISIBLE);
-				right_Text.setText("完成");
+				right_Text.setText("取消");
 
 			} else if (Configer.PAGER == 2) {
-				layout_right.setVisibility(View.VISIBLE);
+				// layout_right.setVisibility(View.VISIBLE);
 				right_Text.setVisibility(view.VISIBLE);
 				right_Text.setText("编辑");
 			} else {
-
-				layout_right.setVisibility(View.GONE);
+				//
+				// layout_right.setVisibility(View.GONE);
 			}
-			main_head_right.setVisibility(View.GONE);
+			// main_head_right.setVisibility(View.GONE);
 		}
 	}
 
@@ -140,35 +145,36 @@ public class CommonTitleView extends LinearLayout implements
 				// mContext.startActivity(it1);
 				right_Listener.DotLeft(true);
 
-			}
-			// else if (Configer.PAGER == -1) {
-			// // 应该是跳回首页，关闭当前页面
-			// Intent intent = new Intent(mContext, MainActivity.class);
-			// mContext.startActivity(intent);
-			// ac.finish();
-			// }
-			else {
+			} else if (Configer.PAGER == -1 || Configer.PAGER == 2
+					|| Configer.PAGER == 3) {
+				// 应该是跳回首页，关闭当前页面
 				Intent intent = new Intent(mContext, MainActivity.class);
 				mContext.startActivity(intent);
+				ac.finish();
+			} else {
+				// Intent intent = new Intent(mContext, MainActivity.class);
+				// mContext.startActivity(intent);
 				ac.finish();
 			}
 
 			break;
-		case R.id.main_head_pre_right:
-			right_Listener.DotRight(true);
-			break;
+		// case R.id.main_head_pre_right:
+		// right_Listener.DotRight(true);
+		// break;
 		case R.id.main_right_text:
 
 			String rightText = right_Text.getText().toString();
-			if (rightText.equals("完成")) {
-				right_Listener.DotRightFinish(true);
+			if (rightText.equals("取消")) {
+				right_Listener.DotRightEdit(true);
 			} else if (rightText.equals("编辑")) {
 				right_Text.setText("完成");
 				right_Listener.DotRightEdit(true);
+			} else if (rightText.equals("完成")) {
+				right_Listener.DotRightFinish(true);
 			}
+
 			break;
 		}
 
 	}
-
 }

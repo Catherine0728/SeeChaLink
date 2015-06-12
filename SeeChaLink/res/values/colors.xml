@@ -58,5 +58,8 @@
     <color name="eair_text_black">#ff333333</color>
     <color name="eair_item_press">#7baaaaaa</color>
     <color name="listviewdriver">#E9E7E2</color>
+    <color name="bg_nav_color">#14a1e3</color>
+    <color name="text_grey_color">#8f8f8f</color>
+    <color name="black_grey_color">#333333</color>
 
 </resources>

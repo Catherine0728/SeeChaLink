@@ -31,7 +31,7 @@ import com.meter.response.GetMeterInfo;
  * 
  */
 public class MqttCallbackHandler implements MqttCallback {
-	public static String TAG = "MqttCallbackHandler";
+	public static String TAG = "com.home.util.MqttCallbackHandler";
 
 	/**
 	 * {@link Context} for the application used to format and import external
@@ -138,16 +138,16 @@ public class MqttCallbackHandler implements MqttCallback {
 		// update client history
 		c.addAction(messageString);
 
-//		String getMessage = messageString.substring(
-//				messageString.indexOf("{") - 1, messageString.indexOf("}") + 1);
-//
-//		if (getMessage.contains("meter-ep_ra")) {
-//			// 这是电表的显示信息
-//			UpdateUI(getMessage);
-//		} else {
-//			UpdataUI(getMessage);
-//
-//		}
+		// String getMessage = messageString.substring(
+		// messageString.indexOf("{") - 1, messageString.indexOf("}") + 1);
+		//
+		// if (getMessage.contains("meter-ep_ra")) {
+		// // 这是电表的显示信息
+		// UpdateUI(getMessage);
+		// } else {
+		// UpdataUI(getMessage);
+		//
+		// }
 
 	}
 

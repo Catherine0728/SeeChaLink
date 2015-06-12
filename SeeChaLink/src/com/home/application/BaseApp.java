@@ -42,8 +42,8 @@ public class BaseApp extends Application {
 		Log.d(TAG, "onCreate");
 		// instance = this;
 		//
-		CrashHandler crashHandler = CrashHandler.getInstance();
-		crashHandler.init(this);
+		// CrashHandler crashHandler = CrashHandler.getInstance();
+		// crashHandler.init(this);
 		// ImageLoader.getInstance(instance, 0).init();
 
 		// initSound();

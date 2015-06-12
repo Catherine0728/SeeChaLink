@@ -91,7 +91,7 @@ public class MenuLeftFragment extends Fragment {
 		super.onResume();
 	}
 
-	public String[] leftInfoArray = { "我的设备", "设置", "帮助" };
+	public String[] leftInfoArray = { "我的设备", "添加设备", "设置", "帮助" };
 
 	public void initView() {
 		Image_Head = (ImageView) v.findViewById(R.id.image_head);
@@ -127,6 +127,8 @@ public class MenuLeftFragment extends Fragment {
 				} else if (leftInfoArray[position].toString().equals("我的设备")) {
 					intent.setClass(getActivity(), MyControl_Equipment.class);
 
+				} else if (leftInfoArray[position].toString().equals("添加设备")) {
+					intent.setClass(getActivity(), ConfigActivity.class);
 				} else {
 					// 跳转到设置的页面
 					// startActivity(new
@@ -354,7 +356,7 @@ public class MenuLeftFragment extends Fragment {
 		 * 
 		 * */
 		moteDefault = phone;
-		setSharePrefrence(phone, R.drawable.image_head);
+		setSharePrefrence(phone, R.drawable.user_icon);
 
 	}
 
@@ -367,7 +369,7 @@ public class MenuLeftFragment extends Fragment {
 		SharedPreferences p = getActivity().getSharedPreferences("username",
 				Context.MODE_PRIVATE);
 		MOTO = p.getString("moto", moteDefault);
-		IAMGEHEAD = p.getInt("imagehand", R.drawable.image_head);
+		IAMGEHEAD = p.getInt("imagehand", R.drawable.user_icon);
 		// fileUri = p.getString("fileuri",
 		// Environment.getExternalStorageDirectory() + IMAGE_FILE_NAME);
 		text_moto.setText(MOTO);
@@ -439,7 +441,7 @@ public class MenuLeftFragment extends Fragment {
 	public Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
 		if (bitmap == null) {
 			bitmap = BitmapFactory.decodeResource(getResources(),
-					R.drawable.image_head);
+					R.drawable.user_icon);
 		}
 		Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(),
 				bitmap.getHeight(), Config.ARGB_8888);

@@ -37,7 +37,7 @@ public class SceneListAdapter extends BaseAdapter {
 	public int getCount() {
 		// Log.d(TAG, "getCount");
 		// TODO Auto-generated method stub
-		return Scene_String.size() + 1;
+		return Scene_String.size();
 	}
 
 	@Override
@@ -72,17 +72,17 @@ public class SceneListAdapter extends BaseAdapter {
 			new ViewHolder(convertView, position);
 		}
 		viewHolder = (ViewHolder) convertView.getTag();
+		//
+		// if (position == Scene_String.size()) {
+		// viewHolder.text_name_one.setText("添加场景");
+		// viewHolder.image_one.setBackgroundResource(R.drawable.icon_add);
+		// } else {
+		viewHolder.text_name_one.setText(Scene_String.get(position).get("name")
+				.toString());
+		viewHolder.image_one.setBackgroundResource((Integer) Scene_String.get(
+				position).get("image"));
 
-		if (position == Scene_String.size()) {
-			viewHolder.text_name_one.setText("添加场景");
-			viewHolder.image_one.setBackgroundResource(R.drawable.icon_add);
-		} else {
-			viewHolder.text_name_one.setText(Scene_String.get(position)
-					.get("name").toString());
-			viewHolder.image_one.setBackgroundResource((Integer) Scene_String
-					.get(position).get("image"));
-
-		}
+		// }
 
 		return convertView;
 	}

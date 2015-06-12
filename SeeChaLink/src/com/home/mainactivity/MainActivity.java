@@ -3,6 +3,8 @@ package com.home.mainactivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.eclipse.paho.android.service.SharePreferenceUtil;
 
@@ -14,6 +16,7 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.DrawerLayout.DrawerListener;
@@ -31,12 +34,16 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.home.listener.CommanTitle_Right_Listener;
+import com.home.mainactivity.PreStartActivity.Job;
 import com.home.service.BackgroundService;
 import com.home.adapter.SceneListAdapter;
 import com.home.application.BaseApp;
@@ -44,6 +51,7 @@ import com.home.constants.Configer;
 import com.home.db.AllSceneDB;
 import com.home.util.MQTTClientUtil;
 import com.home.view.CommonTitleView;
+import com.home.view.Dialog_Loding;
 import com.nineoldandroids.view.ViewHelper;
 
 /**
@@ -58,7 +66,8 @@ import com.nineoldandroids.view.ViewHelper;
  * 
  * 
  * */
-public class MainActivity extends FragmentActivity {
+
+public class MainActivity extends FragmentActivity implements OnClickListener {
 	String TAG = "MainActivity";
 	private SharePreferenceUtil preferens;
 	SharedPreferences sp = null;
@@ -66,9 +75,15 @@ public class MainActivity extends FragmentActivity {
 	MQTTClientUtil mcu = null;
 	CommonTitleView commantitleView = null;
 
-	GridView grid_Scene = null;
+	// GridView grid_Scene = null;
+	ListView list_Scene = null;
 	SceneListAdapter adapter = null;
 	BaseApp baseApp = null;
+	// 设置倒计时器
+	Timer timer = new Timer();
+	int number = 2;
+
+	Button btn_tjcj, btn_tjyk;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +96,20 @@ public class MainActivity extends FragmentActivity {
 		if (null == baseApp) {
 			baseApp = new BaseApp();
 		}
+		/**
+		 * there is a fault that start the schedule in onresume
+		 * */
+		ISSHOW = getIntent().getBooleanExtra("isshow", false);
+		if (ISSHOW) {
+			myHandler.sendEmptyMessage(SHOW);
+
+			timer.schedule(new Job(), 1 * 1000, 1 * 1000);
+		}
 
 	}
+
+	Dialog_Loding dialog_Loading = null;
+	private Boolean ISSHOW = false;
 
 	@Override
 	protected void onResume() {
@@ -90,10 +117,45 @@ public class MainActivity extends FragmentActivity {
 		super.onResume();
 		Log.i(TAG, "onResume");
 		baseApp.addActivity(this);
+
 		initDB();
 
 	}
 
+	class Job extends TimerTask {
+
+		@Override
+		public void run() {
+			number--;
+			if (number == 0) {
+				timer.cancel();
+				myHandler.sendEmptyMessage(CANCELL);
+			}
+		}
+	}
+
+	public static final int SHOW = 0x000099;
+	public static final int CANCELL = 0x000011;
+	Handler myHandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case SHOW:
+				dialog_Loading = new Dialog_Loding(MainActivity.this,
+						"Loading...");
+
+				if (null != dialog_Loading && !dialog_Loading.isShowing()) {
+					dialog_Loading.show();
+				}
+
+				break;
+			case CANCELL:
+				dialog_Loading.dismiss();
+				break;
+			default:
+				break;
+			}
+		};
+	};
 	private DrawerLayout mDrawerLayout;
 	ArrayList<Map<String, Object>> SceneList = null;
 	// String[] Scene_array = { "客房场景", "卧室场景", "起床场景", "添加场景" };
@@ -137,31 +199,33 @@ public class MainActivity extends FragmentActivity {
 		commantitleView = (CommonTitleView) findViewById(R.id.toplayout);
 		commantitleView.initData(MainActivity.this, RightListener, "智能家控");
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.id_drawerLayout);
-
-		grid_Scene = (GridView) findViewById(R.id.grid_scene);
+		btn_tjcj = (Button) findViewById(R.id.btn_add_scene);
+		btn_tjyk = (Button) findViewById(R.id.btn_add_control);
+		btn_tjcj.setOnClickListener(this);
+		btn_tjyk.setOnClickListener(this);
+		list_Scene = (ListView) findViewById(R.id.list_scene);
 
 		adapter = new SceneListAdapter(this, SceneList);
-		grid_Scene.setAdapter(adapter);
+		list_Scene.setAdapter(adapter);
 		// mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
 		// Gravity.RIGHT);
 		// mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
 		// Gravity.LEFT);
-		grid_Scene.setOnItemClickListener(new OnItemClickListener() {
+		list_Scene.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				if (position == SceneList.size()) {
-					startActivity(new Intent().setClass(MainActivity.this,
-							AddSceneActivity.class));
-				} else {
-					TOINTETTN(position, sceneName.get(position).toString());
+				// if (position == SceneList.size()) {
 
-				}
+				// } else {
+				TOINTETTN(position, sceneName.get(position).toString());
+
+				// }
 
 			}
 		});
-		grid_Scene.setOnItemLongClickListener(new OnItemLongClickListener() {
+		list_Scene.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
@@ -242,8 +306,6 @@ public class MainActivity extends FragmentActivity {
 				SceneDB.delete(deleteName);
 				SelectSceneDB();
 				dialog.cancel();
-
-				grid_Scene.postInvalidate();
 
 				adapter.notifyDataSetChanged();
 
@@ -440,5 +502,34 @@ public class MainActivity extends FragmentActivity {
 				"content" + item.getItemId() + info.position, Toast.LENGTH_LONG)
 				.show();
 		return super.onContextItemSelected(item);
+	}
+
+	@Override
+	public void onClick(View v) {
+
+		switch (v.getId()) {
+		case R.id.layout_tjyk:
+
+			startActivity(new Intent().setClass(MainActivity.this,
+					AddRemoteControll.class));
+			break;
+		case R.id.layout_tjcj:
+
+			startActivity(new Intent().setClass(MainActivity.this,
+					AddSceneActivity.class));
+			break;
+		case R.id.btn_add_control:
+
+			startActivity(new Intent().setClass(MainActivity.this,
+					AddRemoteControll.class));
+			break;
+		case R.id.btn_add_scene:
+
+			startActivity(new Intent().setClass(MainActivity.this,
+					AddSceneActivity.class));
+			break;
+		default:
+			break;
+		}
 	}
 }
