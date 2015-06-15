@@ -183,6 +183,7 @@ public class AddSceneActivity extends Activity implements OnClickListener {
 				for (int i = 0; i < mList.size(); i++) {
 					controlAdapter.ChooseState(i, false, true);
 				}
+				finish();
 
 			}
 		}

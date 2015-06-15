@@ -1,9 +1,13 @@
 package com.home.mainactivity;
 
 import java.io.File;
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Random;
 
+import com.home.adapter.LeftListAdapter;
 import com.home.constants.Configer;
 import com.home.util.Get_Img_Tools;
 
@@ -61,7 +65,7 @@ public class MenuLeftFragment extends Fragment {
 	View v = null;
 	ImageView Image_Head = null;
 	ListView left_List = null;
-	ListAdapter adapter = null;
+	LeftListAdapter adapter = null;
 	TextView text_moto;
 	private boolean ready;
 
@@ -70,7 +74,6 @@ public class MenuLeftFragment extends Fragment {
 
 	/* 请求码 */
 	static final int IMAGE_REQUEST_CODE = 0;
-	static final int CAMERA_REQUEST_CODE = 1;
 	static final int RESULT_REQUEST_CODE = 2;
 
 	@Override
@@ -111,7 +114,7 @@ public class MenuLeftFragment extends Fragment {
 		text_moto = (TextView) v.findViewById(R.id.text_moto);
 		loadSharePrefrence();
 
-		adapter = new ListAdapter(getActivity(), leftInfoArray);
+		adapter = new LeftListAdapter(getActivity(), leftInfoArray);
 		left_List.setAdapter(adapter);
 		left_List.setOnItemClickListener(new OnItemClickListener() {
 
@@ -163,9 +166,9 @@ public class MenuLeftFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				btn_picture.setTextColor(0xFF14a1e3);
-				btn_picture.setCompoundDrawablesWithIntrinsicBounds(0,
-						R.drawable.btn_copy_icon2, 0, 0);
+				// btn_picture.setTextColor(0xFF14a1e3);
+				// btn_picture.setCompoundDrawablesWithIntrinsicBounds(0,
+				// R.drawable.btn_copy_icon2, 0, 0);
 				TOPhoto();
 				dialog.cancel();
 
@@ -175,10 +178,9 @@ public class MenuLeftFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				btn_camera.setTextColor(0xFF14a1e3);
-				btn_camera.setCompoundDrawablesWithIntrinsicBounds(0,
-						R.drawable.btn_copy_icon2, 0, 0);
-				;
+				// btn_camera.setTextColor(0xFF14a1e3);
+				// btn_camera.setCompoundDrawablesWithIntrinsicBounds(0,
+				// R.drawable.btn_copy_icon2, 0, 0);
 				ToCamera();
 				dialog.cancel();
 			}
@@ -205,19 +207,39 @@ public class MenuLeftFragment extends Fragment {
 	}
 
 	// 跳转到照相机
+	private File mPhotoFile;
+	private String mPhotoPath;
+	public final static int CAMERA_RESULT = 8888;
 
 	public void ToCamera() {
 
-		Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		// 判断存储卡是否可以用，可用进行存储
-		if (Get_Img_Tools.hasSdcard()) {
-
-			intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri
-					.fromFile(new File(Environment
-							.getExternalStorageDirectory(), IMAGE_FILE_NAME)));
+		// this is the second method to get the image
+		Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+		mPhotoPath = "mnt/sdcard/seechalink/image_cut" + getPhotoFileName();
+		Log.d(TAG, "照片名==》" + mPhotoPath);
+		mPhotoFile = new File(mPhotoPath);
+		if (!mPhotoFile.exists()) {
+			try {
+				mPhotoFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mPhotoFile));
+		startActivityForResult(intent, CAMERA_RESULT);
+	}
 
-		startActivityForResult(intentFromCapture, CAMERA_REQUEST_CODE);
+	/**
+	 * 用时间戳生成照片名称
+	 * 
+	 * @return
+	 */
+	private String getPhotoFileName() {
+		Date date = new Date(System.currentTimeMillis());
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"'IMG'_yyyyMMdd_HHmmss");
+		return dateFormat.format(date) + ".jpg";
 	}
 
 	@Override
@@ -229,12 +251,26 @@ public class MenuLeftFragment extends Fragment {
 			case IMAGE_REQUEST_CODE:
 				startPhotoZoom(data.getData());
 				break;
-			case CAMERA_REQUEST_CODE:
+			case CAMERA_RESULT:
 				if (Get_Img_Tools.hasSdcard()) {
-					File tempFile = new File(
-							Environment.getExternalStorageDirectory()
-									+ IMAGE_FILE_NAME);
-					startPhotoZoom(Uri.fromFile(tempFile));
+
+					BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+					bitmapOptions.inSampleSize = 4;
+					Bitmap bitmap = BitmapFactory.decodeFile(mPhotoPath,
+							bitmapOptions);
+
+					Bitmap output = Configer.getRoundedCornerBitmap(
+							getActivity(), bitmap, R.drawable.btn_tv_press);
+					if (bitmap != null && !bitmap.isRecycled()) {
+						bitmap.recycle();
+					}
+
+					Image_Head.setImageBitmap(output);
+					SharedPreferences p = getActivity().getSharedPreferences(
+							"username", Context.MODE_PRIVATE);
+					String moto = p.getString("moto", moteDefault);
+					text_moto.setText(moto);
+
 				} else {
 					Toast.makeText(getActivity(), "未找到存储卡，无法存储照片！",
 							Toast.LENGTH_LONG).show();
@@ -282,8 +318,16 @@ public class MenuLeftFragment extends Fragment {
 		if (extras != null) {
 
 			Bitmap photo = extras.getParcelable("data");
-			Bitmap output = getRoundedCornerBitmap(photo);
+			Bitmap output = Configer.getRoundedCornerBitmap(getActivity(),
+					photo, R.drawable.user_icon);
+			if (photo != null && !photo.isRecycled()) {
+				photo.recycle();
+			}
 			Image_Head.setImageBitmap(output);
+			SharedPreferences p = getActivity().getSharedPreferences(
+					"username", Context.MODE_PRIVATE);
+			String moto = p.getString("moto", moteDefault);
+			text_moto.setText(moto);
 			// Drawable drawable = new BitmapDrawable(photo);
 			// Image_Head.setImageDrawable(drawable);
 		}
@@ -380,7 +424,11 @@ public class MenuLeftFragment extends Fragment {
 		bitmap = BitmapFactory.decodeResource(getResources(), IAMGEHEAD);
 		// }
 
-		Bitmap output = getRoundedCornerBitmap(bitmap);
+		Bitmap output = Configer.getRoundedCornerBitmap(getActivity(), bitmap,
+				R.drawable.user_icon);
+		if (bitmap != null && !bitmap.isRecycled()) {
+			bitmap.recycle();
+		}
 		Image_Head.setImageBitmap(output);
 	}
 
@@ -428,89 +476,6 @@ public class MenuLeftFragment extends Fragment {
 			SMSSDK.unregisterAllEventHandler();
 		}
 		super.onDestroy();
-	}
-
-	/**
-	 * 圆形头像
-	 * 
-	 * @param bitmap
-	 * @param ratio
-	 *            按照截取比例来获取圆形图片
-	 * @return
-	 */
-	public Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
-		if (bitmap == null) {
-			bitmap = BitmapFactory.decodeResource(getResources(),
-					R.drawable.user_icon);
-		}
-		Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(),
-				bitmap.getHeight(), Config.ARGB_8888);
-		Canvas canvas = new Canvas(outBitmap);
-		final int color = 0xff424242;
-		final Paint paint = new Paint();
-		final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-		final RectF rectF = new RectF(rect);
-		final float roundPX = bitmap.getWidth() / 2 < bitmap.getHeight() / 2 ? bitmap
-				.getWidth() : bitmap.getHeight();
-		paint.setAntiAlias(true);
-		canvas.drawARGB(0, 0, 0, 0);
-		paint.setColor(color);
-		canvas.drawRoundRect(rectF, roundPX, roundPX, paint);
-		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-		canvas.drawBitmap(bitmap, rect, rect, paint);
-		return outBitmap;
-	}
-}
-
-class ListAdapter extends BaseAdapter {
-	String[] string_List;
-	Context mContext = null;
-
-	public ListAdapter(Context mContext, String[] left_String) {
-		this.mContext = mContext;
-		this.string_List = left_String;
-	}
-
-	@Override
-	public int getCount() {
-		// TODO Auto-generated method stub
-		return string_List.length;
-	}
-
-	@Override
-	public Object getItem(int position) {
-		// TODO Auto-generated method stub
-		return string_List[position].toString();
-	}
-
-	@Override
-	public long getItemId(int position) {
-		// TODO Auto-generated method stub
-		return position;
-	}
-
-	ViewHolder viewHolder = null;
-
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		if (null == convertView) {
-			convertView = LayoutInflater.from(mContext).inflate(
-					R.layout.left_menu_item, null);
-			new ViewHolder(convertView, position);
-		}
-		viewHolder = (ViewHolder) convertView.getTag();
-		viewHolder.item_Name.setText(string_List[position].toString());
-		return convertView;
-	}
-
-	class ViewHolder {
-		TextView item_Name;
-
-		public ViewHolder(View view, int pos) {
-			item_Name = (TextView) view.findViewById(R.id.item_name);
-			view.setTag(this);
-		}
 	}
 
 }

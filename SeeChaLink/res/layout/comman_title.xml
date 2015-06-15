@@ -16,22 +16,20 @@
         android:textColor="#ffffff"
         android:textSize="@dimen/text_size_22" />
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:gravity="center"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/main_head_back"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="#00000000"
             android:paddingLeft="10dp"
             android:drawablePadding="10dp"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="left|center_vertical"
             android:drawableLeft="@drawable/image_head"
             android:gravity="left|center_vertical" />
 
@@ -60,19 +58,17 @@
 
         <TextView
             android:id="@+id/main_right_text"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
             android:gravity="right|center_vertical"
             android:onClick="finish"
-            android:layout_weight="1"
             android:text="取消"
             android:textColor="#fff"
             android:paddingRight="10dp"
             android:textSize="@dimen/text_size_18"
             />
         <!-- </FrameLayout> -->
-
-    </LinearLayout>
+</FrameLayout>
 
 </FrameLayout>

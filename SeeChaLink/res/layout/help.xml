@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/image_about_us"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
             android:scaleType="fitXY"
             android:src="@drawable/home_addimg_bg" />
     </LinearLayout>

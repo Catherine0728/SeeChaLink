@@ -91,6 +91,7 @@ public class Switch_ListAdapter extends BaseAdapter {
 	 * 
 	 * */
 	public boolean SetEnableAll(int position) {
+		Log.d(TAG, "SetEnableAll");
 		if (isEnabled(position)) {
 			return true;
 		} else {
@@ -120,9 +121,9 @@ public class Switch_ListAdapter extends BaseAdapter {
 				+ mList.get(position).get("title").toString());
 		viewHolder.edit_Title.setCompoundDrawablesWithIntrinsicBounds(
 				(Integer) mList.get(position).get("icon"), 0, 0, 0);
-		if (id == 0) {
+		if (position == 0) {
 			viewHolder.switchButton.setOnSwitchListner(new Changelisten_one());
-		} else if (id == 1) {
+		} else if (position == 1) {
 			viewHolder.switchButton.setOnSwitchListner(new Changelisten_two());
 		} else {
 

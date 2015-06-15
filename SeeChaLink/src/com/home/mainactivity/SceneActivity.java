@@ -95,7 +95,6 @@ public class SceneActivity extends Activity {
 
 	int id = 0;
 	ArrayList<Map<String, Object>> mList = null;
-	// String[] str = { "灯泡", "电视", "空调" };
 	int[] img = { R.drawable.icon_light, R.drawable.icon_tv,
 			R.drawable.icon_electricity };
 	String scene_Str = "";
@@ -108,7 +107,7 @@ public class SceneActivity extends Activity {
 		edit_scene_name = (EditText) findViewById(R.id.edit_name);
 		id = getIntent().getIntExtra("id", 0);
 		scene_Str = getIntent().getStringExtra("name").toString();
-
+		commanTitle.initData(SceneActivity.this, right_listener, scene_Str);
 		edit_scene_name.setText(scene_Str);
 		Command_Info = CheckDB(scene_Str);
 		if (null == Command_Info) {
@@ -120,7 +119,6 @@ public class SceneActivity extends Activity {
 			}
 
 		}
-		commanTitle.initData(SceneActivity.this, right_listener, scene_Str);
 
 		Switch_List = (ListView) findViewById(R.id.switch_list);
 		mList = new ArrayList<Map<String, Object>>();

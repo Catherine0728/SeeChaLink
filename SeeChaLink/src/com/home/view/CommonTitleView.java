@@ -60,7 +60,7 @@ public class CommonTitleView extends LinearLayout implements
 	 * 设置左侧图片隐藏
 	 */
 	public void setLeftImgHide() {
-		main_head_left.setVisibility(View.GONE);
+		main_head_left.setVisibility(View.INVISIBLE);
 	}
 
 	// /**
@@ -90,6 +90,7 @@ public class CommonTitleView extends LinearLayout implements
 			main_head_left.setVisibility(View.INVISIBLE);
 			// main_head_right.setVisibility(View.INVISIBLE);
 			// layout_right.setVisibility(View.INVISIBLE);
+			right_Text.setVisibility(View.INVISIBLE);
 		} else if (Configer.PAGER == 1) {
 			main_head_left.setCompoundDrawablesWithIntrinsicBounds(
 					R.drawable.image_head, 0, 0, 0);
@@ -97,7 +98,7 @@ public class CommonTitleView extends LinearLayout implements
 			// main_head_right.setCompoundDrawablesWithIntrinsicBounds(0, 0,
 			// R.drawable.home_right_add, 0);
 			// layout_right.setVisibility(View.VISIBLE);
-			right_Text.setVisibility(View.GONE);
+			right_Text.setVisibility(View.INVISIBLE);
 			// main_head_right.setVisibility(View.VISIBLE);
 			main_head_left.setVisibility(View.VISIBLE);
 		} else {
@@ -114,8 +115,7 @@ public class CommonTitleView extends LinearLayout implements
 				right_Text.setVisibility(view.VISIBLE);
 				right_Text.setText("编辑");
 			} else {
-				//
-				// layout_right.setVisibility(View.GONE);
+				right_Text.setVisibility(View.INVISIBLE);
 			}
 			// main_head_right.setVisibility(View.GONE);
 		}

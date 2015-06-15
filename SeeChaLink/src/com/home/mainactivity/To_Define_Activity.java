@@ -1,6 +1,9 @@
 package com.home.mainactivity;
 
 import java.io.File;
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import com.home.constants.Configer;
 import com.home.db.AllCommandDB;
@@ -165,10 +168,19 @@ public class To_Define_Activity extends Activity {
 
 	/* 请求码 */
 	static final int IMAGE_REQUEST_CODE = 0;
-	static final int CAMERA_REQUEST_CODE = 1;
 	static final int RESULT_REQUEST_CODE = 2;
 
-	// 显示对话框
+	// 跳转到照相机
+	private File mPhotoFile;
+	private String mPhotoPath;
+	public final static int CAMERA_RESULT = 8888;
+
+	/**
+	 * 显示一个toast，然后用来选择图片以及本地拍照
+	 * 
+	 * @see{这里，直接拍照的图片取不到？
+	 * 
+	 * */
 	private void ToShowDialog() {
 		final AlertDialog dialog = new AlertDialog.Builder(
 				To_Define_Activity.this).create();
@@ -230,20 +242,35 @@ public class To_Define_Activity extends Activity {
 		startActivityForResult(intentFromGallery, IMAGE_REQUEST_CODE);
 	}
 
-	// 跳转到照相机
-
 	public void ToCamera() {
 
-		Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		// 判断存储卡是否可以用，可用进行存储
-		if (Get_Img_Tools.hasSdcard()) {
-
-			intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri
-					.fromFile(new File(Environment
-							.getExternalStorageDirectory(), IMAGE_FILE_NAME)));
+		// this is the second method to get the image
+		Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+		mPhotoPath = "mnt/sdcard/seechalink/image_cut" + getPhotoFileName();
+		Log.d(TAG, "照片名==》" + mPhotoPath);
+		mPhotoFile = new File(mPhotoPath);
+		if (!mPhotoFile.exists()) {
+			try {
+				mPhotoFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mPhotoFile));
+		startActivityForResult(intent, CAMERA_RESULT);
+	}
 
-		startActivityForResult(intentFromCapture, CAMERA_REQUEST_CODE);
+	/**
+	 * 用时间戳生成照片名称
+	 * 
+	 * @return
+	 */
+	private String getPhotoFileName() {
+		Date date = new Date(System.currentTimeMillis());
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"'IMG'_yyyyMMdd_HHmmss");
+		return dateFormat.format(date) + ".jpg";
 	}
 
 	@Override
@@ -255,22 +282,32 @@ public class To_Define_Activity extends Activity {
 			case IMAGE_REQUEST_CODE:
 				startPhotoZoom(data.getData());
 				break;
-			case CAMERA_REQUEST_CODE:
+
+			case RESULT_REQUEST_CODE:
+				if (data != null) {
+					getImageToView(data);
+				}
+				break;
+			case CAMERA_RESULT:
 				if (Get_Img_Tools.hasSdcard()) {
-					File tempFile = new File(
-							Environment.getExternalStorageDirectory()
-									+ IMAGE_FILE_NAME);
-					startPhotoZoom(Uri.fromFile(tempFile));
+
+					BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+					bitmapOptions.inSampleSize = 4;
+					Bitmap bitmap = BitmapFactory.decodeFile(mPhotoPath,
+							bitmapOptions);
+
+					Bitmap output = Configer.getRoundedCornerBitmap(
+							To_Define_Activity.this, bitmap,
+							R.drawable.btn_tv_press);
+					if (bitmap != null && !bitmap.isRecycled()) {
+						bitmap.recycle();
+					}
+					image_control.setImageBitmap(output);
 				} else {
 					Toast.makeText(To_Define_Activity.this, "未找到存储卡，无法存储照片！",
 							Toast.LENGTH_LONG).show();
 				}
 
-				break;
-			case RESULT_REQUEST_CODE:
-				if (data != null) {
-					getImageToView(data);
-				}
 				break;
 			}
 		}
@@ -283,7 +320,7 @@ public class To_Define_Activity extends Activity {
 	 * @param uri
 	 */
 	public void startPhotoZoom(Uri uri) {
-
+		Log.d(TAG, "startPhotoZoom");
 		Intent intent = new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(uri, "image/*");
 		// 设置裁剪
@@ -308,39 +345,13 @@ public class To_Define_Activity extends Activity {
 		if (extras != null) {
 
 			Bitmap photo = extras.getParcelable("data");
-			Bitmap output = getRoundedCornerBitmap(photo);
+			Bitmap output = Configer.getRoundedCornerBitmap(
+					To_Define_Activity.this, photo, R.drawable.btn_tv_press);
+			if (photo != null && !photo.isRecycled()) {
+				photo.recycle();
+			}
 			image_control.setImageBitmap(output);
 		}
 	}
 
-	/**
-	 * 圆形头像
-	 * 
-	 * @param bitmap
-	 * @param ratio
-	 *            按照截取比例来获取圆形图片
-	 * @return
-	 */
-	public Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
-		if (bitmap == null) {
-			bitmap = BitmapFactory.decodeResource(getResources(),
-					R.drawable.image_head);
-		}
-		Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(),
-				bitmap.getHeight(), Config.ARGB_8888);
-		Canvas canvas = new Canvas(outBitmap);
-		final int color = 0xff424242;
-		final Paint paint = new Paint();
-		final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-		final RectF rectF = new RectF(rect);
-		final float roundPX = bitmap.getWidth() / 2 < bitmap.getHeight() / 2 ? bitmap
-				.getWidth() : bitmap.getHeight();
-		paint.setAntiAlias(true);
-		canvas.drawARGB(0, 0, 0, 0);
-		paint.setColor(color);
-		canvas.drawRoundRect(rectF, roundPX, roundPX, paint);
-		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-		canvas.drawBitmap(bitmap, rect, rect, paint);
-		return outBitmap;
-	}
 }

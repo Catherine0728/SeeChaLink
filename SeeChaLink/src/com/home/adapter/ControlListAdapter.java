@@ -20,6 +20,12 @@ import android.widget.TextView;
 import com.home.listener.SelectAll_Listener;
 import com.home.mainactivity.R;
 
+/**
+ * 
+ * 建立一个适配器来存储当前设备
+ * 
+ * @author Catherine
+ */
 public class ControlListAdapter extends BaseAdapter {
 	public static String TAG = "ControlListAdapter";
 	Context mContext = null;

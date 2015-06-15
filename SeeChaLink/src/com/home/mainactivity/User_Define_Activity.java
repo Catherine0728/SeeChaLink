@@ -132,10 +132,16 @@ public class User_Define_Activity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		String name = data.getStringExtra("name").toString();
-		Log.d(TAG, "修改的name is===>" + name);
-		CheckDB();
-		controlAdapter.ReSetList(mList);
+
+		if (resultCode == REQUESTQUDE) {
+			String name = data.getStringExtra("name").toString();
+			Log.d(TAG, "修改的name is===>" + name + "===resultCode===>"
+					+ resultCode);
+			CheckDB();
+			controlAdapter.ReSetList(mList);
+		} else {
+
+		}
 
 	}
 }

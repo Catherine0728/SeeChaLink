@@ -34,7 +34,7 @@ public class AddRemoteControll extends Activity {
 	ListView list_control = null;
 	ControlListAdapter controlAdapter = null;
 	CommonTitleView commTitleView = null;
-	String FromWhere = "";
+//	String FromWhere = "";
 	public static int REQCODE = 0;
 
 	@Override
@@ -53,7 +53,7 @@ public class AddRemoteControll extends Activity {
 		Configer.PAGER = -1;
 		commTitleView = (CommonTitleView) findViewById(R.id.toplayout);
 		commTitleView.initData(this, null, "选择遥控");
-		FromWhere = getIntent().getStringExtra("fromwhere");
+//		FromWhere = getIntent().getStringExtra("fromwhere");
 
 		list_control = (ListView) findViewById(R.id.list_control);
 		mList = new ArrayList<String>();
@@ -64,43 +64,44 @@ public class AddRemoteControll extends Activity {
 
 		controlAdapter = new ControlListAdapter(this, mList, false, null);
 		list_control.setAdapter(controlAdapter);
-		Log.d(TAG, "FromWhere is==>" + FromWhere);
+//		Log.d(TAG, "FromWhere is==>" + FromWhere);
 		list_control.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				String str = parent.getAdapter().getItem(position).toString();
-				str = str.substring(str.indexOf("=") + 1, str.indexOf("}"))
-						.toString();
-				if (FromWhere.equals("添加场景")) {
+				// String str =
+				// parent.getAdapter().getItem(position).toString();
+				// str = str.substring(str.indexOf("=") + 1, str.indexOf("}"))
+				// .toString();
+				// if (FromWhere.equals("添加场景")) {
+				//
+				// Intent mIntent = new Intent();
+				// mIntent.putExtra("name", str);
+				// // 设置结果，并进行传送
+				// setResult(REQCODE, mIntent);
+				// finish();
+				//
+				// } else {
+				// Toast.makeText(AddRemoteControll.this, str,
+				// Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent();
+				if (position == 0 || position == 1) {
 
-					Intent mIntent = new Intent();
-					mIntent.putExtra("name", str);
-					// 设置结果，并进行传送
-					setResult(REQCODE, mIntent);
-					finish();
+					intent.setClass(AddRemoteControll.this,
+							Controll_AirConditioner.class);
 
+				} else if (position == 7) {
+					intent.setClass(AddRemoteControll.this,
+							User_Define_Activity.class);
 				} else {
-					// Toast.makeText(AddRemoteControll.this, str,
-					// Toast.LENGTH_SHORT).show();
-					Intent intent = new Intent();
-					if (position == 0 || position == 1) {
-
-						intent.setClass(AddRemoteControll.this,
-								Controll_AirConditioner.class);
-
-					} else if (position == 7) {
-						intent.setClass(AddRemoteControll.this,
-								User_Define_Activity.class);
-					} else {
-						intent.setClass(AddRemoteControll.this,
-								Number_Controll_Activity.class);
-					}
-					startActivity(intent);
+					intent.setClass(AddRemoteControll.this,
+							Number_Controll_Activity.class);
 				}
-
+				startActivity(intent);
 			}
+
+			// }
 		});
 
 	}
