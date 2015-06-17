@@ -3,9 +3,11 @@ package com.home.constants;
 import com.home.mainactivity.R;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -14,6 +16,9 @@ import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -230,5 +235,43 @@ public class Configer {
 		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
 		canvas.drawBitmap(bitmap, rect, rect, paint);
 		return outBitmap;
+	}
+
+	/**
+	 * 定义一个常量用来存储当前获取图片
+	 * 
+	 * 
+	 * 【出现部分手机文件创建不了，导致无法照相成功】
+	 * 
+	 * 
+	 * 还是创建不了。。。。
+	 * */
+	public static String sd_Path = Environment.getExternalStorageDirectory()
+			+ "/";// seechalink/image_cut/
+
+	/**
+	 * 检查是否存在SDCard
+	 * 
+	 * @return
+	 */
+	public static boolean hasSdcard() {
+		String state = Environment.getExternalStorageState();
+		if (state.equals(Environment.MEDIA_MOUNTED)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/** 根据自己指定的大小来缩放Bitmap图片 **/
+	public static Bitmap zoomBitmap(Bitmap bitmap, int width, int height) {
+		int w = bitmap.getWidth();
+		int h = bitmap.getHeight();
+		Matrix matrix = new Matrix();
+		float scaleWidth = ((float) width / w);
+		float scaleHeight = ((float) height / h);
+		matrix.postScale(scaleWidth, scaleHeight);// 利用矩阵进行缩放不会造成内存溢出
+		Bitmap newbmp = Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
+		return newbmp;
 	}
 }

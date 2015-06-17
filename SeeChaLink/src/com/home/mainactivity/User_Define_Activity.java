@@ -55,12 +55,12 @@ public class User_Define_Activity extends Activity {
 		initView();
 	};
 
-	ArrayList<String> strName = new ArrayList<String>();
-	ArrayList<Map<String, Object>> mList = new ArrayList<Map<String, Object>>();
+	// ArrayList<String> strName = new ArrayList<String>();
+	ArrayList<Map<String, String>> mList = new ArrayList<Map<String, String>>();
 
 	public void initDB() {
 
-		strName.clear();
+		// strName.clear();
 		mList.clear();
 		CheckDB();
 
@@ -79,15 +79,21 @@ public class User_Define_Activity extends Activity {
 		for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
 			String name = cursor.getString(cursor
 					.getColumnIndex(commanDB.c_command));
-			strName.add(name);
-		}
-		for (int i = 0; i < strName.size(); i++) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			;
-			map.put("name", strName.get(i).toString());
-			map.put("image", R.drawable.btn_tv_press);
+			String uri = cursor.getString(cursor
+					.getColumnIndex(commanDB.c_Command_Image));
+			// strName.add(name);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("name", name);
+			map.put("image", uri);
 			mList.add(map);
+
 		}
+		// for (int i = 0; i < strName.size(); i++) {
+		// Map<String, String> map = new HashMap<String, String>();
+		// map.put("name", strName.get(i).toString());
+		// map.put("image", );
+		// mList.add(map);
+		// }
 	}
 
 	Intent intent = null;
@@ -132,9 +138,15 @@ public class User_Define_Activity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+		Log.d(TAG, "onActivityResult");
 		if (resultCode == REQUESTQUDE) {
 			String name = data.getStringExtra("name").toString();
+			String uri = data.getStringExtra("image_uri").toString();
+			if (uri.equals("") || null == uri) {
+
+			} else {
+
+			}
 			Log.d(TAG, "修改的name is===>" + name + "===resultCode===>"
 					+ resultCode);
 			CheckDB();

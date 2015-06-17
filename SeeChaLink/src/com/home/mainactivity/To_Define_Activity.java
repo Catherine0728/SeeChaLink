@@ -7,40 +7,26 @@ import java.text.SimpleDateFormat;
 
 import com.home.constants.Configer;
 import com.home.db.AllCommandDB;
-import com.home.util.Get_Img_Tools;
 import com.home.view.CommonTitleView;
 
-import android.R.id;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Bitmap.Config;
-import android.graphics.PorterDuff.Mode;
+import android.graphics.Matrix;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -48,6 +34,8 @@ import android.widget.Toast;
  * 点击自定义里面的添加以及点击已经添加的遥控进行编辑
  * 
  * @author Catherine
+ * 
+ *         这里编辑的图片得到的路径应该同时保存进数据库
  * 
  * */
 public class To_Define_Activity extends Activity {
@@ -133,8 +121,9 @@ public class To_Define_Activity extends Activity {
 				Intent intent = new Intent();
 				intent.putExtra("name", name);
 				intent.putExtra("nameInfo", nameInfo);
+				intent.putExtra("image_uri", mPhotoPath);
 				setResult(REQUESTQUDE, intent);
-				CheckDB(name, nameInfo);
+				CheckDB(name, nameInfo, mPhotoPath);
 				finish();
 
 			}
@@ -142,7 +131,7 @@ public class To_Define_Activity extends Activity {
 
 	}
 
-	public void CheckDB(String newname, String nameInfo) {
+	public void CheckDB(String newname, String nameInfo, String image_path) {
 		Log.d(TAG, "CheckDB");
 		if (null == commandDB) {
 			commandDB = new AllCommandDB(To_Define_Activity.this);
@@ -150,11 +139,11 @@ public class To_Define_Activity extends Activity {
 		}
 		if (FromWhere.equals("编辑")) {
 			// 应该是update
-			commandDB.update(name, newname, nameInfo);
+			commandDB.update(name, newname, nameInfo, image_path);
 		} else {
 
 			// a当fromwhere为添加的时候应该自己去insert
-			commandDB.insert(newname, nameInfo);
+			commandDB.insert(newname, nameInfo, image_path);
 		}
 	}
 
@@ -163,16 +152,13 @@ public class To_Define_Activity extends Activity {
 	 * 
 	 * @see{用于提供相片
 	 */
-	/* 头像名称 */
-	static final String IMAGE_FILE_NAME = "faceImage.jpg";
-
 	/* 请求码 */
 	static final int IMAGE_REQUEST_CODE = 0;
 	static final int RESULT_REQUEST_CODE = 2;
 
 	// 跳转到照相机
 	private File mPhotoFile;
-	private String mPhotoPath;
+	private String mPhotoPath = "";
 	public final static int CAMERA_RESULT = 8888;
 
 	/**
@@ -246,19 +232,25 @@ public class To_Define_Activity extends Activity {
 
 		// this is the second method to get the image
 		Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-		mPhotoPath = "mnt/sdcard/seechalink/image_cut" + getPhotoFileName();
-		Log.d(TAG, "照片名==》" + mPhotoPath);
-		mPhotoFile = new File(mPhotoPath);
-		if (!mPhotoFile.exists()) {
-			try {
-				mPhotoFile.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		if (Configer.hasSdcard()) {
+			mPhotoPath = Configer.sd_Path + getPhotoFileName();
+			mPhotoFile = new File(mPhotoPath);
+			if (!mPhotoFile.exists()) {
+				try {
+					mPhotoFile.createNewFile();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mPhotoFile));
+			startActivityForResult(intent, CAMERA_RESULT);
+
+		} else {
+			Toast.makeText(To_Define_Activity.this, "未找到存储卡，无法存储照片！",
+					Toast.LENGTH_LONG).show();
 		}
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mPhotoFile));
-		startActivityForResult(intent, CAMERA_RESULT);
+
 	}
 
 	/**
@@ -289,24 +281,18 @@ public class To_Define_Activity extends Activity {
 				}
 				break;
 			case CAMERA_RESULT:
-				if (Get_Img_Tools.hasSdcard()) {
-
-					BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-					bitmapOptions.inSampleSize = 4;
-					Bitmap bitmap = BitmapFactory.decodeFile(mPhotoPath,
-							bitmapOptions);
-
-					Bitmap output = Configer.getRoundedCornerBitmap(
-							To_Define_Activity.this, bitmap,
-							R.drawable.btn_tv_press);
-					if (bitmap != null && !bitmap.isRecycled()) {
-						bitmap.recycle();
-					}
-					image_control.setImageBitmap(output);
-				} else {
-					Toast.makeText(To_Define_Activity.this, "未找到存储卡，无法存储照片！",
-							Toast.LENGTH_LONG).show();
+				BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+				bitmapOptions.inSampleSize = 4;
+				Bitmap bitmap = BitmapFactory.decodeFile(mPhotoPath,
+						bitmapOptions);
+				bitmap = Configer.zoomBitmap(bitmap, 120, 120);
+				Bitmap output = Configer.getRoundedCornerBitmap(
+						To_Define_Activity.this, bitmap,
+						R.drawable.btn_tv_press);
+				if (bitmap != null && !bitmap.isRecycled()) {
+					bitmap.recycle();
 				}
+				image_control.setImageBitmap(output);
 
 				break;
 			}

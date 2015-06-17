@@ -25,6 +25,7 @@ public class AllCommandDB extends SQLiteOpenHelper {
 
 	public final static String c_command = "_command";// 命令的名字
 	public final static String c_Command_Info = "_Command_Info";// 命令对应要执行的信息
+	public final static String c_Command_Image = "_Command_Image";// 命令对应的要显示的图片
 
 	public AllCommandDB(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -35,9 +36,9 @@ public class AllCommandDB extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
 		String sql = "CREATE TABLE " + TABLE_NAME + " (" + c_Id
-
-		+ " INTEGER primary key autoincrement, " + c_command + " text, "
-				+ c_Command_Info + " text);";
+				+ " INTEGER primary key autoincrement, " + c_command
+				+ " text, " + c_Command_Image + " text, " + c_Command_Info
+				+ " text);";
 
 		db.execSQL(sql);
 	}
@@ -96,7 +97,7 @@ public class AllCommandDB extends SQLiteOpenHelper {
 
 	}
 
-	public long insert(String name, String command)
+	public long insert(String name, String command, String image_url)
 
 	{
 		Log.d(TAG, "insert");
@@ -107,6 +108,7 @@ public class AllCommandDB extends SQLiteOpenHelper {
 		ContentValues cv = new ContentValues();
 		cv.put(c_command, name);
 		cv.put(c_Command_Info, command);
+		cv.put(c_Command_Image, image_url);
 		long row = db.insert(TABLE_NAME, null, cv);
 
 		return row;
@@ -128,7 +130,8 @@ public class AllCommandDB extends SQLiteOpenHelper {
 
 	}
 
-	public void update(String name, String newName, String command)
+	public void update(String name, String newName, String command,
+			String image_uri)
 
 	{
 		Log.d(TAG, "update");
@@ -143,6 +146,7 @@ public class AllCommandDB extends SQLiteOpenHelper {
 
 		cv.put(c_command, newName);
 		cv.put(c_Command_Info, command);
+		cv.put(c_Command_Image, image_uri);
 		db.update(TABLE_NAME, cv, where, whereValue);
 
 	}

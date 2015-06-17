@@ -9,32 +9,22 @@ import java.util.Random;
 
 import com.home.adapter.LeftListAdapter;
 import com.home.constants.Configer;
-import com.home.util.Get_Img_Tools;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 import cn.smssdk.gui.RegisterPage;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.ContactsContract.CommonDataKinds.Im;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -47,7 +37,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -59,6 +48,12 @@ import android.widget.Toast;
  * 这是右边个人详情页面
  * 
  * @author Catherine
+ * 
+ * 
+ * @see{在未登录的情况下，我们应该给一个默认的用户。值然后，在登录后，第一步：存进prefence，且设置当前的签名， 
+ *                                                              当然，这里每次进来应该有个加载，loadpreference
+ *                                                              。然后再通过设置头像的时候，。
+ *                                                              将图片的路径分贝存进去，且赋值}
  * */
 public class MenuLeftFragment extends Fragment {
 	public static String TAG = "MenuLeftFragment";
@@ -68,9 +63,6 @@ public class MenuLeftFragment extends Fragment {
 	LeftListAdapter adapter = null;
 	TextView text_moto;
 	private boolean ready;
-
-	/* 头像名称 */
-	static final String IMAGE_FILE_NAME = "faceImage.jpg";
 
 	/* 请求码 */
 	static final int IMAGE_REQUEST_CODE = 0;
@@ -99,11 +91,16 @@ public class MenuLeftFragment extends Fragment {
 	public void initView() {
 		Image_Head = (ImageView) v.findViewById(R.id.image_head);
 		left_List = (ListView) v.findViewById(R.id.left_list);
+
+		text_moto = (TextView) v.findViewById(R.id.text_moto);
+		loadSharePrefrence();
 		Image_Head.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if (Configer.ISLOGIN == 0) {
+				if (Configer.ISLOGIN == 0
+						&& text_moto.getText().toString().equals(moteDefault)) {
+
 					GetLogin();
 				} else {
 					ToShowDialog();
@@ -111,9 +108,6 @@ public class MenuLeftFragment extends Fragment {
 
 			}
 		});
-		text_moto = (TextView) v.findViewById(R.id.text_moto);
-		loadSharePrefrence();
-
 		adapter = new LeftListAdapter(getActivity(), leftInfoArray);
 		left_List.setAdapter(adapter);
 		left_List.setOnItemClickListener(new OnItemClickListener() {
@@ -215,19 +209,50 @@ public class MenuLeftFragment extends Fragment {
 
 		// this is the second method to get the image
 		Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-		mPhotoPath = "mnt/sdcard/seechalink/image_cut" + getPhotoFileName();
-		Log.d(TAG, "照片名==》" + mPhotoPath);
-		mPhotoFile = new File(mPhotoPath);
-		if (!mPhotoFile.exists()) {
-			try {
-				mPhotoFile.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		if (Configer.hasSdcard()) {
+			// File file = new File(Configer.sd_Path);
+			// if (!file.exists()) {
+			// if (file.mkdirs()) {
+			// mPhotoPath = Configer.sd_Path + getPhotoFileName();
+			// mPhotoFile = new File(mPhotoPath);
+			// if (!mPhotoFile.exists()) {
+			// Log.d(TAG, "此照片不存在...");
+			// try {
+			// mPhotoFile.createNewFile();
+			// } catch (IOException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// }
+			// intent.putExtra(MediaStore.EXTRA_OUTPUT,
+			// Uri.fromFile(mPhotoFile));
+			// startActivityForResult(intent, CAMERA_RESULT);
+			// } else {
+			// Toast.makeText(getActivity(), "文件创建不成功", Toast.LENGTH_SHORT)
+			// .show();
+			//
+			// }
+
+			// }
+			mPhotoPath = Configer.sd_Path + getPhotoFileName();
+			mPhotoFile = new File(mPhotoPath);
+			if (!mPhotoFile.exists()) {
+				Log.d(TAG, "此照片不存在...");
+				try {
+					mPhotoFile.createNewFile();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mPhotoFile));
+			startActivityForResult(intent, CAMERA_RESULT);
+
+		} else {
+			Toast.makeText(getActivity(), "未找到存储卡，无法存储照片！", Toast.LENGTH_LONG)
+					.show();
 		}
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mPhotoFile));
-		startActivityForResult(intent, CAMERA_RESULT);
+
 	}
 
 	/**
@@ -252,29 +277,24 @@ public class MenuLeftFragment extends Fragment {
 				startPhotoZoom(data.getData());
 				break;
 			case CAMERA_RESULT:
-				if (Get_Img_Tools.hasSdcard()) {
 
-					BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-					bitmapOptions.inSampleSize = 4;
-					Bitmap bitmap = BitmapFactory.decodeFile(mPhotoPath,
-							bitmapOptions);
+				BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+				bitmapOptions.inSampleSize = 4;
+				Bitmap bitmap = BitmapFactory.decodeFile(mPhotoPath,
+						bitmapOptions);
 
-					Bitmap output = Configer.getRoundedCornerBitmap(
-							getActivity(), bitmap, R.drawable.btn_tv_press);
-					if (bitmap != null && !bitmap.isRecycled()) {
-						bitmap.recycle();
-					}
-
-					Image_Head.setImageBitmap(output);
-					SharedPreferences p = getActivity().getSharedPreferences(
-							"username", Context.MODE_PRIVATE);
-					String moto = p.getString("moto", moteDefault);
-					text_moto.setText(moto);
-
-				} else {
-					Toast.makeText(getActivity(), "未找到存储卡，无法存储照片！",
-							Toast.LENGTH_LONG).show();
+				bitmap = Configer.zoomBitmap(bitmap, 120, 120);
+				Bitmap output = Configer.getRoundedCornerBitmap(getActivity(),
+						bitmap, R.drawable.btn_tv_press);
+				if (bitmap != null && !bitmap.isRecycled()) {
+					bitmap.recycle();
 				}
+
+				Image_Head.setImageBitmap(output);
+				SharedPreferences p = getActivity().getSharedPreferences(
+						"username", Context.MODE_PRIVATE);
+				String moto = p.getString("moto", moteDefault);
+				text_moto.setText(moto);
 
 				break;
 			case RESULT_REQUEST_CODE:
@@ -302,8 +322,8 @@ public class MenuLeftFragment extends Fragment {
 		intent.putExtra("aspectX", 1);
 		intent.putExtra("aspectY", 1);
 		// outputX outputY 是裁剪图片宽高
-		intent.putExtra("outputX", 320);
-		intent.putExtra("outputY", 320);
+		intent.putExtra("outputX", 120);
+		intent.putExtra("outputY", 120);
 		intent.putExtra("return-data", true);
 		startActivityForResult(intent, 2);
 	}
@@ -404,8 +424,7 @@ public class MenuLeftFragment extends Fragment {
 
 	}
 
-	String MOTO, fileUri = Environment.getExternalStorageDirectory()
-			+ IMAGE_FILE_NAME;
+	String MOTO;
 	int IAMGEHEAD;
 	String moteDefault = "这家伙很懒，什么也没有留下....";
 
@@ -441,6 +460,7 @@ public class MenuLeftFragment extends Fragment {
 		edit.putInt("imagehand", imagehead);
 
 		edit.commit();
+		text_moto.setText(moto);
 	}
 
 	Handler myHander = new Handler() {
