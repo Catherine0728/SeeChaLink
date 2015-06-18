@@ -14,8 +14,6 @@ import android.util.Log;
  * 
  * 一个数据库，然后三个字段：id,scene_Name,scene_Command(这里考虑是一个数组);
  * 
- * @see{添加一个字段用于存储图片的uri
- * 
  * */
 public class AllSceneDB extends SQLiteOpenHelper {
 	public String TAG = "AllSceneDB";
@@ -29,7 +27,6 @@ public class AllSceneDB extends SQLiteOpenHelper {
 
 	public final static String s_NAME = "_NAME";// 场景的名字
 	public final static String s_Command = "_Command";// 场景对应里面要执行的命令
-	public final static String s_Image_Uri = "_Image_Uri";// 场景的图片的路径
 
 	public AllSceneDB(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -42,7 +39,7 @@ public class AllSceneDB extends SQLiteOpenHelper {
 		String sql = "CREATE TABLE " + TABLE_NAME + " (" + s_Id
 
 		+ " INTEGER primary key autoincrement, " + s_NAME + " text, "
-				+ s_Image_Uri + " text, " + s_Command + " text);";
+				+ s_Command + " text);";
 
 		db.execSQL(sql);
 	}
@@ -101,7 +98,7 @@ public class AllSceneDB extends SQLiteOpenHelper {
 
 	}
 
-	public long insert(String name, String command, String image_uri)
+	public long insert(String name, String command)
 
 	{
 		Log.d(TAG, "insert");
@@ -112,7 +109,6 @@ public class AllSceneDB extends SQLiteOpenHelper {
 		ContentValues cv = new ContentValues();
 		cv.put(s_NAME, name);
 		cv.put(s_Command, command);
-		cv.put(s_Image_Uri, image_uri);
 		long row = db.insert(TABLE_NAME, null, cv);
 
 		return row;
@@ -134,8 +130,7 @@ public class AllSceneDB extends SQLiteOpenHelper {
 
 	}
 
-	public void update(String name, String newName, String command,
-			String image_uri)
+	public void update(String name, String newName, String command)
 
 	{
 		Log.d(TAG, "update");
@@ -149,7 +144,6 @@ public class AllSceneDB extends SQLiteOpenHelper {
 
 		cv.put(s_NAME, newName);
 		cv.put(s_Command, command);
-		cv.put(s_Image_Uri, image_uri);
 		db.update(TABLE_NAME, cv, where, whereValue);
 
 	}

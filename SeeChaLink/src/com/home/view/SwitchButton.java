@@ -4,7 +4,6 @@ import com.home.mainactivity.R;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -13,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class SwitchButton extends LinearLayout {
-	public static String TAG = "SwitchButton";
+
 	/**
 	 * 开关图片
 	 */
@@ -67,7 +66,6 @@ public class SwitchButton extends LinearLayout {
 	 * 添加事件监听器
 	 */
 	private void addListeners() {
-		Log.d(TAG, "addListeners");
 		try {
 			switchParent.setOnClickListener(new OnClickListener() {
 				@Override
@@ -77,7 +75,6 @@ public class SwitchButton extends LinearLayout {
 					if (null != listner) {
 						// 开关开发或者关闭的回调方法
 						listner.switchChanged(getId(), isOn);
-
 					}
 				}
 			});
@@ -90,7 +87,6 @@ public class SwitchButton extends LinearLayout {
 	 * 滑动开关
 	 */
 	private void scrollSwitch() {
-		Log.d(TAG, "scrollSwitch");
 		// 获取滑块需要滑动的距离，滑动距离等于父组建的宽度减去滑块的宽度
 		scrollDistance = switchParent.getWidth() - switchButton.getWidth();
 		// 初始化滑动事件
@@ -106,11 +102,6 @@ public class SwitchButton extends LinearLayout {
 		animation.setFillAfter(true);
 		// 开始滑动
 		switchButton.startAnimation(animation);
-		if (isOn) {
-			switchParent.setBackgroundResource(R.drawable.switch_open);
-		} else {
-			switchParent.setBackgroundResource(R.drawable.switch_close);
-		}
 	}
 
 	/**
@@ -129,7 +120,6 @@ public class SwitchButton extends LinearLayout {
 	 *            开关状态【true:打开】【false:关闭】
 	 */
 	public void setOn(boolean isOn) {
-		Log.d(TAG, "seton");
 		if (this.isOn == isOn) {
 			return;
 		}
@@ -149,7 +139,6 @@ public class SwitchButton extends LinearLayout {
 	 *            开关状态监听器
 	 */
 	public void setOnSwitchListner(SwitchChangedListner listner) {
-		Log.d(TAG, "setOnSwitchListner");
 		this.listner = listner;
 	}
 
@@ -169,6 +158,5 @@ public class SwitchButton extends LinearLayout {
 		 *            开关是否打开【true:打开】【false:关闭】
 		 */
 		public void switchChanged(Integer viewId, boolean isOn);
-
 	}
 }

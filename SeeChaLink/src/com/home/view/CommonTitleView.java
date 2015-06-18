@@ -33,9 +33,6 @@ import com.home.constants.Configer;
  * 
  * 
  * @see {这里需要除掉右按钮，将添加场景以及添加遥控添加到主页的顶部。将添加设备添加到左边的滑动里面}
- * 
- * 
- * @see{这里对于场景点击编辑头部按钮应该没有，点击编辑进去，应该直接就是编辑
  */
 public class CommonTitleView extends LinearLayout implements
 		View.OnClickListener {
@@ -116,8 +113,7 @@ public class CommonTitleView extends LinearLayout implements
 			} else if (Configer.PAGER == 2) {
 				// layout_right.setVisibility(View.VISIBLE);
 				right_Text.setVisibility(view.VISIBLE);
-				// right_Text.setText("编辑");
-				right_Text.setText("完成");
+				right_Text.setText("编辑");
 			} else {
 				right_Text.setVisibility(View.INVISIBLE);
 			}

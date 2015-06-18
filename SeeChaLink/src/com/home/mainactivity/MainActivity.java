@@ -157,7 +157,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		};
 	};
 	private DrawerLayout mDrawerLayout;
-	ArrayList<Map<String, String>> SceneList = null;
+	ArrayList<Map<String, Object>> SceneList = null;
+	// String[] Scene_array = { "客房场景", "卧室场景", "起床场景", "添加场景" };
+	ArrayList<String> sceneName = new ArrayList<String>();
 	/**
 	 * 查询数据库，然后得到所有的场景
 	 * */
@@ -165,7 +167,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	public void initDB() {
 		Log.d(TAG, "initDB");
-		SceneList = new ArrayList<Map<String, String>>();
+		SceneList = new ArrayList<Map<String, Object>>();
 		if (null == SceneDB) {
 			SceneDB = new AllSceneDB(MainActivity.this);
 		}
@@ -175,18 +177,20 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	}
 
 	public void SelectSceneDB() {
+		sceneName.clear();
 		SceneList.clear();
 		Cursor cursor = SceneDB.select();
 		for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
 			String name = cursor.getString(cursor
 					.getColumnIndex(SceneDB.s_NAME));
-			String image_uri = cursor.getString(cursor
-					.getColumnIndex(SceneDB.s_Image_Uri));
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("name", name);
-			map.put("image", image_uri);
-			SceneList.add(map);
+			sceneName.add(name);
 			Log.d(TAG, "initDB场景有====>" + name);
+		}
+		for (int i = 0; i < sceneName.size(); i++) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("name", sceneName.get(i).toString());
+			map.put("image", R.drawable.home_addimg_bg);
+			SceneList.add(map);
 		}
 	}
 
@@ -215,8 +219,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 				// if (position == SceneList.size()) {
 
 				// } else {
-				TOINTETTN(position, SceneList.get(position).get("name")
-						.toString());
+				TOINTETTN(position, sceneName.get(position).toString());
 
 				// }
 
@@ -227,8 +230,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				ToShowDialog(position, SceneList.get(position).get("name")
-						.toString());
+				if (position == SceneList.size()) {
+					startActivity(new Intent().setClass(MainActivity.this,
+							AddSceneActivity.class));
+				} else {
+					ToShowDialog(position, SceneList.get(position).get("name")
+							.toString());
+				}
 				return false;
 			}
 		});
@@ -285,9 +293,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 				btn_delete.setCompoundDrawablesWithIntrinsicBounds(0,
 						R.drawable.btn_timer_icon2, 0, 0);
 				dialog.cancel();
-				startActivity(new Intent().setClass(MainActivity.this,
-						SetTimingActivity.class));
-				
 			}
 		});
 		btn_delete.setOnClickListener(new OnClickListener() {
@@ -382,14 +387,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 					ViewHelper.setScaleX(mContent, rightScale);
 					ViewHelper.setScaleY(mContent, rightScale);
 				} else {
-//					ViewHelper.setTranslationX(mContent,
-//							-mMenu.getMeasuredWidth() * slideOffset);
-//					ViewHelper.setPivotX(mContent, mContent.getMeasuredWidth());
-//					ViewHelper.setPivotY(mContent,
-//							mContent.getMeasuredHeight() / 2);
-//					mContent.invalidate();
-//					ViewHelper.setScaleX(mContent, rightScale);
-//					ViewHelper.setScaleY(mContent, rightScale);
+					ViewHelper.setTranslationX(mContent,
+							-mMenu.getMeasuredWidth() * slideOffset);
+					ViewHelper.setPivotX(mContent, mContent.getMeasuredWidth());
+					ViewHelper.setPivotY(mContent,
+							mContent.getMeasuredHeight() / 2);
+					mContent.invalidate();
+					ViewHelper.setScaleX(mContent, rightScale);
+					ViewHelper.setScaleY(mContent, rightScale);
 				}
 
 			}

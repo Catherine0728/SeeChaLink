@@ -10,50 +10,59 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/layout_top"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_below="@id/toplayout" >
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toplayout"
+        android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/btn_scene"
+        <ImageView
+            android:id="@+id/image_scene"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/icon_add" />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/home_addimg_bg" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="10dp"
+            android:gravity="bottom"
+            android:orientation="vertical" >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/nav_height"
-            android:layout_gravity="bottom|center_horizontal"
-            android:background="@drawable/image_botton_title_more"
-            android:gravity="bottom" />
+            <EditText
+                android:id="@+id/edit_scene_name"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:background="@drawable/edit_selector"
+                android:gravity="center_vertical"
+                android:hint="设置场景"
+                android:paddingLeft="5dp"
+                android:text="" >
+            </EditText>
 
-        <EditText
-            android:id="@+id/edit_scene_name"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:layout_gravity="bottom|right"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/edit_selector_white"
-            android:gravity="left|center_vertical"
-            android:hint="设置场景"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:singleLine="true"
-            android:text=""
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_22" >
-        </EditText>
-    </FrameLayout>
+            <TextView
+                android:id="@+id/text_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="请填写场景名！"
+                android:textColor="@color/bg_nav_color"
+                android:textSize="@dimen/text_size_16"
+                android:visibility="invisible" />
+        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layout_bottom"
         android:layout_width="match_parent"
         android:layout_height="@dimen/nav_height"
         android:layout_alignParentBottom="true"
-        android:background="@color/bg_nav_color_1"
+        android:background="@color/bg_nav_color"
         android:gravity="center"
         android:orientation="horizontal" >
 
@@ -74,7 +83,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:background="@color/white" />
+            android:background="#ddd" />
 
         <Button
             android:id="@+id/btn_add"
@@ -107,8 +116,9 @@
                 android:id="@+id/list_command"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="@color/divider_color_3"
-                android:dividerHeight="0.2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:divider="@null"
                 android:listSelector="#00000000"
                 android:scrollbars="none" />
         </LinearLayout>

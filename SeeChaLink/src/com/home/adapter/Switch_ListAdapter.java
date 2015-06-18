@@ -82,7 +82,6 @@ public class Switch_ListAdapter extends BaseAdapter {
 	 * 定义一个方法，然后设置所有的edit可编辑
 	 * */
 	public void chooseState(int position, boolean flags) {
-		Log.d(TAG, "chooseState");
 		isEnable[position] = isEnable[position] == true ? true : true;
 
 	}
@@ -120,8 +119,8 @@ public class Switch_ListAdapter extends BaseAdapter {
 				.toString());
 		Log.d(TAG, position + "===="
 				+ mList.get(position).get("title").toString());
-		// viewHolder.edit_Title.setCompoundDrawablesWithIntrinsicBounds(
-		// (Integer) mList.get(position).get("icon"), 0, 0, 0);
+		viewHolder.edit_Title.setCompoundDrawablesWithIntrinsicBounds(
+				(Integer) mList.get(position).get("icon"), 0, 0, 0);
 		if (position == 0) {
 			viewHolder.switchButton.setOnSwitchListner(new Changelisten_one());
 		} else if (position == 1) {
@@ -133,16 +132,11 @@ public class Switch_ListAdapter extends BaseAdapter {
 
 		}
 		if (SetEnableAll(position)) {
-			Log.d(TAG, "SetEnableAll===true");
 			viewHolder.edit_Title.setEnabled(true);
-			viewHolder.edit_Title.setFocusable(true);
-			viewHolder.edit_Title.setFocusableInTouchMode(true);
-//			viewHolder.edit_Title
-//					.setBackgroundResource(R.drawable.edit_selector);
 		} else {
-			Log.d(TAG, "SetEnableAll==false");
 			viewHolder.edit_Title.setEnabled(false);
 		}
+
 		return convertView;
 	}
 

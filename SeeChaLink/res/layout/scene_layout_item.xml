@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_one"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="60dp"
     android:layout_gravity="center"
     android:gravity="center"
     android:orientation="horizontal" >
@@ -12,26 +12,23 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_gravity="left|center_vertical"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="10dp"
+        android:layout_margin="5dp"
         android:layout_weight="1"
         android:background="@drawable/edit_selector_default"
-        android:enabled="false"
+        android:drawablePadding="10dp"
         android:gravity="left|center_vertical"
-        android:paddingLeft="10dp"
+        android:paddingLeft="5dp"
         android:singleLine="true"
         android:text=""
-        android:textColor="@color/black_text_1"
-        android:textSize="@dimen/text_size_20" />
-    <!-- android:drawablePadding="10dp" -->
+        android:textColor="#4d4d4d"
+        android:textSize="@dimen/text_size_18" />
 
     <com.home.view.SwitchButton
         android:id="@+id/toggle_one"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_vertical"
-        android:layout_marginRight="40dp"
+        android:layout_marginRight="10dp"
         android:layout_weight="1"
         android:gravity="right|center_vertical" >
     </com.home.view.SwitchButton>

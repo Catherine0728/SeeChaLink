@@ -3,13 +3,10 @@ package com.home.adapter;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.home.constants.Configer;
 import com.home.mainactivity.R;
 import com.home.mainactivity.R.array;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,10 +25,10 @@ import android.widget.TextView;
 public class SceneListAdapter extends BaseAdapter {
 	public static String TAG = "SceneListAdapter";
 	Context mContext = null;
-	ArrayList<Map<String, String>> Scene_String = null;
+	ArrayList<Map<String, Object>> Scene_String = null;
 
 	public SceneListAdapter(Context mContext,
-			ArrayList<Map<String, String>> sceneString) {
+			ArrayList<Map<String, Object>> sceneString) {
 		this.mContext = mContext;
 		this.Scene_String = sceneString;
 	}
@@ -58,7 +55,7 @@ public class SceneListAdapter extends BaseAdapter {
 	}
 
 	// 重新得到mlist
-	public void ReGetList(ArrayList<Map<String, String>> mList) {
+	public void ReGetList(ArrayList<Map<String, Object>> mList) {
 		// Log.d(TAG, "ReGetList");
 		this.Scene_String = mList;
 	}
@@ -82,20 +79,10 @@ public class SceneListAdapter extends BaseAdapter {
 		// } else {
 		viewHolder.text_name_one.setText(Scene_String.get(position).get("name")
 				.toString());
-		String image_uri = Scene_String.get(position).get("image").toString();
-		if (null == image_uri || image_uri.equals("")) {
-			viewHolder.image_one
-					.setBackgroundResource(R.drawable.home_addimg_bg);
-		} else {
-			BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-			bitmapOptions.inSampleSize = 4;
-			Bitmap bitmap = BitmapFactory.decodeFile(image_uri, bitmapOptions);
-			bitmap = Configer.zoomBitmap(bitmap, 450, 240);
+		viewHolder.image_one.setBackgroundResource((Integer) Scene_String.get(
+				position).get("image"));
 
-			viewHolder.image_one.setImageBitmap(bitmap);
-
-		}
-
+		// }
 
 		return convertView;
 	}

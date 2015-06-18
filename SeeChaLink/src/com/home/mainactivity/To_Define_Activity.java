@@ -150,8 +150,7 @@ public class To_Define_Activity extends Activity {
 	/**
 	 * 显示选择对话框
 	 * 
-	 * @see {用于提供相片}
-	 * 
+	 * @see{用于提供相片
 	 */
 	/* 请求码 */
 	static final int IMAGE_REQUEST_CODE = 0;

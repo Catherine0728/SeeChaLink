@@ -15,7 +15,7 @@
         android:gravity="left|center_vertical"
         android:paddingLeft="10dp"
         android:text="暂无"
-        android:textColor="@color/bg_nav_color_1"
+        android:textColor="@color/bg_nav_color"
         android:textSize="@dimen/text_size_24" />
 
 </LinearLayout>

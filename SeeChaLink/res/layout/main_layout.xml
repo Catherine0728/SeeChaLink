@@ -18,12 +18,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/sec_nav_hei"
-            android:alpha="0.7"
-            android:background="#333"
+            android:layout_height="@dimen/nav_height"
+            android:background="@color/black_grey_color"
             android:orientation="horizontal" >
-
-            <!-- android:background="@color/black_grey_color" -->
 
             <Button
                 android:id="@+id/btn_add_control"
@@ -33,18 +30,16 @@
                 android:layout_weight="1"
                 android:background="@color/black_grey_color"
                 android:drawableTop="@drawable/icon_add_control"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
+                android:paddingTop="5dp"
                 android:text="添加遥控"
-                android:textColor="@color/text_grey_color"
-                android:textSize="@dimen/text_size_18" />
+                android:textColor="@color/text_grey_color" />
 
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/vertical_line_color" />
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#666" />
 
             <Button
                 android:id="@+id/btn_add_scene"
@@ -54,23 +49,23 @@
                 android:layout_weight="1"
                 android:background="@color/black_grey_color"
                 android:drawableTop="@drawable/icon_add_scene"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
+                android:paddingTop="5dp"
                 android:text="添加场景"
-                android:textColor="@color/text_grey_color"
-                android:textSize="@dimen/text_size_18" />
+                android:textColor="@color/text_grey_color" />
         </LinearLayout>
 
         <ListView
             android:id="@+id/list_scene"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/air_float"
             android:divider="@color/transparent"
             android:dividerHeight="10dp"
             android:listSelector="#00000000"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:scrollbars="none" />
         <!-- <GridView -->
         <!-- android:id="@+id/grid_scene" -->
@@ -94,13 +89,13 @@
         android:layout_gravity="left"
         android:tag="LEFT" />
 
-    <!-- <fragment -->
-    <!-- android:id="@+id/id_right_menu" -->
-    <!-- android:name="com.home.mainactivity.MenuRightFragment" -->
-    <!-- android:layout_width="100dp" -->
-    <!-- android:layout_height="match_parent" -->
-    <!-- android:layout_gravity="right" -->
-    <!-- android:tag="RIGHT" /> -->
+    <fragment
+        android:id="@+id/id_right_menu"
+        android:name="com.home.mainactivity.MenuRightFragment"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:tag="RIGHT" />
 
 </android.support.v4.widget.DrawerLayout> <!-- <LinearLayout -->
 <!-- android:layout_width="wrap_content" -->

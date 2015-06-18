@@ -7,7 +7,7 @@
 
     <stroke
         android:width="1dip"
-        android:color="#00000000" />
+        android:color="#eeeeee" />
     <!-- android:color="#FFFFFF" /> -->
 
 </shape>

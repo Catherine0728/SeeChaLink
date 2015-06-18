@@ -142,12 +142,12 @@ public class ControlListAdapter extends BaseAdapter {
 	private LayerDrawable SetBackGroundView(int post) {
 		Log.d(TAG, "SetBackGroundView");
 		Bitmap bitmap = ((BitmapDrawable) mContext.getResources().getDrawable(
-				R.drawable.icon_select_normal)).getBitmap();
+				R.drawable.icon_check_default)).getBitmap();
 		Bitmap bitmap2 = null;
 		LayerDrawable la = null;
 		if (isChose[post] == true) {
 			bitmap2 = BitmapFactory.decodeResource(mContext.getResources(),
-					R.drawable.icon_select_foucs);
+					R.drawable.icon_check_foucs);
 		}
 
 		if (bitmap2 != null) {

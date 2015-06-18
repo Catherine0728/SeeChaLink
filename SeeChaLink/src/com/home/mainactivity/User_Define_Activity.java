@@ -84,7 +84,7 @@ public class User_Define_Activity extends Activity {
 			// strName.add(name);
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("name", name);
-			map.put("image_uri", uri);
+			map.put("image", uri);
 			mList.add(map);
 
 		}
