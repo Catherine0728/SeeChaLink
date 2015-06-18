@@ -39,8 +39,8 @@
             android:layout_margin="5.0dip"
             android:gravity="center"
             android:text="@string/config_hint"
-            android:textColor="#ffdddddd"
-            android:textSize="16.0sp" />
+            android:textColor="@color/grey_color_0"
+            android:textSize="@dimen/text_size_16" />
 
         <View
             android:layout_width="fill_parent"
@@ -91,7 +91,8 @@
         android:gravity="center"
         android:padding="5.0dip"
         android:text="@string/no_config"
-        android:textSize="16.0sp" />
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_16" />
 
     <TextView
         android:id="@id/err_text"
@@ -103,7 +104,8 @@
         android:gravity="center"
         android:padding="5.0dip"
         android:text="@string/why_config_err"
-        android:textSize="16.0sp" />
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_16" />
     <!-- </LinearLayout> -->
 
 
@@ -122,11 +124,11 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/green"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/icon_config_connect"
         android:gravity="center"
         android:text="连接"
         android:textColor="#fff"
-        android:textSize="@dimen/text_size_16" />
+        android:textSize="@dimen/text_size_18" />
 
 </LinearLayout>

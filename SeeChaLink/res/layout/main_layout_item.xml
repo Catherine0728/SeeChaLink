@@ -13,27 +13,32 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/framelayout_one"
     android:layout_width="wrap_content"
-    android:layout_height="160dp"
+    android:layout_height="170dp"
     android:layout_gravity="center"
     android:layout_weight="1" >
 
     <ImageView
         android:id="@+id/image_one"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="170dp"
         android:layout_gravity="center"
         android:background="@drawable/icon_add"
         android:scaleType="fitXY" />
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_height"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@drawable/image_botton_title_more"
+        android:gravity="bottom" />
+
+    <TextView
         android:id="@+id/text_name_one"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_gravity="bottom|center_horizontal"
-        android:alpha="0.5"
-        android:background="#444"
         android:gravity="bottom|center_horizontal"
-        android:text="客厅场景"
+        android:text="暂无"
         android:textColor="#fff"
         android:textSize="@dimen/text_size_20" />
 
