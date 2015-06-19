@@ -1,6 +1,8 @@
 package com.home.mainactivity;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -18,6 +20,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
@@ -36,6 +39,9 @@ import android.widget.Toast;
  * @author Catherine
  * 
  *         这里编辑的图片得到的路径应该同时保存进数据库
+ * 
+ * 
+ * 
  * 
  * */
 public class To_Define_Activity extends Activity {
@@ -76,6 +82,8 @@ public class To_Define_Activity extends Activity {
 			if (cursor.moveToFirst()) {
 				nameInfo = cursor.getString(cursor
 						.getColumnIndex(commandDB.c_Command_Info));
+				imageUri = cursor.getString(cursor
+						.getColumnIndex(commandDB.c_Command_Image));
 			}
 
 		} else {
@@ -87,8 +95,9 @@ public class To_Define_Activity extends Activity {
 	String editName = "";
 	public static final int REQUESTQUDE = 1;
 	String FromWhere = "";
-	String name = "自定义";
-	String nameInfo = "遥控描述";
+	String name = "";
+	String nameInfo = "";
+	String imageUri = "";
 
 	public void initView() {
 		Configer.PAGER = 9;
@@ -100,6 +109,27 @@ public class To_Define_Activity extends Activity {
 		edit_Name.setText(name);
 		edit_Name_info.setText(nameInfo);
 		image_control = (ImageView) findViewById(R.id.image_control);
+		if (FromWhere.equals("编辑")) {
+			if (imageUri.equals("") || null == imageUri) {
+
+			} else {
+				BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+				bitmapOptions.inSampleSize = 4;
+				Bitmap bitmap = BitmapFactory.decodeFile(imageUri,
+						bitmapOptions);
+				bitmap = Configer.zoomBitmap(bitmap, 120, 120);
+				Bitmap output = Configer.getRoundedCornerBitmap(
+						To_Define_Activity.this, bitmap,
+						R.drawable.btn_tv_press);
+				if (bitmap != null && !bitmap.isRecycled()) {
+					bitmap.recycle();
+				}
+
+				image_control.setImageBitmap(output);
+
+			}
+
+		}
 		image_control.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -234,17 +264,22 @@ public class To_Define_Activity extends Activity {
 		// this is the second method to get the image
 		Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 		if (Configer.hasSdcard()) {
-			mPhotoPath = Configer.sd_Path + getPhotoFileName();
-			mPhotoFile = new File(mPhotoPath);
-			if (!mPhotoFile.exists()) {
-				try {
-					mPhotoFile.createNewFile();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mPhotoFile));
+			// timeName = getPhotoFileName();
+			// mPhotoPath = Configer.sd_Path + timeName;
+			// mPhotoFile = new File(mPhotoPath);
+			// if (!mPhotoFile.exists()) {
+			// try {
+			// mPhotoFile.createNewFile();
+			// } catch (IOException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// }
+			Uri imageUri = Uri.fromFile(new File(Environment
+					.getExternalStorageDirectory(), "seechalink.jpg"));
+			// intent.putExtra(MediaStore.EXTRA_OUTPUT,
+			// Uri.fromFile(mPhotoFile));
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
 			startActivityForResult(intent, CAMERA_RESULT);
 
 		} else {
@@ -284,12 +319,15 @@ public class To_Define_Activity extends Activity {
 			case CAMERA_RESULT:
 				BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 				bitmapOptions.inSampleSize = 4;
-				Bitmap bitmap = BitmapFactory.decodeFile(mPhotoPath,
-						bitmapOptions);
+				// Bitmap bitmap = BitmapFactory.decodeFile(mPhotoPath,
+				// bitmapOptions);
+				Bitmap bitmap = BitmapFactory.decodeFile(Environment
+						.getExternalStorageDirectory() + "/seechalink.jpg");
 				bitmap = Configer.zoomBitmap(bitmap, 120, 120);
 				Bitmap output = Configer.getRoundedCornerBitmap(
 						To_Define_Activity.this, bitmap,
 						R.drawable.btn_tv_press);
+				SaveBitmap(bitmap);
 				if (bitmap != null && !bitmap.isRecycled()) {
 					bitmap.recycle();
 				}
@@ -299,6 +337,12 @@ public class To_Define_Activity extends Activity {
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	public void SaveBitmap(Bitmap b) {
+		String timeName = getPhotoFileName();
+		mPhotoPath = Configer.sd_Path + timeName;
+		savePhotoToSDCard(Configer.sd_Path, timeName, b);
 	}
 
 	/**
@@ -332,6 +376,7 @@ public class To_Define_Activity extends Activity {
 		if (extras != null) {
 
 			Bitmap photo = extras.getParcelable("data");
+			SaveBitmap(photo);
 			Bitmap output = Configer.getRoundedCornerBitmap(
 					To_Define_Activity.this, photo, R.drawable.btn_tv_press);
 			if (photo != null && !photo.isRecycled()) {
@@ -341,4 +386,38 @@ public class To_Define_Activity extends Activity {
 		}
 	}
 
+	/** Save image to the SD card **/
+	public static void savePhotoToSDCard(String path, String photoName,
+			Bitmap photoBitmap) {
+		if (android.os.Environment.getExternalStorageState().equals(
+				android.os.Environment.MEDIA_MOUNTED)) {
+			File dir = new File(path);
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+			File photoFile = new File(path, photoName); // 在指定路径下创建文件
+			FileOutputStream fileOutputStream = null;
+			try {
+				fileOutputStream = new FileOutputStream(photoFile);
+				if (photoBitmap != null) {
+					if (photoBitmap.compress(Bitmap.CompressFormat.PNG, 100,
+							fileOutputStream)) {
+						fileOutputStream.flush();
+					}
+				}
+			} catch (FileNotFoundException e) {
+				photoFile.delete();
+				e.printStackTrace();
+			} catch (IOException e) {
+				photoFile.delete();
+				e.printStackTrace();
+			} finally {
+				try {
+					fileOutputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }

@@ -14,7 +14,7 @@ import android.util.Log;
  * 
  * 一个数据库，然后三个字段：id,scene_Name,scene_Command(这里考虑是一个数组);
  * 
- * @see{添加一个字段用于存储图片的uri
+ * @see{添加一个字段用于存储图片的uri -s_Image_Uri
  * 
  * */
 public class AllSceneDB extends SQLiteOpenHelper {

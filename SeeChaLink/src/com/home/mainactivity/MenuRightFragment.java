@@ -52,7 +52,7 @@ public class MenuRightFragment extends Fragment implements OnClickListener {
 			break;
 		case R.id.layout_tjyk:
 
-			intent.setClass(getActivity(), AddRemoteControll.class);
+			intent.setClass(getActivity(), MyRemoteControll.class);
 			intent.putExtra("fromwhere", "添加遥控");
 			break;
 

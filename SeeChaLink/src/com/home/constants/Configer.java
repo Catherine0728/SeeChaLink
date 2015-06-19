@@ -1,5 +1,8 @@
 package com.home.constants;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.home.mainactivity.R;
 
 import android.content.Context;
@@ -247,7 +250,7 @@ public class Configer {
 	 * 还是创建不了。。。。
 	 * */
 	public static String sd_Path = Environment.getExternalStorageDirectory()
-			+ "/";// seechalink/image_cut/
+			+ "/seechalink/image_cut/";// seechalink/image_cut/
 
 	/**
 	 * 检查是否存在SDCard
@@ -274,4 +277,25 @@ public class Configer {
 		Bitmap newbmp = Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
 		return newbmp;
 	}
+
+	/**
+	 * 根据差传过来的数据返回包装的数据
+	 * 
+	 * */
+	public static String GetRf3o4MWirelessCtrlClickJson(int id) {
+		String one_TAG = "GetRf3o4MWirelessCtrlClickJson";
+		JSONObject json = new JSONObject();
+		try {
+			json.put("api", "v1.0.0");
+			json.put("service", "smarthome-mqtt");
+			json.put("delay", 0.3);
+			json.put("id", id);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Log.i(one_TAG, "转化后的json 是===》" + json.toString());
+		return json.toString();
+	}
+
 }

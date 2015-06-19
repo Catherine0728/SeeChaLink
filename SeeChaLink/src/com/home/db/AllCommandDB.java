@@ -10,7 +10,7 @@ import android.util.Log;
 /**
  * 记录命令的DB
  * 
- * 一个数据库，然后三个字段：id,command_Name,command_info
+ * 一个数据库，然后三个字段：id,command_Name,command_info,c_Command_Image
  * 
  * */
 public class AllCommandDB extends SQLiteOpenHelper {

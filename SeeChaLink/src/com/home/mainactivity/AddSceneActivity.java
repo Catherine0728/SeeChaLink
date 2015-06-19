@@ -1,6 +1,8 @@
 package com.home.mainactivity;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -8,6 +10,7 @@ import java.util.ArrayList;
 
 import com.home.adapter.AddSceneAdapter;
 import com.home.adapter.ControlListAdapter;
+import com.home.adapter.ShowControlAdapter;
 import com.home.constants.Configer;
 import com.home.db.AllSceneDB;
 import com.home.listener.CommanTitle_Right_Listener;
@@ -26,6 +29,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -58,7 +62,7 @@ public class AddSceneActivity extends Activity implements OnClickListener {
 	Button btn_select_all, btn_add;
 	AddSceneAdapter addSceneAdapter = null;
 	// 填充设备列表的adapter
-	ControlListAdapter controlAdapter = null;
+	ShowControlAdapter controlAdapter = null;
 
 	// TextView text_error;
 
@@ -104,7 +108,7 @@ public class AddSceneActivity extends Activity implements OnClickListener {
 
 		}
 
-		controlAdapter = new ControlListAdapter(this, mList, true, IsSelectAll);
+		controlAdapter = new ShowControlAdapter(this, mList, IsSelectAll);
 		list_command.setAdapter(controlAdapter);
 		Utility.setListViewHeightBasedOnChildren(list_command);
 		edit_scene_name.addTextChangedListener(textW);
@@ -420,17 +424,20 @@ public class AddSceneActivity extends Activity implements OnClickListener {
 		// this is the second method to get the image
 		Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 		if (Configer.hasSdcard()) {
-			mPhotoPath = Configer.sd_Path + getPhotoFileName();
-			mPhotoFile = new File(mPhotoPath);
-			if (!mPhotoFile.exists()) {
-				try {
-					mPhotoFile.createNewFile();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mPhotoFile));
+			// mPhotoPath = Configer.sd_Path + getPhotoFileName();
+			// mPhotoFile = new File(mPhotoPath);
+			// if (!mPhotoFile.exists()) {
+			// try {
+			// mPhotoFile.createNewFile();
+			// } catch (IOException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// }
+
+			Uri imageUri = Uri.fromFile(new File(Environment
+					.getExternalStorageDirectory(), "seechalink.jpg"));
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
 			startActivityForResult(intent, CAMERA_RESULT);
 
 		} else {
@@ -470,8 +477,10 @@ public class AddSceneActivity extends Activity implements OnClickListener {
 			case CAMERA_RESULT:
 				BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 				bitmapOptions.inSampleSize = 4;
-				Bitmap bitmap = BitmapFactory.decodeFile(mPhotoPath,
-						bitmapOptions);
+				// Bitmap bitmap = BitmapFactory.decodeFile(mPhotoPath,
+				// bitmapOptions);
+				Bitmap bitmap = BitmapFactory.decodeFile(Environment
+						.getExternalStorageDirectory() + "/seechalink.jpg");
 				bitmap = Configer.zoomBitmap(bitmap, 650, 300);
 				// Bitmap output = Configer.getRoundedCornerBitmap(
 				// SceneActivity.this, bitmap, R.drawable.btn_tv_press);
@@ -481,6 +490,7 @@ public class AddSceneActivity extends Activity implements OnClickListener {
 				// image_scene.setImageBitmap(bitmap);
 				Drawable db = new BitmapDrawable(bitmap);
 				image_scene.setBackground(db);
+				SaveBitmap(bitmap);
 
 				break;
 			}
@@ -528,6 +538,49 @@ public class AddSceneActivity extends Activity implements OnClickListener {
 			// image_scene.setImageBitmap(photo);
 			Drawable db = new BitmapDrawable(photo);
 			image_scene.setBackground(db);
+			SaveBitmap(photo);
+
+		}
+	}
+
+	public void SaveBitmap(Bitmap b) {
+		String timeName = getPhotoFileName();
+		mPhotoPath = Configer.sd_Path + timeName;
+		savePhotoToSDCard(Configer.sd_Path, timeName, b);
+	}
+
+	/** Save image to the SD card **/
+	public static void savePhotoToSDCard(String path, String photoName,
+			Bitmap photoBitmap) {
+		if (android.os.Environment.getExternalStorageState().equals(
+				android.os.Environment.MEDIA_MOUNTED)) {
+			File dir = new File(path);
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+			File photoFile = new File(path, photoName); // 在指定路径下创建文件
+			FileOutputStream fileOutputStream = null;
+			try {
+				fileOutputStream = new FileOutputStream(photoFile);
+				if (photoBitmap != null) {
+					if (photoBitmap.compress(Bitmap.CompressFormat.PNG, 100,
+							fileOutputStream)) {
+						fileOutputStream.flush();
+					}
+				}
+			} catch (FileNotFoundException e) {
+				photoFile.delete();
+				e.printStackTrace();
+			} catch (IOException e) {
+				photoFile.delete();
+				e.printStackTrace();
+			} finally {
+				try {
+					fileOutputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }

@@ -1,6 +1,8 @@
 package com.home.mainactivity;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -23,6 +25,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
@@ -210,9 +213,6 @@ public class MenuLeftFragment extends Fragment {
 		// this is the second method to get the image
 		Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 		if (Configer.hasSdcard()) {
-			// File file = new File(Configer.sd_Path);
-			// if (!file.exists()) {
-			// if (file.mkdirs()) {
 			// mPhotoPath = Configer.sd_Path + getPhotoFileName();
 			// mPhotoFile = new File(mPhotoPath);
 			// if (!mPhotoFile.exists()) {
@@ -224,28 +224,9 @@ public class MenuLeftFragment extends Fragment {
 			// e.printStackTrace();
 			// }
 			// }
-			// intent.putExtra(MediaStore.EXTRA_OUTPUT,
-			// Uri.fromFile(mPhotoFile));
-			// startActivityForResult(intent, CAMERA_RESULT);
-			// } else {
-			// Toast.makeText(getActivity(), "文件创建不成功", Toast.LENGTH_SHORT)
-			// .show();
-			//
-			// }
-
-			// }
-			mPhotoPath = Configer.sd_Path + getPhotoFileName();
-			mPhotoFile = new File(mPhotoPath);
-			if (!mPhotoFile.exists()) {
-				Log.d(TAG, "此照片不存在...");
-				try {
-					mPhotoFile.createNewFile();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mPhotoFile));
+			Uri imageUri = Uri.fromFile(new File(Environment
+					.getExternalStorageDirectory(), "face_image.jpg"));
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
 			startActivityForResult(intent, CAMERA_RESULT);
 
 		} else {
@@ -280,9 +261,10 @@ public class MenuLeftFragment extends Fragment {
 
 				BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 				bitmapOptions.inSampleSize = 4;
-				Bitmap bitmap = BitmapFactory.decodeFile(mPhotoPath,
-						bitmapOptions);
-
+//				Bitmap bitmap = BitmapFactory.decodeFile(mPhotoPath,
+//						bitmapOptions);
+				Bitmap bitmap = BitmapFactory.decodeFile(Environment
+						.getExternalStorageDirectory() + "/face_image.jpg");
 				bitmap = Configer.zoomBitmap(bitmap, 120, 120);
 				Bitmap output = Configer.getRoundedCornerBitmap(getActivity(),
 						bitmap, R.drawable.btn_tv_press);
@@ -498,4 +480,38 @@ public class MenuLeftFragment extends Fragment {
 		super.onDestroy();
 	}
 
+	/** Save image to the SD card **/
+	public static void savePhotoToSDCard(String path, String photoName,
+			Bitmap photoBitmap) {
+		if (android.os.Environment.getExternalStorageState().equals(
+				android.os.Environment.MEDIA_MOUNTED)) {
+			File dir = new File(path);
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+			File photoFile = new File(path, photoName); // 在指定路径下创建文件
+			FileOutputStream fileOutputStream = null;
+			try {
+				fileOutputStream = new FileOutputStream(photoFile);
+				if (photoBitmap != null) {
+					if (photoBitmap.compress(Bitmap.CompressFormat.PNG, 100,
+							fileOutputStream)) {
+						fileOutputStream.flush();
+					}
+				}
+			} catch (FileNotFoundException e) {
+				photoFile.delete();
+				e.printStackTrace();
+			} catch (IOException e) {
+				photoFile.delete();
+				e.printStackTrace();
+			} finally {
+				try {
+					fileOutputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }

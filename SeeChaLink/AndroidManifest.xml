@@ -6,6 +6,8 @@
 
     <uses-sdk android:minSdkVersion="8" />
 
+    <!-- <original-package android:name="com.android.smarthome" /> -->
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -32,6 +34,15 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
+    <!-- 定时启动 -->
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.DEVICE_POWER" />
 
     <supports-screens
         android:anyDensity="true"
@@ -44,6 +55,13 @@
         android:name="com.home.application.BaseApp"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
+
+        <!-- 定时启动的provider -->
+
+        <provider
+            android:name="com.cn.daming.deskclock.AlarmProvider"
+            android:authorities="com.cn.daming.deskclock"
+            android:exported="false" />
 
         <!-- android:name="com.home.application.BaseApp" -->
 
@@ -75,7 +93,7 @@
             android:name="com.home.mainactivity.HelpActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
-            android:name="com.home.mainactivity.AddRemoteControll"
+            android:name="com.home.mainactivity.MyRemoteControll"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name="com.home.mainactivity.FeedBackActivity"
@@ -130,6 +148,89 @@
         <activity
             android:name="com.wujay.fund.GestureVerifyActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
+
+        <!-- 定时启动 -->
+        <activity
+            android:name="com.cn.daming.deskclock.DeskClockMainActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|navigation"
+            android:icon="@drawable/clock_launcher"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.Wallpaper.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.cn.daming.deskclock.SetAlarm"
+            android:configChanges="orientation|keyboardHidden|keyboard|navigation"
+            android:theme="@android:style/Theme.Wallpaper.NoTitleBar" />
+        <activity
+            android:name="com.cn.daming.deskclock.SettingsActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/settings"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.Wallpaper.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.cn.daming.deskclock.AlarmAlertFullScreen"
+            android:configChanges="orientation|keyboardHidden|keyboard|navigation"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.Wallpaper.NoTitleBar" />
+
+        <receiver android:name="com.cn.daming.deskclock.AlarmReceiver" >
+            <intent-filter>
+                <action android:name="com.cn.daming.deskclock.ALARM_ALERT" />
+                <action android:name="alarm_killed" />
+                <action android:name="cancel_snooze" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.cn.daming.deskclock.AlarmAlert"
+            android:configChanges="orientation|keyboardHidden|keyboard|navigation"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:taskAffinity=""
+            android:theme="@style/alarm_alert" />
+        <activity
+            android:name="com.cn.daming.deskclock.HandleSetAlarm"
+            android:excludeFromRecents="true"
+            android:permission="com.android.alarm.permission.SET_ALARM"
+            android:theme="@android:style/Theme.NoDisplay" >
+            <intent-filter>
+                <action android:name="android.intent.action.SET_ALARM" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!--
+             This service receives the same intent as AlarmReceiver but it does
+             not respond to the same broadcast. The AlarmReceiver will receive
+             the alert broadcast and will start this service with the same
+             intent. The service plays the alarm alert and vibrates the device.
+             This allows the alert to continue playing even if another activity
+             causes the AlarmAlert activity to pause.
+        -->
+        <service
+            android:name="com.cn.daming.deskclock.AlarmKlaxon"
+            android:description="@string/alarm_klaxon_service_desc" >
+            <intent-filter>
+                <action android:name="com.cn.daming.deskclock.ALARM_ALERT" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="com.cn.daming.deskclock.AlarmInitReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

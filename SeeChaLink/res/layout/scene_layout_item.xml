@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_one"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="100dp"
     android:layout_gravity="center"
     android:gravity="center"
     android:orientation="horizontal" >
@@ -13,7 +13,7 @@
         android:layout_height="40dp"
         android:layout_gravity="left|center_vertical"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:background="@drawable/edit_selector_white"
@@ -30,7 +30,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_vertical"
-        android:layout_marginRight="40dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
         android:layout_weight="1"
         android:gravity="right|center_vertical" >
     </com.home.view.SwitchButton>

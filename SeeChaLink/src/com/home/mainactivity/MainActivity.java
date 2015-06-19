@@ -42,6 +42,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.cn.daming.deskclock.DeskClockMainActivity;
+import com.cn.daming.deskclock.SetAlarm;
 import com.home.listener.CommanTitle_Right_Listener;
 import com.home.mainactivity.PreStartActivity.Job;
 import com.home.service.BackgroundService;
@@ -265,7 +267,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				TOToast("编辑");
 				btn_edit.setTextColor(0xFF14a1e3);
 				btn_edit.setCompoundDrawablesWithIntrinsicBounds(0,
 						R.drawable.btn_edit_icon2, 0, 0);
@@ -280,21 +281,23 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				TOToast("定时启动");
 				btn_start_ontime.setTextColor(0xFF14a1e3);
-				btn_delete.setCompoundDrawablesWithIntrinsicBounds(0,
+				btn_start_ontime.setCompoundDrawablesWithIntrinsicBounds(0,
 						R.drawable.btn_timer_icon2, 0, 0);
 				dialog.cancel();
+
+				/**
+				 * @see{这里应该有一个检测，若此场景已经有了定时启动了，然后点击定时启动， 只是打开启用，如果没有 就进入设置界面}
+				 * */
 				startActivity(new Intent().setClass(MainActivity.this,
-						SetTimingActivity.class));
-				
+						SetAlarm.class));
+
 			}
 		});
 		btn_delete.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				TOToast("删除");
 				btn_delete.setTextColor(0xFF14a1e3);
 				btn_delete.setCompoundDrawablesWithIntrinsicBounds(0,
 						R.drawable.btn_delete_icon2, 0, 0);
@@ -382,14 +385,15 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 					ViewHelper.setScaleX(mContent, rightScale);
 					ViewHelper.setScaleY(mContent, rightScale);
 				} else {
-//					ViewHelper.setTranslationX(mContent,
-//							-mMenu.getMeasuredWidth() * slideOffset);
-//					ViewHelper.setPivotX(mContent, mContent.getMeasuredWidth());
-//					ViewHelper.setPivotY(mContent,
-//							mContent.getMeasuredHeight() / 2);
-//					mContent.invalidate();
-//					ViewHelper.setScaleX(mContent, rightScale);
-//					ViewHelper.setScaleY(mContent, rightScale);
+					// ViewHelper.setTranslationX(mContent,
+					// -mMenu.getMeasuredWidth() * slideOffset);
+					// ViewHelper.setPivotX(mContent,
+					// mContent.getMeasuredWidth());
+					// ViewHelper.setPivotY(mContent,
+					// mContent.getMeasuredHeight() / 2);
+					// mContent.invalidate();
+					// ViewHelper.setScaleX(mContent, rightScale);
+					// ViewHelper.setScaleY(mContent, rightScale);
 				}
 
 			}
@@ -506,7 +510,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		case R.id.layout_tjyk:
 
 			startActivity(new Intent().setClass(MainActivity.this,
-					AddRemoteControll.class));
+					MyRemoteControll.class));
 			break;
 		case R.id.layout_tjcj:
 
@@ -516,7 +520,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		case R.id.btn_add_control:
 
 			startActivity(new Intent().setClass(MainActivity.this,
-					AddRemoteControll.class));
+					MyRemoteControll.class));
 			break;
 		case R.id.btn_add_scene:
 

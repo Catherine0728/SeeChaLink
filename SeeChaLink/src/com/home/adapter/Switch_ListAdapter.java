@@ -137,8 +137,8 @@ public class Switch_ListAdapter extends BaseAdapter {
 			viewHolder.edit_Title.setEnabled(true);
 			viewHolder.edit_Title.setFocusable(true);
 			viewHolder.edit_Title.setFocusableInTouchMode(true);
-//			viewHolder.edit_Title
-//					.setBackgroundResource(R.drawable.edit_selector);
+			// viewHolder.edit_Title
+			// .setBackgroundResource(R.drawable.edit_selector);
 		} else {
 			Log.d(TAG, "SetEnableAll==false");
 			viewHolder.edit_Title.setEnabled(false);
@@ -277,13 +277,13 @@ public class Switch_ListAdapter extends BaseAdapter {
 				// getJson = GetRf3o4MWirelessMultiCtrlJson(false, 0, "pressed",
 				// false, 0);
 				if (id == 0) {
-					getJson = GetRf3o4MWirelessCtrlClickJson(9);
+					getJson = Configer.GetRf3o4MWirelessCtrlClickJson(9);
 				} else if (id == 1) {
-					getJson = GetRf3o4MWirelessCtrlClickJson(12);
+					getJson = Configer.GetRf3o4MWirelessCtrlClickJson(12);
 
 				} else {
 
-					getJson = GetRf3o4MWirelessCtrlClickJson(15);
+					getJson = Configer.GetRf3o4MWirelessCtrlClickJson(15);
 				}
 
 				mcu.publish(Configer.topicName, getJson, 2);
@@ -295,11 +295,11 @@ public class Switch_ListAdapter extends BaseAdapter {
 				// "released",
 				// false, 0);
 				if (id == 0) {
-					getJson = GetRf3o4MWirelessCtrlClickJson(1);
+					getJson = Configer.GetRf3o4MWirelessCtrlClickJson(1);
 				} else if (id == 1) {
-					getJson = GetRf3o4MWirelessCtrlClickJson(4);
+					getJson = Configer.GetRf3o4MWirelessCtrlClickJson(4);
 				} else {
-					getJson = GetRf3o4MWirelessCtrlClickJson(7);
+					getJson = Configer.GetRf3o4MWirelessCtrlClickJson(7);
 
 				}
 				mcu.publish(Configer.topicName, getJson, 2);
@@ -309,10 +309,10 @@ public class Switch_ListAdapter extends BaseAdapter {
 				// getJson = GetRf3o4MWirelessMultiCtrlJson(false, 1, "pressed",
 				// false, 0);
 				if (id == 0) {
-					getJson = GetRf3o4MWirelessCtrlClickJson(10);
+					getJson = Configer.GetRf3o4MWirelessCtrlClickJson(10);
 				} else {
 
-					getJson = GetRf3o4MWirelessCtrlClickJson(13);
+					getJson = Configer.GetRf3o4MWirelessCtrlClickJson(13);
 				}
 				mcu.publish(Configer.topicName, getJson, 2);
 
@@ -322,20 +322,20 @@ public class Switch_ListAdapter extends BaseAdapter {
 				// "released",
 				// false, 0);
 				if (id == 0) {
-					getJson = GetRf3o4MWirelessCtrlClickJson(2);
+					getJson = Configer.GetRf3o4MWirelessCtrlClickJson(2);
 				} else {
 
-					getJson = GetRf3o4MWirelessCtrlClickJson(5);
+					getJson = Configer.GetRf3o4MWirelessCtrlClickJson(5);
 				}
 				mcu.publish(Configer.topicName, getJson, 2);
 				break;
 			case THREE_ON:
 				// getJson = GetJson(false, 2, "pressed", false, 0);
 				if (id == 0) {
-					getJson = GetRf3o4MWirelessCtrlClickJson(11);
+					getJson = Configer.GetRf3o4MWirelessCtrlClickJson(11);
 				} else {
 
-					getJson = GetRf3o4MWirelessCtrlClickJson(14);
+					getJson = Configer.GetRf3o4MWirelessCtrlClickJson(14);
 				}
 				mcu.publish(Configer.topicName, getJson, 2);
 				break;
@@ -345,9 +345,9 @@ public class Switch_ListAdapter extends BaseAdapter {
 				// false, 0);
 
 				if (id == 0) {
-					getJson = GetRf3o4MWirelessCtrlClickJson(3);
+					getJson = Configer.GetRf3o4MWirelessCtrlClickJson(3);
 				} else {
-					getJson = GetRf3o4MWirelessCtrlClickJson(6);
+					getJson = Configer.GetRf3o4MWirelessCtrlClickJson(6);
 				}
 
 				mcu.publish(Configer.topicName, getJson, 2);
@@ -355,21 +355,5 @@ public class Switch_ListAdapter extends BaseAdapter {
 			}
 		}
 	};
-
-	public String GetRf3o4MWirelessCtrlClickJson(int id) {
-		String one_TAG = "GetRf3o4MWirelessCtrlClickJson";
-		JSONObject json = new JSONObject();
-		try {
-			json.put("api", "v1.0.0");
-			json.put("service", "smarthome-mqtt");
-			json.put("delay", 0.3);
-			json.put("id", id);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Log.i(one_TAG, "转化后的json 是===》" + json.toString());
-		return json.toString();
-	}
 
 }

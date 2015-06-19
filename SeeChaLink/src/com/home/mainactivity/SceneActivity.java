@@ -1,6 +1,8 @@
 package com.home.mainactivity;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -21,12 +23,7 @@ import com.home.util.MQTTClientUtil;
 import com.home.util.Notify;
 import com.home.utils.Logger;
 import com.home.view.CommonTitleView;
-import com.home.view.SlideToggle;
-import com.home.view.SlideToggle.OnChangedListener;
-import com.home.view.SwitchButton;
-import com.home.view.SwitchButton.SwitchChangedListner;
 
-import android.R.bool;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -40,30 +37,18 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 
 /**
  * 点击场景
@@ -254,8 +239,8 @@ public class SceneActivity extends Activity implements OnClickListener {
 				}
 
 			}
-			Toast.makeText(SceneActivity.this, "请对" + scene_Str + "进行编辑",
-					Toast.LENGTH_SHORT).show();
+			// Toast.makeText(SceneActivity.this, "请对" + scene_Str + "进行编辑",
+			// Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
@@ -270,9 +255,9 @@ public class SceneActivity extends Activity implements OnClickListener {
 					String name = newList.get(i).get("title").toString();
 					sb.append(name + ",");
 				}
-				Toast.makeText(SceneActivity.this,
-						"完成编辑==" + newName + "==其遥控为==" + sb,
-						Toast.LENGTH_SHORT).show();
+				// Toast.makeText(SceneActivity.this,
+				// "完成编辑==" + newName + "==其遥控为==" + sb,
+				// Toast.LENGTH_SHORT).show();
 				// 存入数据库
 				if (null == sceneDB) {
 					sceneDB = new AllSceneDB(SceneActivity.this);
@@ -413,17 +398,19 @@ public class SceneActivity extends Activity implements OnClickListener {
 		// this is the second method to get the image
 		Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 		if (Configer.hasSdcard()) {
-			mPhotoPath = Configer.sd_Path + getPhotoFileName();
-			mPhotoFile = new File(mPhotoPath);
-			if (!mPhotoFile.exists()) {
-				try {
-					mPhotoFile.createNewFile();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mPhotoFile));
+			// mPhotoPath = Configer.sd_Path + getPhotoFileName();
+			// mPhotoFile = new File(mPhotoPath);
+			// if (!mPhotoFile.exists()) {
+			// try {
+			// mPhotoFile.createNewFile();
+			// } catch (IOException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// }
+			Uri imageUri = Uri.fromFile(new File(Environment
+					.getExternalStorageDirectory(), "seechalink.jpg"));
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
 			startActivityForResult(intent, CAMERA_RESULT);
 
 		} else {
@@ -463,8 +450,10 @@ public class SceneActivity extends Activity implements OnClickListener {
 			case CAMERA_RESULT:
 				BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 				bitmapOptions.inSampleSize = 4;
-				Bitmap bitmap = BitmapFactory.decodeFile(mPhotoPath,
-						bitmapOptions);
+				// Bitmap bitmap = BitmapFactory.decodeFile(mPhotoPath,
+				// bitmapOptions);
+				Bitmap bitmap = BitmapFactory.decodeFile(Environment
+						.getExternalStorageDirectory() + "/seechalink.jpg");
 				bitmap = Configer.zoomBitmap(bitmap, 650, 300);
 				// Bitmap output = Configer.getRoundedCornerBitmap(
 				// SceneActivity.this, bitmap, R.drawable.btn_tv_press);
@@ -474,6 +463,7 @@ public class SceneActivity extends Activity implements OnClickListener {
 				// image_scene.setImageBitmap(bitmap);
 				Drawable db = new BitmapDrawable(bitmap);
 				image_scene.setBackground(db);
+				SaveBitmap(bitmap);
 
 				break;
 			}
@@ -521,6 +511,48 @@ public class SceneActivity extends Activity implements OnClickListener {
 			// image_scene.setImageBitmap(photo);
 			Drawable db = new BitmapDrawable(photo);
 			image_scene.setBackground(db);
+			SaveBitmap(photo);
+		}
+	}
+
+	public void SaveBitmap(Bitmap b) {
+		String timeName = getPhotoFileName();
+		mPhotoPath = Configer.sd_Path + timeName;
+		savePhotoToSDCard(Configer.sd_Path, timeName, b);
+	}
+
+	/** Save image to the SD card **/
+	public static void savePhotoToSDCard(String path, String photoName,
+			Bitmap photoBitmap) {
+		if (android.os.Environment.getExternalStorageState().equals(
+				android.os.Environment.MEDIA_MOUNTED)) {
+			File dir = new File(path);
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+			File photoFile = new File(path, photoName); // 在指定路径下创建文件
+			FileOutputStream fileOutputStream = null;
+			try {
+				fileOutputStream = new FileOutputStream(photoFile);
+				if (photoBitmap != null) {
+					if (photoBitmap.compress(Bitmap.CompressFormat.PNG, 100,
+							fileOutputStream)) {
+						fileOutputStream.flush();
+					}
+				}
+			} catch (FileNotFoundException e) {
+				photoFile.delete();
+				e.printStackTrace();
+			} catch (IOException e) {
+				photoFile.delete();
+				e.printStackTrace();
+			} finally {
+				try {
+					fileOutputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }

@@ -13,23 +13,11 @@
         android:layout_height="50dp"
         android:layout_gravity="left|center_vertical"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="40dp"
         android:layout_marginTop="10dp"
         android:gravity="left|center_vertical"
         android:paddingLeft="10dp"
         android:text="暂无"
         android:textColor="@color/black_text_1"
         android:textSize="@dimen/text_size_20" />
-
-    <Button
-        android:id="@+id/btn_check"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_gravity="right|center_vertical"
-        android:layout_marginRight="40dp"
-        android:background="@drawable/icon_select_normal"
-        android:gravity="right|center_vertical"
-        android:paddingRight="10dp"
-        android:visibility="gone" />
 
 </FrameLayout>

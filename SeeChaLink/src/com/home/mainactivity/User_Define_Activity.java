@@ -37,7 +37,6 @@ public class User_Define_Activity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_define);
 
@@ -55,12 +54,10 @@ public class User_Define_Activity extends Activity {
 		initView();
 	};
 
-	// ArrayList<String> strName = new ArrayList<String>();
 	ArrayList<Map<String, String>> mList = new ArrayList<Map<String, String>>();
 
 	public void initDB() {
 
-		// strName.clear();
 		mList.clear();
 		CheckDB();
 
@@ -88,12 +85,6 @@ public class User_Define_Activity extends Activity {
 			mList.add(map);
 
 		}
-		// for (int i = 0; i < strName.size(); i++) {
-		// Map<String, String> map = new HashMap<String, String>();
-		// map.put("name", strName.get(i).toString());
-		// map.put("image", );
-		// mList.add(map);
-		// }
 	}
 
 	Intent intent = null;
@@ -128,7 +119,7 @@ public class User_Define_Activity extends Activity {
 				intent = new Intent();
 				intent.setClass(User_Define_Activity.this,
 						To_Define_Activity.class);
-				intent.putExtra("name", "自定义");
+				intent.putExtra("name", "");
 				intent.putExtra("fromwhere", "添加");
 				startActivityForResult(intent, REQUESTQUDE);
 			}
