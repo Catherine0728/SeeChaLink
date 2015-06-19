@@ -115,5 +115,9 @@
 
     <!-- 设置导航栏的高度,不同的手机适配必须适应不同的比例：3:4:6:8:12==ldpi：mdpi：hdpi：xdpi：xxdpi==42:56:84:112:168 -->
     <dimen name="nav_height">56dp</dimen>
+    <!-- 建立几个跟导航栏成比例的高度 -->
+    <dimen name="nav_two_time">112dp</dimen>
+    <dimen name="nav_three_time">168dp</dimen>
+    <dimen name="nav_four_time">224dp</dimen>
 
 </resources>
