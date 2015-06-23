@@ -70,21 +70,7 @@ public class MyRemoteControll extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// String str =
-				// parent.getAdapter().getItem(position).toString();
-				// str = str.substring(str.indexOf("=") + 1, str.indexOf("}"))
-				// .toString();
-				// if (FromWhere.equals("添加场景")) {
-				//
-				// Intent mIntent = new Intent();
-				// mIntent.putExtra("name", str);
-				// // 设置结果，并进行传送
-				// setResult(REQCODE, mIntent);
-				// finish();
-				//
-				// } else {
-				// Toast.makeText(AddRemoteControll.this, str,
-				// Toast.LENGTH_SHORT).show();
+
 				Intent intent = new Intent();
 				if (position == 0 || position == 1) {
 
@@ -93,7 +79,7 @@ public class MyRemoteControll extends Activity {
 
 				} else if (position == 7) {
 					intent.setClass(MyRemoteControll.this,
-							User_Define_Activity.class);
+							To_Define_Activity.class);
 				} else {
 					intent.setClass(MyRemoteControll.this,
 							Number_Controll_Activity.class);
@@ -101,7 +87,6 @@ public class MyRemoteControll extends Activity {
 				startActivity(intent);
 			}
 
-			// }
 		});
 
 	}

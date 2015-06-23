@@ -150,31 +150,8 @@ public class AddSceneActivity extends Activity implements OnClickListener {
 			}
 		}
 	};
-	// @Override
-	// protected void onActivityResult(int requestCode, int resultCode, Intent
-	// data) {
-	//
-	// String name = data.getStringExtra("name");
-	// Log.d(TAG, "选择的遥控为====>" + name);
-	// mList.add(name);
-	// SetAdapter(mList);
-	// }
 
-	// /**
-	// * 得到点击得到的数据，然后填充数据
-	// * */
-	// public void SetAdapter(ArrayList<String> mList) {
-	//
-	// if (null == addSceneAdapter) {
-	// addSceneAdapter = new AddSceneAdapter(this, mList);
-	// } else {
-	// addSceneAdapter.ReSetList(mList);
-	// }
-	// list_command.setAdapter(addSceneAdapter);
-	// Utility.setListViewHeightBasedOnChildren(list_command);
-	// }
-
-	String sceneName = "快捷场景";
+	String sceneName = "";
 	AllSceneDB sceneDB = null;
 	CommanTitle_Right_Listener right_listener = new CommanTitle_Right_Listener() {
 

@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 
 import com.home.constants.Configer;
 import com.home.db.AllCommandDB;
+import com.home.listener.CommanTitle_Right_Listener;
 import com.home.view.CommonTitleView;
 
 import android.app.Activity;
@@ -22,6 +23,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -31,6 +34,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -48,133 +52,180 @@ public class To_Define_Activity extends Activity {
 	public static String TAG = "To_Define_Activity";
 	CommonTitleView commtitleView = null;
 	ImageView image_control = null;
-	EditText edit_Name, edit_Name_info;
-	Button btn_save;
+	EditText edit_Name;
+
+	// , edit_Name_info
+	// Button btn_save;
+	TextView text_error;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.to_define);
+		initView();
 
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		initDB();
-		initView();
+		// initDB();
+
 	};
 
 	AllCommandDB commandDB = null;
 
-	public void initDB() {
-		name = getIntent().getStringExtra("name");
-		Log.d(TAG, "name is-===>" + name);
-		FromWhere = getIntent().getStringExtra("fromwhere");
-		if (null == commandDB) {
-			commandDB = new AllCommandDB(To_Define_Activity.this);
-
-		}
-		if (FromWhere.equals("编辑")) {
-
-			Cursor cursor = commandDB.selectName(name);
-			if (cursor.moveToFirst()) {
-				nameInfo = cursor.getString(cursor
-						.getColumnIndex(commandDB.c_Command_Info));
-				imageUri = cursor.getString(cursor
-						.getColumnIndex(commandDB.c_Command_Image));
-			}
-
-		} else {
-
-		}
-
-	}
+	// public void initDB() {
+	// name = getIntent().getStringExtra("name");
+	// Log.d(TAG, "name is-===>" + name);
+	// // FromWhere = getIntent().getStringExtra("fromwhere");
+	// if (null == commandDB) {
+	// commandDB = new AllCommandDB(To_Define_Activity.this);
+	//
+	// }
+	// if (FromWhere.equals("编辑")) {
+	//
+	// Cursor cursor = commandDB.selectName(name);
+	// if (cursor.moveToFirst()) {
+	// // nameInfo = cursor.getString(cursor
+	// // .getColumnIndex(commandDB.c_Command_Info));
+	// // imageUri = cursor.getString(cursor
+	// // .getColumnIndex(commandDB.c_Command_Image));
+	// }
+	//
+	// } else {
+	//
+	// }
+	//
+	// }
 
 	String editName = "";
-	public static final int REQUESTQUDE = 1;
-	String FromWhere = "";
-	String name = "";
-	String nameInfo = "";
-	String imageUri = "";
+
+	// public static final int CONTROLCODE = 0;
+	// String FromWhere = "";
+
+	// String nameInfo = "";
+	// String imageUri = "";
 
 	public void initView() {
-		Configer.PAGER = 9;
+		Configer.PAGER = 2;
 		commtitleView = (CommonTitleView) findViewById(R.id.toplayout);
-		commtitleView.initData(To_Define_Activity.this, null, "添加遥控");
+		commtitleView.initData(To_Define_Activity.this, right_Listener, "添加遥控");
 
 		edit_Name = (EditText) findViewById(R.id.edit_name);
-		edit_Name_info = (EditText) findViewById(R.id.edit_name_info);
-		edit_Name.setText(name);
-		edit_Name_info.setText(nameInfo);
+		text_error = (TextView) findViewById(R.id.text_error);
+		// edit_Name_info = (EditText) findViewById(R.id.edit_name_info);
+		// edit_Name.setText(name);
+		// edit_Name_info.setText(nameInfo);
 		image_control = (ImageView) findViewById(R.id.image_control);
-		if (FromWhere.equals("编辑")) {
-			if (imageUri.equals("") || null == imageUri) {
+		// if (FromWhere.equals("编辑")) {
+		// if (imageUri.equals("") || null == imageUri) {
+		//
+		// } else {
+		// BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+		// bitmapOptions.inSampleSize = 4;
+		// Bitmap bitmap = BitmapFactory.decodeFile(imageUri,
+		// bitmapOptions);
+		// bitmap = Configer.zoomBitmap(bitmap, 120, 120);
+		// Bitmap output = Configer.getRoundedCornerBitmap(
+		// To_Define_Activity.this, bitmap,
+		// R.drawable.btn_tv_press);
+		// if (bitmap != null && !bitmap.isRecycled()) {
+		// bitmap.recycle();
+		// }
+		//
+		// image_control.setImageBitmap(output);
+		//
+		// }
+		//
+		// }
+		// image_control.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// ToShowDialog();
+		// }
+		// });
+		edit_Name.addTextChangedListener(new TextWatcher() {
 
-			} else {
-				BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-				bitmapOptions.inSampleSize = 4;
-				Bitmap bitmap = BitmapFactory.decodeFile(imageUri,
-						bitmapOptions);
-				bitmap = Configer.zoomBitmap(bitmap, 120, 120);
-				Bitmap output = Configer.getRoundedCornerBitmap(
-						To_Define_Activity.this, bitmap,
-						R.drawable.btn_tv_press);
-				if (bitmap != null && !bitmap.isRecycled()) {
-					bitmap.recycle();
-				}
-
-				image_control.setImageBitmap(output);
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
 
 			}
 
-		}
-		image_control.setOnClickListener(new OnClickListener() {
-
 			@Override
-			public void onClick(View v) {
-				ToShowDialog();
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+
 			}
-		});
-		btn_save = (Button) findViewById(R.id.btn_save);
-		btn_save.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
-				String name = edit_Name.getText().toString();
-				String nameInfo = edit_Name_info.getText().toString();
-				if (null == name) {
-					name = "自定义";
-				} else {
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				if (s != null && !"".equals(s.toString())) {
+					text_error.setVisibility(View.INVISIBLE);
 				}
-				Intent intent = new Intent();
-				intent.putExtra("name", name);
-				intent.putExtra("nameInfo", nameInfo);
-				intent.putExtra("image_uri", mPhotoPath);
-				setResult(REQUESTQUDE, intent);
-				CheckDB(name, nameInfo, mPhotoPath);
-				finish();
 
 			}
 		});
 
 	}
 
-	public void CheckDB(String newname, String nameInfo, String image_path) {
+	CommanTitle_Right_Listener right_Listener = new CommanTitle_Right_Listener() {
+
+		@Override
+		public void DotRightFinish(boolean isFinish) {
+			// TODO Auto-generated method stub
+			String name = edit_Name.getText().toString();
+			// String nameInfo = edit_Name_info.getText().toString();
+			if (null == name || name.equals("")) {
+				text_error.setVisibility(View.VISIBLE);
+				text_error.setText("请输入遥控名!");
+			} else {
+
+				CheckDB(name);
+
+			}
+		}
+
+		@Override
+		public void DotRightEdit(boolean isEdit) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void DotRight(boolean isDot) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void DotLeft(boolean isDot) {
+			// TODO Auto-generated method stub
+
+		}
+	};
+
+	public void CheckDB(String newname) {
 		Log.d(TAG, "CheckDB");
 		if (null == commandDB) {
 			commandDB = new AllCommandDB(To_Define_Activity.this);
 
 		}
-		if (FromWhere.equals("编辑")) {
-			// 应该是update
-			commandDB.update(name, newname, nameInfo, image_path);
+		if (commandDB.select(newname) == 0) {
+			commandDB.insert(newname);
+			finish();
 		} else {
-
-			// a当fromwhere为添加的时候应该自己去insert
-			commandDB.insert(newname, nameInfo, image_path);
+			text_error.setText("此遥控名已经存在!");
+			text_error.setVisibility(View.VISIBLE);
+			edit_Name.setText("");
+			edit_Name.setFocusable(true);
 		}
+
 	}
 
 	/**

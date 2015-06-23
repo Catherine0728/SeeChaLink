@@ -61,6 +61,7 @@ public class SceneListAdapter extends BaseAdapter {
 	public void ReGetList(ArrayList<Map<String, String>> mList) {
 		// Log.d(TAG, "ReGetList");
 		this.Scene_String = mList;
+		this.notifyDataSetChanged();
 	}
 
 	ViewHolder viewHolder = null;
@@ -71,7 +72,7 @@ public class SceneListAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		if (null == convertView) {
 			convertView = LayoutInflater.from(mContext).inflate(
-					R.layout.main_layout_item, null);
+					R.layout.scene_fragment_item, null);
 			new ViewHolder(convertView, position);
 		}
 		viewHolder = (ViewHolder) convertView.getTag();
@@ -95,7 +96,6 @@ public class SceneListAdapter extends BaseAdapter {
 			viewHolder.image_one.setImageBitmap(bitmap);
 
 		}
-
 
 		return convertView;
 	}

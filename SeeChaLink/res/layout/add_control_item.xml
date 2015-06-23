@@ -27,6 +27,6 @@
         android:singleLine="true"
         android:text="自定义"
         android:textColor="#14a1e3"
-        android:textSize="@dimen/text_size_22" />
+        android:textSize="@dimen/text_size_18" />
 
 </LinearLayout>

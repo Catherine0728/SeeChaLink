@@ -1,5 +1,7 @@
 package com.home.db;
 
+import java.sql.Array;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -8,28 +10,23 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * 记录命令的DB
+ * 记录开关的DB 记录开关的名字即可
  * 
- * 一个数据库，然后三个字段：id,command_Name,command_info,c_Command_Image
- * 
+ * @author Catherine
  * */
-public class AllCommandDB extends SQLiteOpenHelper {
-	public String TAG = "AllCommandDB";
+public class AllSwitchDB extends SQLiteOpenHelper {
+	public String TAG = "AllSwitchDB";
 
-	public final static String DATABASE_NAME = "ALLCOMMAND.db";
+	public final static String DATABASE_NAME = "ALLSWITCH.db";
 
 	public final static int DATABASE_VERSION = 1;
 
-	public final static String TABLE_NAME = "COMMAND";
-	public final static String c_Id = "_id";// 自增长ID
+	public final static String TABLE_NAME = "SWITCH";
+	public final static String s_Id = "_id";// 自增长ID
 
-	public final static String c_command = "_command";// 命令的名字
+	public final static String s_NAME = "_NAME";// 开关的名字
 
-	// public final static String c_Command_Info = "_Command_Info";// 命令对应要执行的信息
-	// public final static String c_Command_Image = "_Command_Image";//
-	// 命令对应的要显示的图片
-
-	public AllCommandDB(Context context) {
+	public AllSwitchDB(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		// TODO Auto-generated constructor stub
 	}
@@ -37,9 +34,9 @@ public class AllCommandDB extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
-		String sql = "CREATE TABLE " + TABLE_NAME + " (" + c_Id
-				+ " INTEGER primary key autoincrement, " + c_command
-				+ " text);";
+		String sql = "CREATE TABLE " + TABLE_NAME + " (" + s_Id
+
+		+ " INTEGER primary key autoincrement, " + s_NAME + " text);";
 
 		db.execSQL(sql);
 	}
@@ -66,16 +63,16 @@ public class AllCommandDB extends SQLiteOpenHelper {
 	 * 根据场景查询对应的数据条数
 	 * */
 	public long select(String name) {
-		Log.d(TAG, "select name===1");
+		Log.d(TAG, "select name==1");
 		long time = 0;
-		String str = "select * from " + TABLE_NAME + " where _command='" + name
+		String str = "select * from " + TABLE_NAME + " where _NAME='" + name
 				+ "'";
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(str, null);
 		if (cursor != null && cursor.getCount() > 0) {
 			for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor
 					.moveToNext()) {
-				time = cursor.getColumnIndex(c_command);
+				time = cursor.getColumnIndex(s_NAME);
 			}
 			return time;
 		} else {
@@ -89,8 +86,8 @@ public class AllCommandDB extends SQLiteOpenHelper {
 	 * 
 	 * */
 	public Cursor selectName(String Name) {
-		Log.d(TAG, "selectName==>2");
-		String str = "select * from " + TABLE_NAME + " where _command='" + Name
+		Log.d(TAG, "select name===2");
+		String str = "select * from " + TABLE_NAME + " where _NAME='" + Name
 				+ "'";
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(str, null);
@@ -107,9 +104,7 @@ public class AllCommandDB extends SQLiteOpenHelper {
 		/* ContentValues */
 
 		ContentValues cv = new ContentValues();
-		cv.put(c_command, name);
-		// cv.put(c_Command_Info, command);
-		// cv.put(c_Command_Image, image_url);
+		cv.put(s_NAME, name);
 		long row = db.insert(TABLE_NAME, null, cv);
 
 		return row;
@@ -123,7 +118,7 @@ public class AllCommandDB extends SQLiteOpenHelper {
 
 		SQLiteDatabase db = this.getWritableDatabase();
 
-		String where = c_command + " = ?";
+		String where = s_NAME + " = ?";
 
 		String[] whereValue = { name };
 
@@ -135,18 +130,15 @@ public class AllCommandDB extends SQLiteOpenHelper {
 
 	{
 		Log.d(TAG, "update");
-
 		SQLiteDatabase db = this.getWritableDatabase();
 
-		String where = c_command + " = ?";
+		String where = s_NAME + " = ?";
 
 		String[] whereValue = { name + "" };
 
 		ContentValues cv = new ContentValues();
 
-		cv.put(c_command, newName);
-		// cv.put(c_Command_Info, command);
-		// cv.put(c_Command_Image, image_uri);
+		cv.put(s_NAME, newName);
 		db.update(TABLE_NAME, cv, where, whereValue);
 
 	}

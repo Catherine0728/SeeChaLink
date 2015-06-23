@@ -164,7 +164,7 @@ public class ConfigActivity extends Activity {
 
 	private void IntentHome() {
 
-		Intent it1 = new Intent(ConfigActivity.this, MainActivity.class);
+		Intent it1 = new Intent(ConfigActivity.this, BaseActivity.class);
 		startActivity(it1);
 		finish();
 	}

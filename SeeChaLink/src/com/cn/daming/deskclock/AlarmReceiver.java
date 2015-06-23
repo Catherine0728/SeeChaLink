@@ -16,7 +16,6 @@
 
 package com.cn.daming.deskclock;
 
-
 import com.home.mainactivity.R;
 
 import android.app.KeyguardManager;
@@ -122,25 +121,30 @@ public class AlarmReceiver extends BroadcastReceiver {
 		Intent playAlarm = new Intent(Alarms.ALARM_ALERT_ACTION);
 		playAlarm.putExtra(Alarms.ALARM_INTENT_EXTRA, alarm);
 		context.startService(playAlarm);
-
+		/**
+		 * 
+		 * 屏蔽通知
+		 * */
 		// Trigger a notification that, when clicked, will show the alarm alert
 		// dialog. No need to check for fullscreen since this will always be
 		// launched from a user action.
-		Intent notify = new Intent(context, AlarmAlert.class);
-		notify.putExtra(Alarms.ALARM_INTENT_EXTRA, alarm);
-		PendingIntent pendingNotify = PendingIntent.getActivity(context,
-				alarm.id, notify, 0);
-
-		// Use the alarm's label or the default label as the ticker text and
-		// main text of the notification.
-		String label = alarm.getLabelOrDefault(context);
-		Notification n = new Notification(R.drawable.stat_notify_alarm, label,
-				alarm.time);
-		n.setLatestEventInfo(context, label,
-				context.getString(R.string.alarm_notify_text), pendingNotify);
-		n.flags |= Notification.FLAG_SHOW_LIGHTS
-				| Notification.FLAG_ONGOING_EVENT;
-		n.defaults |= Notification.DEFAULT_LIGHTS;
+		// Intent notify = new Intent(context, AlarmAlert.class);
+		// notify.putExtra(Alarms.ALARM_INTENT_EXTRA, alarm);
+		// PendingIntent pendingNotify = PendingIntent.getActivity(context,
+		// alarm.id, notify, 0);
+		//
+		// // Use the alarm's label or the default label as the ticker text and
+		// // main text of the notification.
+		// String label = alarm.getLabelOrDefault(context);
+	
+		// Notification n = new Notification(R.drawable.stat_notify_alarm,
+		// label,
+		// alarm.time);
+		// n.setLatestEventInfo(context, label,
+		// context.getString(R.string.alarm_notify_text), pendingNotify);
+		// n.flags |= Notification.FLAG_SHOW_LIGHTS
+		// | Notification.FLAG_ONGOING_EVENT;
+		// n.defaults |= Notification.DEFAULT_LIGHTS;
 
 		// NEW: Embed the full-screen UI here. The notification manager will
 		// take care of displaying it if it's OK to do so.
@@ -148,14 +152,13 @@ public class AlarmReceiver extends BroadcastReceiver {
 		alarmAlert.putExtra(Alarms.ALARM_INTENT_EXTRA, alarm);
 		alarmAlert.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 				| Intent.FLAG_ACTIVITY_NO_USER_ACTION);
-		n.fullScreenIntent = PendingIntent.getActivity(context, alarm.id,
-				alarmAlert, 0);
-
-		// Send the notification using the alarm id to easily identify the
-		// correct notification.
-		NotificationManager nm = getNotificationManager(context);
-		nm.notify(alarm.id, n);
-		
+//		n.fullScreenIntent = PendingIntent.getActivity(context, alarm.id,
+//				alarmAlert, 0);
+//
+//		// Send the notification using the alarm id to easily identify the
+//		// correct notification.
+//		NotificationManager nm = getNotificationManager(context);
+//		nm.notify(alarm.id, n);
 
 	}
 

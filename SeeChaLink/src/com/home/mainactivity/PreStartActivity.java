@@ -98,7 +98,7 @@ public class PreStartActivity extends Activity {
 						finish();
 					} else {
 						Intent it = new Intent(PreStartActivity.this,
-								MainActivity.class);
+								BaseActivity.class);
 						it.putExtra("isshow", true);
 						startActivity(it);
 						finish();

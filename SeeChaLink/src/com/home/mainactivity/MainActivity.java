@@ -242,7 +242,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	String deleteName = "";
 
 	// 显示对话框
-	private void ToShowDialog(int pos, String name) {
+	private void ToShowDialog(int pos, final String name) {
 		position = pos;
 		deleteName = name;
 		final AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
@@ -289,8 +289,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 				/**
 				 * @see{这里应该有一个检测，若此场景已经有了定时启动了，然后点击定时启动， 只是打开启用，如果没有 就进入设置界面}
 				 * */
-				startActivity(new Intent().setClass(MainActivity.this,
-						SetAlarm.class));
+				Intent intent_alarm = new Intent();
+				intent_alarm.setClass(MainActivity.this, SetAlarm.class);
+				intent_alarm.putExtra("name", name);
+				startActivity(intent_alarm);
 
 			}
 		});

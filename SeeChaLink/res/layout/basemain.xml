@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/id_drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/image_left_bg" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:id="@+id/layout_nav"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nav_height"
+            android:layout_gravity="top"
+            android:background="@color/bg_nav_color_1"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/text_nav_title"
+                style="@style/TextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="智能家居"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_18" />
+
+            <Button
+                android:id="@+id/btn_left_info"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|center_vertical"
+                android:background="#00000000"
+                android:drawableLeft="@drawable/main_title_left_normal"
+                android:drawablePadding="10dp"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="10dp" />
+
+            <Button
+                android:id="@+id/btn_right_info"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right|center_vertical"
+                android:background="#00000000"
+                android:drawableLeft="@drawable/icon_add_right"
+                android:drawablePadding="10dp"
+                android:gravity="right|center_vertical"
+                android:paddingRight="10dp" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nav_height"
+            android:layout_alignParentBottom="true"
+            android:background="@color/bg_nav_color_1"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_control"
+                android:layout_width="0dip"
+                android:layout_height="@dimen/nav_height"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:text="@string/btn_control"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_20" />
+
+            <Button
+                android:id="@+id/btn_scene"
+                android:layout_width="0dip"
+                android:layout_height="@dimen/nav_height"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:gravity="center"
+                android:text="@string/btn_scene"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_20" />
+
+            <Button
+                android:id="@+id/btn_switch"
+                android:layout_width="0dip"
+                android:layout_height="@dimen/nav_height"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:gravity="center"
+                android:text="@string/btn_switch"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_20" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/body_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottom_layout"
+            android:layout_below="@id/layout_nav"
+            android:background="@color/white" >
+        </FrameLayout>
+    </RelativeLayout>
+
+    <fragment
+        android:id="@+id/id_left_menu"
+        android:name="com.home.mainactivity.MenuLeftFragment"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:tag="LEFT" />
+
+<!--     <fragment -->
+<!--         android:id="@+id/id_right_menu" -->
+<!--         android:name="com.home.mainactivity.MenuRightFragment" -->
+<!--         android:layout_width="100dp" -->
+<!--         android:layout_height="match_parent" -->
+<!--         android:layout_gravity="right" -->
+<!--         android:tag="RIGHT" /> -->
+
+</android.support.v4.widget.DrawerLayout>

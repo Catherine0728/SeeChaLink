@@ -26,26 +26,36 @@
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:background="@drawable/edit_selector"
-        android:hint="自定义"
+        android:hint="名字"
         android:paddingLeft="5dp" />
 
-    <EditText
-        android:id="@+id/edit_name_info"
+    <TextView
+        android:id="@+id/text_error"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/edit_selector"
-        android:hint="遥控了描述"
-        android:paddingLeft="5dp" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="此开关名已经存在"
+        android:textColor="@color/bg_nav_color_1"
+        android:visibility="invisible" />
+    <!-- <EditText -->
+    <!-- android:id="@+id/edit_name_info" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="50dp" -->
+    <!-- android:layout_margin="10dp" -->
+    <!-- android:background="@drawable/edit_selector" -->
+    <!-- android:hint="遥控了描述" -->
+    <!-- android:paddingLeft="5dp" /> -->
 
-    <Button
-        android:id="@+id/btn_save"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="10dp"
-        android:background="#14a1e3"
-        android:text="保存"
-        android:textColor="#fff"
-        android:textSize="@dimen/text_size_20" />
+
+    <!-- <Button -->
+    <!-- android:id="@+id/btn_save" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="60dp" -->
+    <!-- android:layout_margin="10dp" -->
+    <!-- android:background="#14a1e3" -->
+    <!-- android:text="保存" -->
+    <!-- android:textColor="#fff" -->
+    <!-- android:textSize="@dimen/text_size_20" /> -->
 
 </LinearLayout>

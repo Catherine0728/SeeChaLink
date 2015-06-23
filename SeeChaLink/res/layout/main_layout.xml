@@ -3,7 +3,7 @@
     android:id="@+id/id_drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/image_background" >
+    android:background="@drawable/image_left_bg" >
 
     <LinearLayout
         android:layout_width="match_parent"

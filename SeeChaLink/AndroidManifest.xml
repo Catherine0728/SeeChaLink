@@ -80,8 +80,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<!--         <activity -->
+<!--             android:name="com.home.mainactivity.MainActivity" -->
+<!--             android:theme="@android:style/Theme.Light.NoTitleBar" /> -->
         <activity
-            android:name="com.home.mainactivity.MainActivity"
+            android:name="com.home.mainactivity.BaseActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+        <activity
+            android:name="com.home.mainactivity.AddSwitchActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name="com.home.mainactivity.User_Define_Activity"

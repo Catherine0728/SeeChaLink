@@ -47,7 +47,7 @@ import android.widget.Toast;
 public class SetAlarm extends PreferenceActivity implements
 		TimePickerDialog.OnTimeSetListener,
 		Preference.OnPreferenceChangeListener {
-	public static String TAG = "SetAlarm";
+	public static String TAG = "com.cn.daming.deskclock.SetAlarm";
 
 	private EditTextPreference mLabel;
 	private CheckBoxPreference mEnabledPref;
@@ -62,7 +62,8 @@ public class SetAlarm extends PreferenceActivity implements
 	private int mMinutes;
 	private boolean mTimePickerCancelled;
 	private Alarm mOriginalAlarm;
-
+	// to get the name of the dot
+	private String SceneName = "";
 	/**
 	 * Set an alarm. Requires an Alarms.ALARM_ID to be passed in as an extra.
 	 * FIXME: Pass an Alarm object like every other Activity.
@@ -72,16 +73,18 @@ public class SetAlarm extends PreferenceActivity implements
 	@Override
 	protected void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
-
+		Log.d(TAG, "onCreate");
 		// Override the default content view.
 		setContentView(R.layout.set_alarm);
 
 		addPreferencesFromResource(R.xml.alarm_prefs);
+
 		initView();
 
 	}
 
 	public void initView() {
+		Log.d(TAG, "initView");
 		// pager==2，显示“完成”
 		Configer.PAGER = 2;
 		commtitle = (CommonTitleView) findViewById(R.id.toplayout);
@@ -123,6 +126,7 @@ public class SetAlarm extends PreferenceActivity implements
 
 		Intent i = getIntent();
 		mId = i.getIntExtra(Alarms.ALARM_ID, -1);
+		SceneName = i.getStringExtra("name");
 		if (true) {
 			Log.v("wangxianming", "In SetAlarm, alarm id = " + mId);
 		}
@@ -209,6 +213,7 @@ public class SetAlarm extends PreferenceActivity implements
 	}
 
 	private void updatePrefs(Alarm alarm) {
+		Log.d(TAG, "updatePrefs");
 		mId = alarm.id;
 		mEnabledPref.setChecked(alarm.enabled);
 		mLabel.setText(alarm.label);
@@ -244,12 +249,16 @@ public class SetAlarm extends PreferenceActivity implements
 		finish();
 	}
 
+	/**
+	 * set the time
+	 * */
 	private void showTimePicker() {
 		new TimePickerDialog(this, this, mHour, mMinutes,
 				DateFormat.is24HourFormat(this)).show();
 	}
 
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+		Log.d(TAG, "onTimeSet");
 		// onTimeSet is called when the user clicks "Set"
 		mTimePickerCancelled = false;
 		mHour = hourOfDay;
@@ -275,6 +284,7 @@ public class SetAlarm extends PreferenceActivity implements
 	}
 
 	private long saveAlarm() {
+		Log.d(TAG, "saveAlarm");
 		Alarm alarm = new Alarm();
 		alarm.id = mId;
 		alarm.enabled = mEnabledPref.isChecked();
@@ -284,7 +294,12 @@ public class SetAlarm extends PreferenceActivity implements
 		alarm.vibrate = mVibratePref.isChecked();
 		alarm.label = mLabel.getText();
 		alarm.alert = mAlarmPref.getAlert();
-
+		alarm.sceneName = SceneName;
+		Log.d(TAG, "将要执行的场景为===》" + SceneName + "--id--" + mId + "--enabled--"
+				+ mEnabledPref.isChecked() + "--hour--" + mHour + "--miutes--"
+				+ mMinutes + "--dayodweek--" + mRepeatPref.getDaysOfWeek()
+				+ "--vibrate--" + mVibratePref.isChecked() + "--label--"
+				+ mLabel.getText() + "--	alarm.alert--" + mAlarmPref.getAlert());
 		long time;
 		if (alarm.id == -1) {
 			time = Alarms.addAlarm(this, alarm);
@@ -298,6 +313,7 @@ public class SetAlarm extends PreferenceActivity implements
 	}
 
 	private void deleteAlarm() {
+		Log.d(TAG, "deleteAlarm");
 		new AlertDialog.Builder(this)
 				.setTitle(getString(R.string.delete_alarm))
 				.setMessage(getString(R.string.delete_alarm_confirm))
@@ -317,12 +333,14 @@ public class SetAlarm extends PreferenceActivity implements
 	 */
 	public static void popAlarmSetToast(Context context, int hour, int minute,
 			Alarm.DaysOfWeek daysOfWeek) {
+		Log.d(TAG, "popAlarmSetToast");
 		popAlarmSetToast(context,
 				Alarms.calculateAlarm(hour, minute, daysOfWeek)
 						.getTimeInMillis());
 	}
 
 	static void popAlarmSetToast(Context context, long timeInMillis) {
+		Log.d(TAG, "popAlarmSetToast");
 		String toastText = formatToast(context, timeInMillis);
 		Toast toast = Toast.makeText(context, toastText, Toast.LENGTH_LONG);
 		ToastMaster.setToast(toast);
@@ -333,6 +351,7 @@ public class SetAlarm extends PreferenceActivity implements
 	 * format "Alarm set for 2 days 7 hours and 53 minutes from now"
 	 */
 	static String formatToast(Context context, long timeInMillis) {
+		Log.d(TAG, "formatToast");
 		long delta = timeInMillis - System.currentTimeMillis();
 		long hours = delta / (1000 * 60 * 60);
 		long minutes = delta / (1000 * 60) % 60;
@@ -371,6 +390,7 @@ public class SetAlarm extends PreferenceActivity implements
 			if (isFinish) {
 				saveAlarm();
 				finish();
+
 			}
 		}
 

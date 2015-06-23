@@ -32,7 +32,7 @@
             android:layout_height="40dp"
             android:layout_gravity="left|center_vertical"
             android:background="#00000000"
-            android:drawableLeft="@drawable/image_head"
+            android:drawableLeft="@drawable/main_header_back"
             android:drawablePadding="10dp"
             android:gravity="left|center_vertical"
             android:paddingLeft="10dp" />

@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * 这是添加遥控的adapoter 用于显示添加遥控的适配
+ * 这是添加遥控的adapoter 用于显示添加遥控的适配，也是添加开关的adapter
  * 
  * @author Catherine
  * 
@@ -29,10 +29,10 @@ import android.widget.TextView;
 public class AddControlAdapter extends BaseAdapter {
 	public static String TAG = "AddControlAdapter";
 	Context mContext = null;
-	ArrayList<Map<String, String>> mList;
+	// ArrayList<Map<String, String>> mList;
+	ArrayList<String> mList = null;
 
-	public AddControlAdapter(Context mContext,
-			ArrayList<Map<String, String>> mList) {
+	public AddControlAdapter(Context mContext, ArrayList<String> mList) {
 		this.mContext = mContext;
 		this.mList = mList;
 	}
@@ -55,7 +55,7 @@ public class AddControlAdapter extends BaseAdapter {
 		return position;
 	}
 
-	public void ReSetList(ArrayList<Map<String, String>> mList) {
+	public void ReSetList(ArrayList<String> mList) {
 		Log.d(TAG, "ReSetList");
 		this.mList = mList;
 		notifyDataSetChanged();
@@ -74,25 +74,23 @@ public class AddControlAdapter extends BaseAdapter {
 		}
 		viewHolder = (ViewHolder) convertView.getTag();
 
-		viewHolder.text_control_name.setText(mList.get(position).get("name")
-				.toString());
-		String uri = mList.get(position).get("image_uri").toString();
-		if (uri.equals("") || null == uri) {
-			viewHolder.image_control
-					.setBackgroundResource(R.drawable.btn_tv_press);
-		} else {
-
-			BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-			bitmapOptions.inSampleSize = 4;
-			Bitmap bitmap = BitmapFactory.decodeFile(uri, bitmapOptions);
-			bitmap = Configer.zoomBitmap(bitmap, 120, 120);
-			Bitmap output = Configer.getRoundedCornerBitmap(mContext, bitmap,
-					R.drawable.btn_tv_press);
-			if (bitmap != null && !bitmap.isRecycled()) {
-				bitmap.recycle();
-			}
-			viewHolder.image_control.setImageBitmap(output);
-		}
+		viewHolder.text_control_name.setText(mList.get(position).toString());
+		// String uri = mList.get(position).get("image_uri").toString();
+		// if (uri.equals("") || null == uri) {
+		viewHolder.image_control.setBackgroundResource(R.drawable.btn_tv_press);
+		// } else {
+		//
+		// BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+		// bitmapOptions.inSampleSize = 4;
+		// Bitmap bitmap = BitmapFactory.decodeFile(uri, bitmapOptions);
+		// bitmap = Configer.zoomBitmap(bitmap, 120, 120);
+		// Bitmap output = Configer.getRoundedCornerBitmap(mContext, bitmap,
+		// R.drawable.btn_tv_press);
+		// if (bitmap != null && !bitmap.isRecycled()) {
+		// bitmap.recycle();
+		// }
+		// viewHolder.image_control.setImageBitmap(output);
+		// }
 
 		return convertView;
 	}

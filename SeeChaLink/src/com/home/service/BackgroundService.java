@@ -15,6 +15,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.home.constants.Configer;
+import com.home.mainactivity.BaseActivity;
 import com.home.mainactivity.ConfigActivity;
 import com.home.mainactivity.MainActivity;
 import com.home.mainactivity.R;
@@ -92,7 +93,7 @@ public class BackgroundService extends Service {
 	 */
 	private void bindService() {
 		Log.d(TAG, "bindService");
-		Intent i = new Intent(this, MainActivity.class);
+		Intent i = new Intent(this, BaseActivity.class);
 		// 注意Intent的flag设置：FLAG_ACTIVITY_CLEAR_TOP:
 		// 如果activity已在当前任务中运行，在它前端的activity都会被关闭，它就成了最前端的activity。FLAG_ACTIVITY_SINGLE_TOP:
 		// 如果activity已经在最前端运行，则不需要再加载。设置这两个flag，就是让一个且唯一的一个activity（服务界面）运行在最前端。

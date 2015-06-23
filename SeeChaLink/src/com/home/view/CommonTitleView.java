@@ -3,6 +3,7 @@ package com.home.view;
 import org.eclipse.paho.android.service.Constants;
 
 import com.home.listener.CommanTitle_Right_Listener;
+import com.home.mainactivity.BaseActivity;
 import com.home.mainactivity.MainActivity;
 import com.home.mainactivity.R;
 
@@ -96,7 +97,7 @@ public class CommonTitleView extends LinearLayout implements
 			right_Text.setVisibility(View.INVISIBLE);
 		} else if (Configer.PAGER == 1) {
 			main_head_left.setCompoundDrawablesWithIntrinsicBounds(
-					R.drawable.image_head, 0, 0, 0);
+					R.drawable.main_header_back, 0, 0, 0);
 
 			// main_head_right.setCompoundDrawablesWithIntrinsicBounds(0, 0,
 			// R.drawable.home_right_add, 0);
@@ -152,7 +153,7 @@ public class CommonTitleView extends LinearLayout implements
 			} else if (Configer.PAGER == -1 || Configer.PAGER == 2
 					|| Configer.PAGER == 3) {
 				// 应该是跳回首页，关闭当前页面
-				Intent intent = new Intent(mContext, MainActivity.class);
+				Intent intent = new Intent(mContext, BaseActivity.class);
 				mContext.startActivity(intent);
 				ac.finish();
 			} else {
